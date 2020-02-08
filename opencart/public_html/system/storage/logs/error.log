@@ -1,0 +1,5 @@
+2020-02-08 12:43:24 - PHP Warning:  mysqli::mysqli(): (HY000/2002): Connection refused in /var/www/opencart-stanok/opencart/public_html/system/library/db/mysqli.php on line 7
+2020-02-08 12:43:24 - PHP Warning:  DB\MySQLi::__construct(): Couldn't fetch mysqli in /var/www/opencart-stanok/opencart/public_html/system/library/db/mysqli.php on line 10
+2020-02-08 12:43:24 - PHP Warning:  DB\MySQLi::__construct(): Couldn't fetch mysqli in /var/www/opencart-stanok/opencart/public_html/system/library/db/mysqli.php on line 10
+2020-02-08 12:43:24 - PHP Notice:  Undefined variable: mysql in /var/www/opencart-stanok/opencart/public_html/install/controller/install/step_3.php on line 280
+2020-02-08 12:43:24 - PHP Notice:  Trying to get property of non-object in /var/www/opencart-stanok/opencart/public_html/install/controller/install/step_3.php on line 280

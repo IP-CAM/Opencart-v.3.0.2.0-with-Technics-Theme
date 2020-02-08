@@ -1,1 +1,1 @@
-# bitnami-opencart
+# opencart

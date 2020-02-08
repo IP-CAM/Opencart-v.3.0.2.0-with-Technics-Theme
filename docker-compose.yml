@@ -1,0 +1,39 @@
+version: '3.3'
+
+services:
+
+  stanok-nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx.dockerfile
+    container_name: stanok-nginx
+    depends_on:
+      - stanok-php
+    volumes:
+      - ./:/var/www/opencart-stanok
+    ports:
+      - 127.0.0.1:8081:80
+    links:
+      - stanok-php
+
+  stanok-php:
+    build:
+      context: .
+      dockerfile: docker/php-fpm.dockerfile
+    container_name: stanok-php
+    volumes:
+      - ./:/var/www/opencart-stanok
+    links:
+      - stanok-mysql
+
+  stanok-mysql:
+    image: mysql:5.7
+    container_name: stanok-mysql
+    volumes:
+      - ./docker/db_stanok-chpu:/var/lib/mysql
+    ports:
+      - 127.0.0.1:53307:3306
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=stanok_db
