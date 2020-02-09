@@ -11,7 +11,7 @@ define('HTTPS_CATALOG', 'http://localhost:8081/');
 define('DIR_APPLICATION', '/var/www/opencart-stanok/opencart/public_html/admin/');
 define('DIR_SYSTEM', '/var/www/opencart-stanok/opencart/public_html/system/');
 define('DIR_IMAGE', '/var/www/opencart-stanok/opencart/public_html/image/');
-define('DIR_STORAGE', '/var/www/opencart-stanok/opencart/storage/');
+define('DIR_STORAGE', DIR_SYSTEM . 'storage/');
 define('DIR_CATALOG', '/var/www/opencart-stanok/opencart/public_html/catalog/');
 define('DIR_LANGUAGE', DIR_APPLICATION . 'language/');
 define('DIR_TEMPLATE', DIR_APPLICATION . 'view/template/');
