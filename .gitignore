@@ -1,0 +1,20 @@
+# common, PHPStorm
+.DS_Store
+.idea/*
+Thumbs.db
+db/
+tmp/
+.env
+*.sql
+
+# mapped files inside docker folder
+docker/*
+!docker/config
+!docker/nginx.dockerfile
+!docker/php-fpm.dockerfile
+
+# site
+
+opencart/public_html/image/cache
+opencart/public_html/system/cache
+
