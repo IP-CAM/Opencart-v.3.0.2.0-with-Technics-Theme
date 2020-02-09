@@ -16,5 +16,5 @@ docker/*
 # site
 
 opencart/public_html/image/cache
-opencart/public_html/system/cache
+opencart/public_html/system/storage
 
