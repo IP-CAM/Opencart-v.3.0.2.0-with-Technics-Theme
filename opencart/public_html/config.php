@@ -25,6 +25,6 @@ define('DB_DRIVER', 'mpdo');
 define('DB_HOSTNAME', 'stanok-mysql');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', 'root');
-define('DB_DATABASE', 'stanok_db');
+define('DB_DATABASE', 'oc_stanok_db');
 define('DB_PORT', '3306');
-define('DB_PREFIX', '');
+define('DB_PREFIX', 'oc_');

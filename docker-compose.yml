@@ -39,4 +39,4 @@ services:
     environment:
       - MYSQL_USER=root
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=stanok_db
+      - MYSQL_DATABASE=oc_stanok_db

@@ -12,6 +12,7 @@ docker/*
 !docker/config
 !docker/nginx.dockerfile
 !docker/php-fpm.dockerfile
+!docker/php-ini
 
 # site
 

@@ -97,7 +97,7 @@ class Twig_Environment
         }
 
         $options = array_merge(array(
-            'debug' => true,
+            'debug' => false,
             'charset' => 'UTF-8',
             'base_template_class' => 'Twig_Template',
             'strict_variables' => false,
@@ -117,7 +117,6 @@ class Twig_Environment
         $this->addExtension(new Twig_Extension_Core());
         $this->addExtension(new Twig_Extension_Escaper($options['autoescape']));
         $this->addExtension(new Twig_Extension_Optimizer($options['optimizations']));
-        $this->addExtension(new Twig_Extension_Debug());
         $this->staging = new Twig_Extension_Staging();
 
         // For BC
