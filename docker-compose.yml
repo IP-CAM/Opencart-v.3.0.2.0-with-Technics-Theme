@@ -23,6 +23,9 @@ services:
     container_name: stanok-php
     volumes:
       - ./:/var/www/opencart-stanok
+      - ./docker/php-ini:/usr/local/etc/php/custom.d
+    environment:
+      PHP_INI_SCAN_DIR: "/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
     links:
       - stanok-mysql
 
