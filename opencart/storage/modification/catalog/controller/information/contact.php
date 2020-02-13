@@ -5,7 +5,26 @@ class ControllerInformationContact extends Controller {
 	public function index() {
 		$this->load->language('information/contact');
 
-		$this->document->setTitle($this->language->get('heading_title'));
+		
+		// technics
+		
+		if ($this->config->get('theme_technics_contact_meta_title' . $this->config->get('config_language_id'))) {
+			$this->document->setTitle($this->config->get('theme_technics_contact_meta_title' . $this->config->get('config_language_id')));
+		} else {
+			$this->document->setTitle($this->language->get('heading_title'));
+		}
+		
+		if ($this->config->get('theme_technics_contact_meta_description' . $this->config->get('config_language_id'))) {
+			$this->document->setDescription($this->config->get('theme_technics_contact_meta_description' . $this->config->get('config_language_id')));
+		}
+		
+		if ($this->config->get('theme_technics_contact_meta_keyword' . $this->config->get('config_language_id'))) {
+			$this->document->setKeywords($this->config->get('theme_technics_contact_meta_keyword' . $this->config->get('config_language_id')));
+		}
+		
+		// technics end
+
+            
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$mail = new Mail($this->config->get('config_mail_engine'));
@@ -46,6 +65,54 @@ class ControllerInformationContact extends Controller {
 			$data['error_warning'] = '';
 		}
 		
+
+		// technics
+		$this->load->language('extension/theme/technics');
+		$data['schema'] = $this->config->get('theme_technics_schema');
+		$data['shop_email'] = $this->config->get('config_email');
+		$data['text_technics_support'] = $this->language->get('text_technics_support');
+		$data['text_technics_con_soc'] = $this->language->get('text_technics_con_soc');
+		$data['phone_1'] = html_entity_decode($this->config->get('theme_technics_phone_1' . $this->config->get('config_language_id')), ENT_QUOTES, 'UTF-8');
+		$data['phone_2'] = html_entity_decode($this->config->get('theme_technics_phone_2' . $this->config->get('config_language_id')), ENT_QUOTES, 'UTF-8');
+		$data['technics_phones'] = array();
+		$data['technics_phones_main'] = array();
+		$technics_phones = $this->config->get('theme_technics_phones');
+
+
+		if ($technics_phones) {
+			foreach ($technics_phones as $key => $technics_phone) {
+				$data['technics_phones'][$technics_phone['sort']] = $technics_phone;
+			}
+			ksort($data['technics_phones']);
+			$data['technics_phones_main'] = current($data['technics_phones']);
+		}
+
+		$this->load->model('setting/setting');
+		$data['social_navs'] = array();
+		$social_links = $this->model_setting_setting->getSetting('theme_technicssoclinks');
+		$data['social_links'] = $social_links['theme_technicssoclinks_array'];
+		$data['social_navs'] = $this->config->get('theme_technics_social_nav');	
+		$data['zoom'] = $this->config->get('theme_technics_contact_zoom');
+		$data['zoom_control'] = $this->config->get('theme_technics_contact_zoom_control');
+		$data['api_key'] = $this->config->get('theme_technics_contact_api_key');
+		$data['contact_map'] = $this->config->get('theme_technics_contact_map');
+		if ($this->config->get('theme_technics_contact_pdata')) {
+			$this->load->language('extension/theme/technics');
+			$this->load->model('catalog/information');
+
+			$information_info = $this->model_catalog_information->getInformation($this->config->get('theme_technics_contact_pdata'));
+
+			if ($information_info) {
+				$data['text_technics_pdata'] = sprintf($this->language->get('text_technics_pdata'), $this->language->get('button_submit'), $this->url->link('information/information/agree', 'information_id=' . $this->config->get('theme_technics_contact_pdata'), true), $information_info['title'], $information_info['title']);
+			} else {
+				$data['text_technics_pdata'] = '';
+			}
+		} else {
+			$data['text_technics_pdata'] = '';
+		}
+		$data['language_id'] = $this->config->get('config_language_id');
+		// technics end
+            
 		if (isset($this->error['name'])) {
 			$data['error_name'] = $this->error['name'];
 		} else {
@@ -106,6 +173,17 @@ class ControllerInformationContact extends Controller {
 		}
 		
 
+
+		// technics
+		$data['geocodeY']  = $data['geocode'];
+		if ($data['contact_map'] == 'yandex_map' && $data['geocode']) {
+			$tempcode = explode(',', $data['geocode']);
+			if (isset($tempcode[1])) {
+				$data['geocodeY'] = $tempcode[1] . ',' . $tempcode[0]; 
+			}
+		}
+		// technics end
+            
 		$data['locations'] = array();
 
 		$this->load->model('localisation/location');
@@ -120,6 +198,16 @@ class ControllerInformationContact extends Controller {
 					$image = false;
 				}
 
+
+		// technics
+					if ($data['contact_map'] == 'yandex_map' && $location_info['geocode']) {
+						$tempcode = explode(',', $location_info['geocode']);
+						if (isset($tempcode[1])) {
+							$location_info['geocode'] = $tempcode[1] . ',' . $tempcode[0]; 
+						}
+					}
+		// technics end
+            
 				$data['locations'][] = array(
 					'location_id' => $location_info['location_id'],
 					'name'        => $location_info['name'],
