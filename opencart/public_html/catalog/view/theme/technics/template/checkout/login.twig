@@ -1,0 +1,50 @@
+<h3 class="checkout__data-heading">{{ text_new_customer }}</h3><a class="checkout__data-link" href="#" data-fancybox data-src="#checkout-login"><span>{{ text_returning_customer }}</span></a>
+<div class="ui-group" style="margin:2.0rem 0 2.0rem 0">
+	<label class="ui-label ui-label--uppercase" style="display: none;">{{ text_checkout }}</label>
+	<div class="row">
+	  <div class="col-auto">
+		<label class="ui-check">
+		  <input class="ui-check__input" type="radio" name="account" id="account-register" value="register" {{ account == 'register' ? 'checked="checked"' : ''}}><span class="ui-check__radio"></span>{{ text_register }}
+		</label>
+	  </div>
+	  {% if (checkout_guest) %}
+	  <div class="col-auto">
+		<label class="ui-check">
+		  <input class="ui-check__input" type="radio" name="account" id="account-guest" value="guest" {{ account == 'guest' ? 'checked="checked"' : ''}}><span class="ui-check__radio"></span>{{ text_guest }}
+		</label>
+	  </div>
+	  {% endif %}
+	</div>
+</div>
+<p>{{ text_register_account }}</p>
+<div class="checkout__action">
+	<div class="row">
+		  <div class="col-auto">
+				<button type="button" class="btn btn--blue" id="button-account" data-loading-text="{{ text_loading }}">{{ button_continue }}</button>
+		  </div>
+	</div>
+ </div>
+	
+      <div class="popup popup--570" style="display: none;" id="checkout-login">
+        <button class="popup__close" data-fancybox-close>
+          <svg class="icon-close">
+            <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-close"></use>
+          </svg>
+        </button>
+        <div class="writeus"><span class="writeus__heading">{{ text_returning_customer }}</span>
+          <div class="writeus__form">
+			  <p>{{ text_i_am_returning_customer }}</p>
+              <label class="ui-label required">{{ entry_email }}</label>
+              <div class="ui-field">
+                <input class="ui-input" type="email" value="" name="email" placeholder="{{ entry_email }}">
+              </div>
+              <label class="ui-label required">{{ entry_password }}</label>
+              <div class="ui-field">
+                <input class="ui-input" type="password" value="" name="password" placeholder="{{ entry_password }}">
+              </div>
+              <div class="writeus__action">
+                <button type="button" class="btn btn--blue" id="button-login">{{ button_login }}</button>
+              </div>
+          </div>
+        </div>
+      </div>
