@@ -17,7 +17,14 @@ docker/*
 # site
 
 opencart/public_html/image/cache
-opencart/public_html/system/storage
-opencart/storage/cache
-opencart/storage/logs
+
+opencart/public_html/system/storage/*
+!opencart/public_html/system/storage/modification
+!opencart/public_html/system/storage/upload
+!opencart/public_html/system/storage/vendor
+
+opencart/storage/*
+!opencart/storage/modification
+!opencart/storage/upload
+!opencart/storage/vendor
 
