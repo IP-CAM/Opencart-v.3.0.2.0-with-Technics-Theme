@@ -1,6 +1,4 @@
-.PHONY: mysql dump
-
-PWD_DIR = $(shell pwd)
+.PHONY: mysql dump import
 
 MYSQL_CONTAINER_NAME = stanok-mysql
 DB_NAME = oc_stanok_db
@@ -14,3 +12,6 @@ mysql:
 
 dump:
 	mysqldump -u $(MYSQL_USER) -p$(MYSQL_PASS) $(DB_NAME) > dump/new_dump.sql
+
+import:
+	mysql -u $(MYSQL_USER) -p$(MYSQL_PASS) $(DB_NAME) < dump/new_dump.sql
