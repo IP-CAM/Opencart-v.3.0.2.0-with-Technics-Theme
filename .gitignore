@@ -5,13 +5,13 @@ Thumbs.db
 db/
 tmp/
 .env
-*.sql
 
 # mapped files inside docker folder
 docker/*
 !docker/config
 !docker/nginx.dockerfile
 !docker/php-fpm.dockerfile
+!docker/mysql.dockerfile
 !docker/php-ini
 
 # site

@@ -30,10 +30,14 @@ services:
       - stanok-mysql
 
   stanok-mysql:
-    image: mysql:5.7
+    build:
+      context: .
+      dockerfile: docker/mysql.dockerfile
     container_name: stanok-mysql
     volumes:
       - ./docker/db_stanok-chpu:/var/lib/mysql
+      - ./Makefile:/Makefile
+      - ./dump:/dump
     ports:
       - 127.0.0.1:53307:3306
     environment:
