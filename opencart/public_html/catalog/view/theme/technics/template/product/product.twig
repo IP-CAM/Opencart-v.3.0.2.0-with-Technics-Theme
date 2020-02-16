@@ -9,7 +9,7 @@
           <div class="container-fluid">
             <ul class="breadcrumbs__menu">
 			{% for i,breadcrumb in breadcrumbs %}
-				{% if (i + 1 < (breadcrumbs)|length) %} 
+				{% if (i + 1 < (breadcrumbs)|length) %}
 					<li>
 						<a class="breadcrumbs__link" href="{{ breadcrumb['href'] }}"><span>{{ breadcrumb['text'] }}</span></a>
 						{% if (breadcrumb.breadList is defined) %}
@@ -22,7 +22,7 @@
                 			</div>
 						{% endif %}
 					</li>
-				{% else %} 
+				{% else %}
 				<li>{{ breadcrumb['text'] }}</li>
 				{% endif %}
 			{% endfor %}
@@ -33,14 +33,14 @@
 		{{ content_top }}
         <!-- Page :: Start-->
         <div class="sku">
-		
+
         {% if (column_left or column_right) %}
           <div class="container-fluid">
             <div class="row">
 			{{ column_left ? '<div class="col-xl-3">' ~ column_left ~ '</div>' : ''}}
 			<div class="col-xl-{{ col }}">
 		{% endif %}
-		
+
         <!-- SKU :: Start-->
 		  <div class="container-fluid">
             <div class="row">
@@ -52,28 +52,28 @@
 							{% endif %}
 						{% endif %}
 				   <div class="sku__stickers {{ category_time and special and special_date_end ? 'sku__stickers--top' : ''}}">
-					{% if (isnewest) %} 
+					{% if (isnewest) %}
 						<mark class="products__item-mark products__item-mark--new">{{ labelsinfo['new']['name'][language_id] }}</mark>
-					{% endif %} 
+					{% endif %}
 					{% if ((special and sales) and not (category_time and special_date_end)) %}
 						<mark class="products__item-mark products__item-mark--sale">{{ labelsinfo['sale']['name'][language_id] ~ ' ' ~ discount }}</mark>
-					{% endif %} 
-					{% if (popular) %} 
+					{% endif %}
+					{% if (popular) %}
 						<mark class="products__item-mark products__item-mark--popular">{{ popular }}</mark>
-					{% endif %} 
-					{% if (hit) %} 
+					{% endif %}
+					{% if (hit) %}
 						<mark class="products__item-mark products__item-mark--hit">{{ hit }}</mark>
-					{% endif %} 
-					{% if (catch) %} 
-						{% if (nocatch) %} 
+					{% endif %}
+					{% if (catch) %}
+						{% if (nocatch) %}
 							<mark class="products__item-mark products__item-mark--nocatch">{{ catch }}</mark>
-						{% else %} 
+						{% else %}
 							<mark class="products__item-mark products__item-mark--catch">{{ catch }}</mark>
-						{% endif %} 
-					{% endif %} 
-					{% if (reward) %} 
+						{% endif %}
+					{% endif %}
+					{% if (reward) %}
 						<mark class="products__item-mark products__item-mark--reward">{{ text_reward }} {{ reward }}</mark>
-					{% endif %} 
+					{% endif %}
 					</div>
 					<div class="sku__buttons">
 					<a class="btn btn--like" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product_id }}');" >
@@ -83,7 +83,7 @@
 					</a>
 					<a class="btn btn--blog" title="{{ button_compare }}" onclick="compare.add('{{ product_id }}');" >
                       <svg class="icon-blog">
-                        <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-blog"></use> 
+                        <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-blog"></use>
                       </svg>
 					</a>
 					</div>
@@ -95,7 +95,7 @@
 							<a class="sku__slides-item" href="{{ popup }}" data-fancybox="images"><img {{ lazyload ? 'src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy' : 'src' }}="{{ thumb }}" alt="{{ heading_title }}" title="{{ heading_title }}"></a>
 						{% endif %}
 					{% endif %}
-					{% if (images) %} 
+					{% if (images) %}
 						{% for image in images %}
 						 {% if image.isvideo is defined %}
 						 	<div class="sku__slides-item">
@@ -109,20 +109,20 @@
 						  {% endif %}
 						 {% endif %}
 						{% endfor %}
-					{% endif %}	
+					{% endif %}
 					</div>
 					{% if (images) %}
 					<div class="sku__thumbs {% if images|length < 4 %}sku__thumbs--top{% endif %} js-gallery-thumbs">
 						{% if (thumb) %}
 						<div class="sku__thumbs-item"><img {{ lazyload ? 'src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy' : 'src' }}="{{ additional }}" alt="{{ heading_title }}" title="{{ heading_title }}"></div>
-						{% endif %} 
+						{% endif %}
 						{% for image in images %}
 						  {% if image.isvideo is defined %}
-						<div class="sku__thumbs-video"><span class="icon-video"></span>{{ image['additional'] }}</div> 
+						<div class="sku__thumbs-video"><span class="icon-video"></span>{{ image['additional'] }}</div>
 						  {% else %}
 						<div class="sku__thumbs-item"><img {{ lazyload ? 'src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy' : 'src' }}="{{ image['additional'] }}" alt="{{ heading_title }}" title="{{ heading_title }}"></div>
 						  {% endif %}
-						{% endfor %}	
+						{% endfor %}
 					</div>
 					{% endif %}
 					{% if (category_time and special and special_date_end) %}
@@ -194,13 +194,13 @@
 							<div class="ui-field">
                             <select name="option[{{ option['product_option_id'] }}]" id="input-option{{ option['product_option_id'] }}" class="ui-select">
 								<option value="">{{ text_select }}</option>
-								{% for option_value in option['product_option_value'] %} 
-								<option value="{{ option_value['product_option_value_id'] }}">{{ option_value['name'] }} 
-								{% if (option_value['price'] and opt_price) %} 
-								{{ option_value['price_prefix'] }}{{ option_value['price'] }} 
-								{% endif %} 
+								{% for option_value in option['product_option_value'] %}
+								<option value="{{ option_value['product_option_value_id'] }}">{{ option_value['name'] }}
+								{% if (option_value['price'] and opt_price) %}
+								{{ option_value['price_prefix'] }}{{ option_value['price'] }}
+								{% endif %}
 								</option>
-								{% endfor %} 
+								{% endfor %}
 							</select>
                             </div>
                           </div>
@@ -225,15 +225,15 @@
                           <div class="sku__type">
                             <label class="ui-label{% if option.required %} required{% endif %}">{{ option['name'] }}</label>
 							<div class="ui-group" id="input-option{{ option['product_option_id'] }}">
-							{% for option_value in option['product_option_value'] %} 
+							{% for option_value in option['product_option_value'] %}
 							<label class="ui-check">
 								<input class="ui-check__input" type="radio" name="option[{{ option['product_option_id'] }}]" value="{{ option_value['product_option_value_id'] }}">
 								<span class="ui-check__radio">
 								</span>
-								{{ option_value['name'] }} 
-								{% if (option_value['price'] and opt_price) %} 
-								{{ option_value['price_prefix'] }}{{ option_value['price'] }} 
-								{% endif %}	
+								{{ option_value['name'] }}
+								{% if (option_value['price'] and opt_price) %}
+								{{ option_value['price_prefix'] }}{{ option_value['price'] }}
+								{% endif %}
 							</label>
 							{% endfor %}
 							</div>
@@ -246,10 +246,10 @@
                               <label class="ui-size">
                                 <input type="radio" class="ui-size__input" name="option[{{ option['product_option_id'] }}]" value="{{ option_value['product_option_value_id'] }}" />
 								<span class="ui-size__btn">
-								{{ option_value['name'] }} 
-								{% if (option_value['price'] and opt_price) %} 
-								{{ option_value['price_prefix'] }}{{ option_value['price'] }} 
-								{% endif %}	
+								{{ option_value['name'] }}
+								{% if (option_value['price'] and opt_price) %}
+								{{ option_value['price_prefix'] }}{{ option_value['price'] }}
+								{% endif %}
 								</span>
                               </label>
 							{% endfor %}
@@ -278,7 +278,7 @@
                           <div class="sku__type">
                             <label class="ui-label{% if option.required %} required{% endif %}">{{ option['name'] }}</label>
 							<div class="ui-group" id="input-option{{ option['product_option_id'] }}">
-							{% for option_value in option['product_option_value'] %} 
+							{% for option_value in option['product_option_value'] %}
 							<label class="ui-check">
 								<input class="ui-check__input" type="checkbox" name="option[{{ option['product_option_id'] }}][]" value="{{ option_value['product_option_value_id'] }}">
 								<span class="ui-check__checkbox">
@@ -286,10 +286,10 @@
 									<use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-check"></use>
 								  </svg>
 								</span>
-								{{ option_value['name'] }} 
-								{% if (option_value['price'] and opt_price) %} 
-								{{ option_value['price_prefix'] }}{{ option_value['price'] }} 
-								{% endif %}	
+								{{ option_value['name'] }}
+								{% if (option_value['price'] and opt_price) %}
+								{{ option_value['price_prefix'] }}{{ option_value['price'] }}
+								{% endif %}
 							</label>
 							{% endfor %}
 							</div>
@@ -302,10 +302,10 @@
                               <label class="ui-size">
                                 <input class="ui-size__input" type="checkbox" name="option[{{ option['product_option_id'] }}][]" value="{{ option_value['product_option_value_id'] }}">
 								<span class="ui-size__btn">
-								{{ option_value['name'] }} 
-								{% if (option_value['price'] and opt_price) %} 
-								{{ option_value['price_prefix'] }}{{ option_value['price'] }} 
-								{% endif %}	
+								{{ option_value['name'] }}
+								{% if (option_value['price'] and opt_price) %}
+								{{ option_value['price_prefix'] }}{{ option_value['price'] }}
+								{% endif %}
 								</span>
                               </label>
 							{% endfor %}
@@ -377,7 +377,7 @@
 									<option value="">{{ text_select }}</option>
 									{% for recurring in recurrings %}
 									<option value="{{ recurring.recurring_id }}">{{ recurring.name }}</option>
-									{% endfor %} 
+									{% endfor %}
 								</select>
 							</div>
 							<div id="recurring-description"></div>
@@ -387,16 +387,16 @@
 					  {% endif %}
                     </div>
 					{% endif %}
-					
-					{% if (customTabs['popup'] is defined) %} 
+
+					{% if (customTabs['popup'] is defined) %}
 						<div class="sku__custom-popup">
-							{% for key,popup in customTabs['popup'] %} 
+							{% for key,popup in customTabs['popup'] %}
 								<a href="#custom-popup-{{ key }}" class="link-dashed js-fancy-popup" style="display: inline;">{{ popup['title'] }}</a>
-							{% endfor %} 
+							{% endfor %}
 						</div>
-					{% endif %} 
-					
-					
+					{% endif %}
+
+
                     <div class="sku__group">
 					{% if (price) %}
                       <p class="sku__price">
@@ -439,9 +439,9 @@
                                     </svg>
 								  </button>
                                 </div>
-								{% if (buy_click['status'] and not buy_btn) %} 
+								{% if (buy_click['status'] and not buy_btn) %}
                                 <div class="col-auto"><a class="btn btn--dashed js-fancy-popup-cart" href="#popup-buy-click" data-for="{{ product_id }}" data-typefrom="product"><span>{{ text_technics_buy_click }}</span></a></div>
-								{% endif %} 
+								{% endif %}
                               </div>
                             </div>
                           </div>
@@ -456,12 +456,12 @@
 					{% endif %}
 					{% if (soc_share_prod) %}
 					<div class="sku__share">
-						{% if (soc_share_code) %} 
-						{{ soc_share_code }} 
-						{% else %} 
+						{% if (soc_share_code) %}
+						{{ soc_share_code }}
+						{% else %}
 						<script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4dc053ae406c06af" async="async"></script>
 						<div class="addthis_inline_share_toolbox"></div>
-						{% endif %} 
+						{% endif %}
 					</div>
 					{% endif %}
                 </div>
@@ -565,7 +565,7 @@
 				</button>
 				<div class="details__tabs-content" data-tabs-content="tab_custom_tab_{{ i }}">
 					<div class="editor">
-						{{ tab['description'] }} 
+						{{ tab['description'] }}
 					</div>
 				</div>
 				{% endfor %}
@@ -576,9 +576,9 @@
         </div>
         <!-- Details :: End-->
 		{% endif %}
-		
+
 		{{ content_bottom }}
-		
+
 		{% if (products) %}
         <!-- Products :: Start-->
         <div class="products products--recomended">
@@ -604,7 +604,7 @@
 									<use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-like"></use>
 								  </svg></a>
 							  </div>
-						  <div class="products__item-stickers {{ category_time and product['special'] and product['special_date_end'] ? 'products__item-stickers--top' : ''}}"> 
+						  <div class="products__item-stickers {{ category_time and product['special'] and product['special_date_end'] ? 'products__item-stickers--top' : ''}}">
 						  {% if (product['rating'] != constant('false')) %}
 							<div class="products__item-rating">
 								<svg class="icon-star">
@@ -612,53 +612,53 @@
 								</svg>{{ product['rating'] }}/5
 							</div>
 							{% endif %}
-							{% if (product['isnewest']) %} 
+							{% if (product['isnewest']) %}
 								<mark class="products__item-mark products__item-mark--new">{{ labelsinfo['new']['name'][language_id] }}</mark>
-							{% endif %} 
-							{% if ((product['special'] and product['sales']) and not (category_time and product['special_date_end'])) %} 
+							{% endif %}
+							{% if ((product['special'] and product['sales']) and not (category_time and product['special_date_end'])) %}
 								<mark class="products__item-mark products__item-mark--sale">{{ labelsinfo['sale']['name'][language_id] ~ ' ' ~ product['discount'] }}</mark>
-							{% endif %} 
-							{% if (product['popular']) %} 
+							{% endif %}
+							{% if (product['popular']) %}
 								<mark class="products__item-mark products__item-mark--popular">{{ product['popular'] }}</mark>
-							{% endif %} 
-							{% if (product['hit']) %} 
+							{% endif %}
+							{% if (product['hit']) %}
 								<mark class="products__item-mark products__item-mark--hit">{{ product['hit'] }}</mark>
-							{% endif %} 
-							{% if (product['catch']) %} 
-								{% if (product['nocatch']) %} 
+							{% endif %}
+							{% if (product['catch']) %}
+								{% if (product['nocatch']) %}
 									<mark class="products__item-mark products__item-mark--nocatch">{{ product['catch'] }}</mark>
-								{% else %} 
+								{% else %}
 									<mark class="products__item-mark products__item-mark--catch">{{ product['catch'] }}</mark>
-								{% endif %} 
-							{% endif %} 
-							{% if (product['reward']) %} 
+								{% endif %}
+							{% endif %}
+							{% if (product['reward']) %}
 								<mark class="products__item-mark products__item-mark--reward">{{ text_reward }} {{ product['reward'] }}</mark>
-							{% endif %} 
+							{% endif %}
 						  </div>
-						  {% if (not product['images']) %} 
+						  {% if (not product['images']) %}
 						  <div class="products__item-images"><a href="{{ product['href'] }}"><img {{ lazyload ? 'src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy' : 'src' }}="{{ product['thumb'] }}" alt="{{ product['name'] }}"></a></div>
 						  {% else %}
 						  <div class="products__item-images js-slick-products">
 							<a href="{{ product['href'] }}"><img data-lazy="{{ product['thumb'] }}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D" alt="{{ product['name'] }}"></a>
-							{% for imageX in product['images'] %} 
+							{% for imageX in product['images'] %}
 								<a href="{{ product['href'] }}"><img data-lazy="{{ imageX }}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D" alt="{{ product['name'] }}"></a>
-						  {% endfor %} 
+						  {% endfor %}
 						  </div>
 						  {% endif %}
 						  <div class="products__item-desc">
-						  {% if (product['manufacturer']) %} 
+						  {% if (product['manufacturer']) %}
 						  <span class="products__item-category">{{ product['manufacturer'] }}</span>
 						  {% endif %}
 						  <a href="{{ product['href'] }}" class="products__item-title">{{ product['name'] }}</a>
 						  <span class="products__item-price">
-							{% if (product['price']) %} 
-								{% if (product['special']) %} 
-									<u>{{ product['price'] }}</u>{{ product['special'] }} 
-								{% else %} 
+							{% if (product['price']) %}
+								{% if (product['special']) %}
+									<u>{{ product['price'] }}</u>{{ product['special'] }}
+								{% else %}
 									{{ product['price'] }}
 								{% endif %}
-							{% endif %} 
-						  </span>	
+							{% endif %}
+						  </span>
 							  {% if (category_time and product['special'] and product['special_date_end']) %}
 							  <div class="products__item-countdown">
 								<div class="countdown">
@@ -712,50 +712,50 @@
 								</svg>{{ product['rating'] }}/5
 							</div>
 							{% endif %}
-							{% if (product['isnewest']) %} 
+							{% if (product['isnewest']) %}
 								<mark class="products__item-mark products__item-mark--new">{{ labelsinfo['new']['name'][language_id] }}</mark>
-							{% endif %} 
-							{% if ((product['special'] and product['sales']) and not (category_time and product['special_date_end'])) %} 
+							{% endif %}
+							{% if ((product['special'] and product['sales']) and not (category_time and product['special_date_end'])) %}
 								<mark class="products__item-mark products__item-mark--sale">{{ labelsinfo['sale']['name'][language_id] ~ ' ' ~ product['discount'] }}</mark>
-							{% endif %} 
-							{% if (product['popular']) %} 
+							{% endif %}
+							{% if (product['popular']) %}
 								<mark class="products__item-mark products__item-mark--popular">{{ product['popular'] }}</mark>
-							{% endif %} 
-							{% if (product['hit']) %} 
+							{% endif %}
+							{% if (product['hit']) %}
 								<mark class="products__item-mark products__item-mark--hit">{{ product['hit'] }}</mark>
-							{% endif %} 
-							{% if (product['catch']) %} 
-								{% if (product['nocatch']) %} 
+							{% endif %}
+							{% if (product['catch']) %}
+								{% if (product['nocatch']) %}
 									<mark class="products__item-mark products__item-mark--nocatch">{{ product['catch'] }}</mark>
-								{% else %} 
+								{% else %}
 									<mark class="products__item-mark products__item-mark--catch">{{ product['catch'] }}</mark>
-								{% endif %} 
-							{% endif %} 
+								{% endif %}
+							{% endif %}
 						  </div>
-						  {% if (not product['images']) %} 
+						  {% if (not product['images']) %}
 						  <div class="products__item-images"><a href="{{ product['href'] }}"><img {{ lazyload ? 'src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-src' : 'src' }}="{{ product['thumb'] }}" alt="{{ product['name'] }}"></a></div>
 						  {% else %}
 						  <div class="products__item-images js-slick-products">
 							<a href="{{ product['href'] }}"><img data-lazy="{{ product['thumb'] }}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D" alt="{{ product['name'] }}"></a>
-							{% for imageX in product['images'] %} 
+							{% for imageX in product['images'] %}
 								<a href="{{ product['href'] }}"><img data-lazy="{{ imageX }}" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D" alt="{{ product['name'] }}"></a>
-						  {% endfor %} 
+						  {% endfor %}
 						  </div>
 						  {% endif %}
 						  <div class="products__item-desc">
-						  {% if (product['manufacturer']) %} 
+						  {% if (product['manufacturer']) %}
 						  <span class="products__item-category">{{ product['manufacturer'] }}</span>
 						  {% endif %}
 						  <a href="{{ product['href'] }}" class="products__item-title">{{ product['name'] }}</a>
 						  <span class="products__item-price">
-							{% if (product['price']) %} 
-								{% if (product['special']) %} 
-									<u>{{ product['price'] }}</u>{{ product['special'] }} 
-								{% else %} 
+							{% if (product['price']) %}
+								{% if (product['special']) %}
+									<u>{{ product['price'] }}</u>{{ product['special'] }}
+								{% else %}
 									{{ product['price'] }}
 								{% endif %}
-							{% endif %} 
-						  </span>	
+							{% endif %}
+						  </span>
 							  {% if (category_time and product['special'] and product['special_date_end']) %}
 							  <div class="products__item-countdown">
 								<div class="countdown">
@@ -796,7 +796,7 @@
                 <div class="comments__container">
                   <div class="comments__container-in">
 					<div id="review">{{ reviewsdata }}</div>
-					 
+
                     <div class="comments__form">
                       <form id="form-review">
 					    {% if (customer_name) %}
@@ -840,7 +840,7 @@
                   </div>
                 </div>
               </div>
-			  {% if reviewsStats is not empty %} 
+			  {% if reviewsStats is not empty %}
               <div class="col-hidden col-lg-visible col-lg-4">
                 <h2 class="comments__heading">{{ text_review }}</h2>
                 <div class="comments__statistic">
@@ -850,7 +850,7 @@
                       <td><span class="comments__statistic-line">{% for i in 1..reviewsStat.rating %}<span></span>{% endfor %}</span></td>
                       <td><span class="comments__statistic-pct">{{ reviewsStat.percent }}%</span></td>
                       <td>
-					  {% if reviewsStat.count != 0 %} 
+					  {% if reviewsStat.count != 0 %}
 					  <a href="#" data-link="{{ reviewsStat.link }}" class="comments__statistic-count">{{ reviewsStat.count }} {{ reviewsStat.text }}</a>
 					  {% else %}
 					  <span class="comments__statistic-count">{{ reviewsStat.count }} {{ reviewsStat.text }}</span>
@@ -877,9 +877,9 @@
         </div>
         <!-- comments :: End-->
 		{% endif %}
-		
-		{% if (customTabs['popup'] is defined) %} 
-			{% for key,popup in customTabs['popup'] %} 
+
+		{% if (customTabs['popup'] is defined) %}
+			{% for key,popup in customTabs['popup'] %}
 		  <div class="popup popup--1090" style="display: none;" id="custom-popup-{{ key }}">
 			<div class="writeus"><span class="writeus__heading">{{ popup['title'] }}</span>
 			  <div class="writeus__form">
@@ -887,23 +887,23 @@
 			  </div>
 			</div>
 		  </div>
-			{% endfor %} 
-		{% endif %} 
-		
+			{% endfor %}
+		{% endif %}
+
         {% if (column_left or column_right) %}
 			</div>
 			{{ column_right ? '<div class="col-xl-3">' ~ column_right ~ '</div>' : ''}}
             </div>
           </div>
 		{% endif %}
-		
+
         </div>
         <!-- Page :: End-->
 
       </main>
       <!-- Main :: End-->
 {{ footer }}
-{% if schema %} 
+{% if schema %}
         <!-- Schema Org :: Start-->
         <script type="application/ld+json">
           {
@@ -931,14 +931,14 @@
             "image": [
 			{% if (thumb) %}
 			"{{ popup }}"{% if (images) %},{% endif %}
-			{% endif %} 
+			{% endif %}
 			{% if (images) %}
 				{% for i,image in images %}
 				{% if not image.isvideo is defined %}
 				"{{ image['popup'] }}"{% if (i + 1 < images|length) %},{% endif %}
 				{% endif %}
-				{% endfor %}	
-			{% endif %}	
+				{% endfor %}
+			{% endif %}
              ],
             "description": "{{ schema_description }}",
             "mpn": "{{ model }}",
@@ -999,7 +999,7 @@ $('select[name=\'recurring_id\'], #product input[name="quantity"]').change(funct
 });
 
 
-	
+
 $('#button-cart').on('click', function() {
 
 	var datapr = $('#product input[type=\'text\'], #product input[type=\'hidden\'], #product input[type=\'number\'], #product input[type=\'radio\']:checked, #product input[type=\'checkbox\']:checked, #product select, #product textarea');
@@ -1042,7 +1042,7 @@ $('#button-cart').on('click', function() {
 
 			if (json['success']) {
 				cartExrtaElem(json['total']);
-				
+
 				if ($('.js-cart-call').length) {
 					$('.js-cart-call>button').trigger('click');
 				} else {
@@ -1052,7 +1052,7 @@ $('#button-cart').on('click', function() {
 
 				sendYM('technics_addtocart_product');
 				sendGA(datapr,'technics_addtocart_product');
-				
+
 				$('#cart .cart__body').load('index.php?route=common/cart/info div.cart__scroll',function(){
 					$('#cart input[type=\'number\']').styler();
 				});
@@ -1184,7 +1184,7 @@ $('button[id^=\'button-upload\']').on('click', function() {
 		}else{
 			$('.showmore').show();
 		}
-		
+
 	});
 
 	var product_id = {{ product_id }};
@@ -1204,14 +1204,14 @@ $('button[id^=\'button-upload\']').on('click', function() {
 	      },
 	      success: function(json) {
 	        $('.alert-dismissible').remove();
-			
+
 	        if (json['error']) {
 	          $('#form-review').before('<div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-bottom: 2rem;"> ' + json['error'] + ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg class="icon-delete"><use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-delete"></use></svg></button></div>');
-			  
+
 	        }
 	        if (json['success']) {
 	          $('#form-review').before('<div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-bottom: 2rem;"> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg class="icon-delete"><use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-delete"></use></svg></button></div>');
-			  
+
 	          $('input[name=\'name\']').val('');
 	          $('textarea[name=\'text\']').val('');
 	          $('textarea[name=\'text_plus\']').val('');
@@ -1258,7 +1258,7 @@ $(document).on('click','.sku__rating', function(e) {
 });
 
 $(document).on('ready', function() {
-	{% if (reviewsdata is same as(false)) %}	
+	{% if (reviewsdata is same as(false)) %}
 		$('#review').load('index.php?route=product/product/review&product_id=' + {{ product_id }}, function(e) {});
 	{% endif %}
 });
