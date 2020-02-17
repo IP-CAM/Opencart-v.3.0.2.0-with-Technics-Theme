@@ -286,6 +286,19 @@ class ControllerProductProduct extends Controller {
 			$data['points'] = $product_info['points'];
 			$data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
 
+//          Передача в шаблон таба "Полное описание"
+            $allAttr = $this->model_catalog_product->getProductAttributes($data['product_id']);
+            foreach ($allAttr as $attrGroup) {
+                if ($attrGroup['attribute_group_id'] == '8') {
+                    foreach ($attrGroup['attribute'] as $attr) {
+                        if ($attr['attribute_id'] == '27') {
+                            $data['custom_attr_text'] = html_entity_decode($attr['text'], ENT_QUOTES, 'UTF-8');
+                        }
+                    }
+                }
+            }
+
+
 			if ($product_info['quantity'] <= 0) {
 				$data['stock'] = $product_info['stock_status'];
 			} elseif ($this->config->get('config_stock_display')) {
@@ -1047,23 +1060,26 @@ class ControllerProductProduct extends Controller {
 
 		}
 
-		// Парсирую текст из описания товара
+		// Парсирую таб "Полное описание" из описания товара
 
-        $allProducts = $this->model_catalog_product->getProducts();
-        foreach ($allProducts as $prod) {
-
-            $item[$prod['product_id']] = $prod['description'];
-
-            preg_match('#&lt;div class=&quot;tab-content&quot; id=&quot;tab-description&quot;&gt;(.+?)&lt;/div&gt;#is', $item[$prod['product_id']], $mainProps);
-
-            if (preg_match('#&lt;div class=&quot;tab-content&quot; id=&quot;tab-description&quot;&gt;(.+?)&lt;/div&gt;#is', $item[$prod['product_id']])) {
-                $mainPropAr[$prod['product_id']] = $mainProps[1];
-            }
-        }
-//        echo '<pre>';
-//        var_dump($mainPropAr);
-//        echo '</pre>';
-
+//        $allProducts = $this->model_catalog_product->getProducts();
+//        foreach ($allProducts as $prod) {
+//
+//            $item[$prod['product_id']] = $prod['description'];
+//
+//            preg_match('#&lt;div class=&quot;tab-content&quot; id=&quot;tab-description&quot;&gt;(.+?)&lt;/div&gt;#is', $item[$prod['product_id']], $mainProps);
+//
+//            if (preg_match('#&lt;div class=&quot;tab-content&quot; id=&quot;tab-description&quot;&gt;(.+?)&lt;/div&gt;#is', $item[$prod['product_id']])) {
+//                $mainPropAr[$prod['product_id']] = $mainProps[1];
+//            }
+//        }
+//
+//
+//       ***ЗДЕСЬ СКРИПТ ЗАНОСИТ ЗАПИСИ В БД - СЛЕДУЮЩИЕ СТРОЧКИ НЕ РАСКОМЕНТИРОВАТЬ***
+//        foreach ($mainPropAr as $key => $text) {
+//            $this->model_catalog_product->insertMainProp($key, $text);
+//        }
+//                                  ******
 	}
 
 

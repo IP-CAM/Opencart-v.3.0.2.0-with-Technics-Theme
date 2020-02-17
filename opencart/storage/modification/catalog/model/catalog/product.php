@@ -793,4 +793,9 @@ class ModelCatalogProduct extends Model {
 			return 0;
 		}
 	}
+
+    public function insertMainProp($product_id, $text)
+    {
+        $this->db->query("INSERT oc_product_attribute(product_id, attribute_id, language_id, text) VALUES ($product_id, 27, 1, '$text')");
+    }
 }
