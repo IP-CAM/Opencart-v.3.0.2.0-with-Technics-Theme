@@ -794,9 +794,9 @@ class ModelCatalogProduct extends Model {
 		}
 	}
 
-    public function insertMainProp($product_id, $text)
+    public function insertMainProp($product_id, $attr_id, $text)
     {
-        $this->db->query("INSERT oc_product_attribute(product_id, attribute_id, language_id, text) VALUES ($product_id, 27, 1, '$text')");
+        $this->db->query("INSERT oc_product_attribute(product_id, attribute_id, language_id, text) VALUES ($product_id, $attr_id, 1, '$text')");
     }
 
     public function updateProductDescription($product_id, $text)

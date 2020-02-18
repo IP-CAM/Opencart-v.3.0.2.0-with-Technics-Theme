@@ -292,7 +292,13 @@ class ControllerProductProduct extends Controller {
                 if ($attrGroup['attribute_group_id'] == '8') {
                     foreach ($attrGroup['attribute'] as $attr) {
                         if ($attr['attribute_id'] == '27') {
-                            $data['custom_attr_text'] = html_entity_decode($attr['text'], ENT_QUOTES, 'UTF-8');
+                            $data['custom_props_and_specifics'] = html_entity_decode($attr['text'], ENT_QUOTES, 'UTF-8');
+                        }
+                        if ($attr['attribute_id'] == '28') {
+                            $data['custom_tech_props'] = html_entity_decode($attr['text'], ENT_QUOTES, 'UTF-8');
+                        }
+                        if ($attr['attribute_id'] == '29') {
+                            $data['custom_additional_options'] = html_entity_decode($attr['text'], ENT_QUOTES, 'UTF-8');
                         }
                     }
                 }
@@ -1062,23 +1068,20 @@ class ControllerProductProduct extends Controller {
 
 		// Парсирую табы из описания товара
 
-//        $allProducts = $this->model_catalog_product->getProduct();
+//        $allProducts = $this->model_catalog_product->getProducts();
 //        foreach ($allProducts as $prod) {
 //
 //            $item[$prod['product_id']] = $prod['description'];
 //
-//           $descriptionNoTabPanel[$prod['product_id']] = preg_replace('#&lt;div class=&quot;htabs&quot; id=&quot;tabs&quot;&gt;(.+?)&lt;/div&gt;#is', '', $item[$prod['product_id']]);
-//           $descriptionNoTabDescription[$prod['product_id']] = preg_replace('#&lt;div class=&quot;tab-content&quot; id=&quot;tab-description&quot;&gt;(.+?)&lt;/div&gt;#is', '', $descriptionNoTabPanel[$prod['product_id']]);
+//            $descriptionNoTabTech[$prod['product_id']] = preg_replace('#&lt;div class=&quot;tab-content&quot; id=&quot;tab-tech&quot;&gt;(.+?)&lt;/div&gt;#is', '', $item[$prod['product_id']]);
+//            $descriptionNoTabOptions[$prod['product_id']] = preg_replace('#&lt;div class=&quot;tab-content&quot; id=&quot;tab-options&quot;&gt;(.+?)&lt;/div&gt;#is', '', $descriptionNoTabTech[$prod['product_id']]);
 //        }
 
 //       ***ЗДЕСЬ СКРИПТ ЗАНОСИТ ЗАПИСИ В БД - СЛЕДУЮЩИЕ СТРОЧКИ НЕ РАСКОМЕНТИРОВАТЬ***
-//        foreach ($descriptionNoTabDescription as $key => $text) {
+//        foreach ($descriptionNoTabOptions as $key => $text) {
 //            $this->model_catalog_product->updateProductDescription($key, $text);
 //        }
 //                                  ******
-
-
-
 	}
 
 
