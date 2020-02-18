@@ -1066,16 +1066,42 @@ class ControllerProductProduct extends Controller {
 
 		}
 
-		// Парсирую табы из описания товара
-
-//        $allProducts = $this->model_catalog_product->getProducts();
-//        foreach ($allProducts as $prod) {
-//
-//            $item[$prod['product_id']] = $prod['description'];
-//
-//            $descriptionNoTabTech[$prod['product_id']] = preg_replace('#&lt;div class=&quot;tab-content&quot; id=&quot;tab-tech&quot;&gt;(.+?)&lt;/div&gt;#is', '', $item[$prod['product_id']]);
-//            $descriptionNoTabOptions[$prod['product_id']] = preg_replace('#&lt;div class=&quot;tab-content&quot; id=&quot;tab-options&quot;&gt;(.+?)&lt;/div&gt;#is', '', $descriptionNoTabTech[$prod['product_id']]);
+		// Парсирую комплектации
+//        foreach ($this->model_catalog_product->getProducts() as $prod) {
+//            $allProducts[$prod['product_id']] = $this->model_catalog_product->getProductAttributes($prod['product_id']);
 //        }
+//
+//		foreach ($allProducts as $key => $prodAttributes) {
+//		    foreach ($prodAttributes as $attrItem) {
+//                if ($attrItem['attribute_group_id'] == '8') {
+//                    foreach ($attrItem['attribute'] as $attrGroup) {
+//                        if ($attrGroup['attribute_id'] == '29') {
+//                            $optionsAr[$key] = $attrGroup['text'];
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//		foreach ($optionsAr as $key => $item) {
+//		    if (preg_match('#Базовая комплектация&lt;/h2&gt;(.+?)&lt;h2&gt;#is', $item)) {
+//                preg_match('#Базовая комплектация&lt;/h2&gt;(.+?)&lt;h2&gt;#is', $item, $basicOptions);
+//                $opts[$key]['Базовая комплектация'] = $basicOptions[1];
+//		    }
+//            if (preg_match('#Дополнительная комплектация&lt;/h2&gt;(.+?)&lt;/table&gt;#is', $item)) {
+//                preg_match('#Дополнительная комплектация&lt;/h2&gt;(.+?)&lt;/table&gt;#is', $item, $additionalOptions);
+//                $opts[$key]['Дополнительная комплектация'] = $additionalOptions[1];
+//            }
+//		}
+//
+//		foreach ($opts as $product_id => $option_sets) {
+//		    foreach ($option_sets as $setName => $set) {
+//		        preg_match_all('#&lt;td(.+?)&lt;/td&gt;#is', $set, $matches);
+//                $middleResultAr[$product_id][$setName] = $matches[1];
+//            }
+//        }
+
+
 
 //       ***ЗДЕСЬ СКРИПТ ЗАНОСИТ ЗАПИСИ В БД - СЛЕДУЮЩИЕ СТРОЧКИ НЕ РАСКОМЕНТИРОВАТЬ***
 //        foreach ($descriptionNoTabOptions as $key => $text) {
