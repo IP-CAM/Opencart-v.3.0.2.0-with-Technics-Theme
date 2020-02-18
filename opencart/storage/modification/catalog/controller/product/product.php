@@ -1060,26 +1060,25 @@ class ControllerProductProduct extends Controller {
 
 		}
 
-		// Парсирую таб "Полное описание" из описания товара
+		// Парсирую табы из описания товара
 
-//        $allProducts = $this->model_catalog_product->getProducts();
+//        $allProducts = $this->model_catalog_product->getProduct();
 //        foreach ($allProducts as $prod) {
 //
 //            $item[$prod['product_id']] = $prod['description'];
 //
-//            preg_match('#&lt;div class=&quot;tab-content&quot; id=&quot;tab-description&quot;&gt;(.+?)&lt;/div&gt;#is', $item[$prod['product_id']], $mainProps);
-//
-//            if (preg_match('#&lt;div class=&quot;tab-content&quot; id=&quot;tab-description&quot;&gt;(.+?)&lt;/div&gt;#is', $item[$prod['product_id']])) {
-//                $mainPropAr[$prod['product_id']] = $mainProps[1];
-//            }
+//           $descriptionNoTabPanel[$prod['product_id']] = preg_replace('#&lt;div class=&quot;htabs&quot; id=&quot;tabs&quot;&gt;(.+?)&lt;/div&gt;#is', '', $item[$prod['product_id']]);
+//           $descriptionNoTabDescription[$prod['product_id']] = preg_replace('#&lt;div class=&quot;tab-content&quot; id=&quot;tab-description&quot;&gt;(.+?)&lt;/div&gt;#is', '', $descriptionNoTabPanel[$prod['product_id']]);
 //        }
-//
-//
+
 //       ***ЗДЕСЬ СКРИПТ ЗАНОСИТ ЗАПИСИ В БД - СЛЕДУЮЩИЕ СТРОЧКИ НЕ РАСКОМЕНТИРОВАТЬ***
-//        foreach ($mainPropAr as $key => $text) {
-//            $this->model_catalog_product->insertMainProp($key, $text);
+//        foreach ($descriptionNoTabDescription as $key => $text) {
+//            $this->model_catalog_product->updateProductDescription($key, $text);
 //        }
 //                                  ******
+
+
+
 	}
 
 
