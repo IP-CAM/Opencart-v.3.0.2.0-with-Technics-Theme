@@ -804,4 +804,9 @@ class ModelCatalogProduct extends Model {
         $this->db->query("UPDATE oc_product_description SET description='".$text."' WHERE product_id=".$product_id);
     }
 
+    public function insertOcOptionValueDescription($name)
+    {
+        $this->db->query("UPDATE oc_option_value_description SET name='$name'");
+    }
+
 }
