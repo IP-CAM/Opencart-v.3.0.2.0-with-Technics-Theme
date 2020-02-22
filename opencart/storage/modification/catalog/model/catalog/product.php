@@ -804,9 +804,14 @@ class ModelCatalogProduct extends Model {
         $this->db->query("UPDATE oc_product_description SET description='".$text."' WHERE product_id=".$product_id);
     }
 
-    public function insertOcOptionValueDescription($name)
+    public function insertOcOptionValueDescription($option_value_id, $name)
     {
-        $this->db->query("UPDATE oc_option_value_description SET name='$name'");
+        $this->db->query("INSERT INTO oc_option_value_description (option_value_id, language_id, option_id, name) VALUES ($option_value_id, 1, 14, '$name')");
+    }
+
+    public function insertOcOptionValue($option_value_id, $image)
+    {
+        $this->db->query("INSERT INTO oc_option_value (option_value_id, option_id, image) VALUES ($option_value_id, 14, '$image')");
     }
 
 }

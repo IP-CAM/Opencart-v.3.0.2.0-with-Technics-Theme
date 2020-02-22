@@ -1068,84 +1068,93 @@ class ControllerProductProduct extends Controller {
         }
 
         // Парсирую комплектации
-//        foreach ($this->model_catalog_product->getProducts() as $prod) {
-//            $allProducts[$prod['product_id']] = $this->model_catalog_product->getProductAttributes($prod['product_id']);
-//        }
-//
-//        foreach ($allProducts as $key => $prodAttributes) {
-//            foreach ($prodAttributes as $attrItem) {
-//                if ($attrItem['attribute_group_id'] == '8') {
-//                    foreach ($attrItem['attribute'] as $attrGroup) {
-//                        if ($attrGroup['attribute_id'] == '29') {
-//                            $optionsAr[$key] = $attrGroup['text'];
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//        foreach ($optionsAr as $key => $item) {
-//            if (preg_match('#Базовая комплектация&lt;/h2&gt;(.+?)&lt;h2&gt;#is', $item)) {
-//                preg_match('#Базовая комплектация&lt;/h2&gt;(.+?)&lt;h2&gt;#is', $item, $basicOptions);
-//                $opts[$key]['Базовая комплектация'] = $basicOptions[1];
-//            }
-//            if (preg_match('#Дополнительная комплектация&lt;/h2&gt;(.+?)&lt;/table&gt;#is', $item)) {
-//                preg_match('#Дополнительная комплектация&lt;/h2&gt;(.+?)&lt;/table&gt;#is', $item, $additionalOptions);
-//                $opts[$key]['Дополнительная комплектация'] = $additionalOptions[1];
-//            }
-//        }
-//
-//        foreach ($opts as $product_id => $option_sets) {
-//            foreach ($option_sets as $setName => $set) {
-//                preg_match_all('#&lt;td(.+?)&lt;/td&gt;#is', $set, $matches);
-//                foreach ($matches[1] as $m) {
-//                    $middleResultAr[$product_id][$setName][] = explode('&lt;p&gt;', str_replace('&nbsp;', '', trim(ltrim(trim(ltrim(preg_replace('#style(.+?)">#is', '', strip_tags(html_entity_decode($m), '<img>')), '>')), '>'))));
-//                }
-//            }
-//        }
-//
-//        foreach ($middleResultAr as $product_id => &$set) {
-//            foreach ($set as &$opt) {
-//                foreach ($opt as $key => &$val) {
-//                    $opt[$key] = $val[0];
-//                }
-//            }
-//        }
-//
-//        foreach ($middleResultAr as $product_id => &$set) {
-//            foreach ($set as &$opt) {
-//                foreach ($opt as $key => &$val) {
-//                    if (preg_match('#<img(.+?)>#is', $val)) {
-//                        preg_match('#src="(.+?)"#is', $val, $matches);
-//                        $opt[$matches[1]] = trim(preg_replace('#<img(.+?)>#is', '', $val));
-//                        unset($opt[$key]);
-//                    }
-//                    if (empty($opt[$key])) {
-//                        unset ($opt[$key]);
-//                    }
-//                }
-//            }
-//        }
+        foreach ($this->model_catalog_product->getProducts() as $prod) {
+            $allProducts[$prod['product_id']] = $this->model_catalog_product->getProductAttributes($prod['product_id']);
+        }
+
+        foreach ($allProducts as $key => $prodAttributes) {
+            foreach ($prodAttributes as $attrItem) {
+                if ($attrItem['attribute_group_id'] == '8') {
+                    foreach ($attrItem['attribute'] as $attrGroup) {
+                        if ($attrGroup['attribute_id'] == '29') {
+                            $optionsAr[$key] = $attrGroup['text'];
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach ($optionsAr as $key => $item) {
+            if (preg_match('#Базовая комплектация&lt;/h2&gt;(.+?)&lt;h2&gt;#is', $item)) {
+                preg_match('#Базовая комплектация&lt;/h2&gt;(.+?)&lt;h2&gt;#is', $item, $basicOptions);
+                $opts[$key]['Базовая комплектация'] = $basicOptions[1];
+            }
+            if (preg_match('#Дополнительная комплектация&lt;/h2&gt;(.+?)&lt;/table&gt;#is', $item)) {
+                preg_match('#Дополнительная комплектация&lt;/h2&gt;(.+?)&lt;/table&gt;#is', $item, $additionalOptions);
+                $opts[$key]['Дополнительная комплектация'] = $additionalOptions[1];
+            }
+        }
+
+        foreach ($opts as $product_id => $option_sets) {
+            foreach ($option_sets as $setName => $set) {
+                preg_match_all('#&lt;td(.+?)&lt;/td&gt;#is', $set, $matches);
+                foreach ($matches[1] as $m) {
+                    $middleResultAr[$product_id][$setName][] = explode('&lt;p&gt;', str_replace('&nbsp;', '', trim(ltrim(trim(ltrim(preg_replace('#style(.+?)">#is', '', strip_tags(html_entity_decode($m), '<img>')), '>')), '>'))));
+                }
+            }
+        }
+
+        foreach ($middleResultAr as $product_id => &$set) {
+            foreach ($set as &$opt) {
+                foreach ($opt as $key => &$val) {
+                    $opt[$key] = $val[0];
+                }
+            }
+        }
+
+        foreach ($middleResultAr as $product_id => &$set) {
+            foreach ($set as &$opt) {
+                foreach ($opt as $key => &$val) {
+                    if (preg_match('#<img(.+?)>#is', $val)) {
+                        if (preg_match('#src="/image/(.+?)"#is', $val)) {
+                            preg_match('#src="/image/(.+?)"#is', $val, $matches);
+                        }
+                        if (preg_match('#src="http://stanok-chpu.ru/image/(.+?)"#is', $val)) {
+                            preg_match('#src="http://stanok-chpu.ru/image/(.+?)"#is', $val, $matches);
+                        }
+                        $opt[$matches[1]] = str_replace(array("\t"), "", trim(preg_replace('#width(.+?)>#is', '', preg_replace('#<img(.+?)>#is', '', $val))));
+                        unset($opt[$key]);
+                    }
+                    if (empty($opt[$key]) || strlen($opt[$key]) == 7) {
+                        unset ($opt[$key]);
+                    }
+                }
+            }
+        }
 
         // ТОЛЬКО БАЗОВАЯ КОМПЛЕКТАЦИЯ
-//        foreach ($middleResultAr as $product_id => $set) {
-//            foreach ($set as $setName => $value) {
-//                if ($setName == 'Базовая комплектация') {
-//                    $onlyBasicSetup[$product_id] = $value;
-//                }
-//            }
-//        }
-//        echo '<pre>';
-//        var_dump($onlyBasicSetup);
-//        echo '</pre>';
+        foreach ($middleResultAr as $product_id => $set) {
+            foreach ($set as $setName => $value) {
+                if ($setName == 'Базовая комплектация') {
+                    $onlyBasicSetup[$product_id] = $value;
+                }
+            }
+        }
+
+        foreach ($onlyBasicSetup as $product_id => $option) {
+            foreach ($option as $image => $name) {
+                $arResultBasicNames[] = $name;
+                $arResultBasicImages[] = $image;
+            }
+        }
+
 
         //
 
 //       ***ЗДЕСЬ СКРИПТ ЗАНОСИТ ЗАПИСИ В БД - СЛЕДУЮЩИЕ СТРОЧКИ НЕ РАСКОМЕНТИРОВАТЬ***
-//        foreach ($onlyBasicSetup as $product_id => $option) {
-//            foreach ($option as $image => $name) {
-//                $this->model_catalog_product->insertOcOptionValueDescription($name);
-//            }
+
+//        foreach ($arFinalNames as $id => $name) {
+//            $this->model_catalog_product->insertOcOptionValueDescription($id, $name);
 //        }
 //                                  ******
     }
