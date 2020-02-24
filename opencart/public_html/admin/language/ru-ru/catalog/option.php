@@ -30,6 +30,8 @@ $_['column_action']      = 'Действие';
 $_['entry_name']         = 'Название опции';
 $_['entry_type']         = 'Тип';
 $_['entry_option_value'] = 'Значение опции';
+$_['entry_suboption_headline'] = 'Саб-опции';
+$_['entry_suboption_value'] = 'Значение саб-опции';
 $_['entry_image']        = 'Изображение';
 $_['entry_sort_order']   = 'Порядок сортировки';
 

@@ -30,6 +30,8 @@ $_['column_action']      = 'Action';
 $_['entry_name']         = 'Option Name';
 $_['entry_type']         = 'Type';
 $_['entry_option_value'] = 'Option Value Name';
+$_['entry_suboption_headline'] = 'Suboptions';
+$_['entry_suboption_value'] = 'Suboption Value Name';
 $_['entry_image']        = 'Image';
 $_['entry_sort_order']   = 'Sort Order';
 

@@ -343,6 +343,7 @@ class ControllerCatalogOption extends Controller {
 		}
 
 		$this->load->model('tool/image');
+		$this->load->model('catalog/suboption');
 
 		$data['option_values'] = array();
 
@@ -362,6 +363,14 @@ class ControllerCatalogOption extends Controller {
 				'thumb'                    => $this->model_tool_image->resize($thumb, 100, 100),
 				'sort_order'               => $option_value['sort_order']
 			);
+
+			$suboption_data = [
+			  'option_value_id' => $option_value['option_value_id']
+            ];
+
+			$data['suboption_values'][$option_value['option_value_id']] = $this->model_catalog_suboption->getSuboptions($suboption_data);
+
+
 		}
 
 		$data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
