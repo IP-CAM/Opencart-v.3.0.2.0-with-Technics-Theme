@@ -19,7 +19,7 @@ class ModelCatalogProduct extends Model {
 				$discount_date_end = $query2->row['date_end'];
 			}
 // technics end
-
+			
 			return array(
 				'product_id'       => $query->row['product_id'],
 				'name'             => $query->row['name'],
@@ -45,7 +45,7 @@ class ModelCatalogProduct extends Model {
 				'special'          => $query->row['special'],
 
 				'discount_date_end' => $discount_date_end,  //technics
-
+			
 				'reward'           => $query->row['reward'],
 				'points'           => $query->row['points'],
 				'tax_class_id'     => $query->row['tax_class_id'],
@@ -71,7 +71,7 @@ class ModelCatalogProduct extends Model {
 		}
 	}
 
-
+	
 // technics start
 	private function getCustomerGroup() {
 		if($this->customer->isLogged()) {
@@ -87,7 +87,7 @@ class ModelCatalogProduct extends Model {
 // technics start
 		$customer_group_id = $this->getCustomerGroup();
 // technics end
-
+			
 		$sql = "SELECT p.product_id, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review r1 WHERE r1.product_id = p.product_id AND r1.status = '1' GROUP BY r1.product_id) AS rating, (SELECT price FROM " . DB_PREFIX . "product_discount pd2 WHERE pd2.product_id = p.product_id AND pd2.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND pd2.quantity = '1' AND ((pd2.date_start = '0000-00-00' OR pd2.date_start < NOW()) AND (pd2.date_end = '0000-00-00' OR pd2.date_end > NOW())) ORDER BY pd2.priority ASC, pd2.price ASC LIMIT 1) AS discount, (SELECT price FROM " . DB_PREFIX . "product_special ps WHERE ps.product_id = p.product_id AND ps.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW()) AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW())) ORDER BY ps.priority ASC, ps.price ASC LIMIT 1) AS special";
 
 
@@ -95,8 +95,8 @@ class ModelCatalogProduct extends Model {
 		$sql .= ", coalesce((SELECT price FROM " . DB_PREFIX . "product_discount pd2 WHERE pd2.product_id = p.product_id AND pd2.customer_group_id = '" . (int)$customer_group_id . "' AND pd2.quantity = '1' AND ((pd2.date_start = '0000-00-00' OR pd2.date_start < NOW()) AND (pd2.date_end = '0000-00-00' OR pd2.date_end > NOW())) ORDER BY pd2.priority ASC, pd2.price ASC LIMIT 1), " .
 				"(SELECT price FROM " . DB_PREFIX . "product_special ps WHERE ps.product_id = p.product_id AND ps.customer_group_id = '" . (int)$customer_group_id . "' AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW()) AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW())) ORDER BY ps.priority ASC, ps.price ASC LIMIT 1), " .
 				"p.price) as realprice ";
-		// technics end
-
+		// technics end			
+			
 		if (!empty($data['filter_category_id'])) {
 			if (!empty($data['filter_sub_category'])) {
 				$sql .= " FROM " . DB_PREFIX . "category_path cp LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (cp.category_id = p2c.category_id)";
@@ -105,9 +105,9 @@ class ModelCatalogProduct extends Model {
 			}
 
 			if (!empty($data['filter_filter'])) {
-
+				
 				$sql .= " LEFT JOIN " . DB_PREFIX . "product_filter pf ON (p2c.product_id = pf.product_id) LEFT JOIN " . DB_PREFIX . "product p ON (pf.product_id = p.product_id)   LEFT JOIN " . DB_PREFIX . "filter f ON (pf.filter_id = f.filter_id)"; // technics change this
-
+			
 			} else {
 				$sql .= " LEFT JOIN " . DB_PREFIX . "product p ON (p2c.product_id = p.product_id)";
 			}
@@ -119,7 +119,7 @@ class ModelCatalogProduct extends Model {
 				$sql .= " LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p2c.product_id = p.product_id)";
 			}
 			// technics end
-
+			
 		}
 
 		$sql .= " LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
@@ -128,8 +128,8 @@ class ModelCatalogProduct extends Model {
 		if (isset($data['filter_category_ids']) && $data['filter_category_ids']) {
 			$categories = implode(",",$data['filter_category_ids']);
 			$sql .= " AND p2c.category_id IN (" . $categories . ")";
-		}
-
+		}	
+			
 		if (!empty($data['filter_category_id'])) {
 			if (!empty($data['filter_sub_category'])) {
 				$sql .= " AND cp.path_id = '" . (int)$data['filter_category_id'] . "'";
@@ -152,10 +152,10 @@ class ModelCatalogProduct extends Model {
 					$query1 = $this->db->query("SELECT COUNT(DISTINCT f.filter_group_id) as total FROM " . DB_PREFIX . "filter_group fg LEFT JOIN " . DB_PREFIX . "filter f ON (fg.filter_group_id = f.filter_group_id) where f.filter_id IN(" . implode(',', $implode) . ")");
 					if($query1->num_rows){
 						$filtersCount = $query1->row['total'];
-					}
+					}					
 				}
 // technics
-
+			
 				$sql .= " AND pf.filter_id IN (" . implode(',', $implode) . ")";
 			}
 		}
@@ -232,17 +232,17 @@ class ModelCatalogProduct extends Model {
 			if (!$this->config->get('decimal_place')) {
 				$tempMaxPrice = (float)$data['max_price'] + 0.5 ;
 			}
-
+			
 			$sql .= " AND realprice <=" . $this->currency->convert($tempMaxPrice,$this->session->data['currency'], $this->config->get('config_currency'));
-
+			
 		}
-
+		
 				if(isset($filtersCount) && !(int)$this->config->get('filter_grouptype')){
-					$sql .= " AND  COUNT(DISTINCT f.filter_group_id) = " . (int)$filtersCount ;
+					$sql .= " AND  COUNT(DISTINCT f.filter_group_id) = " . (int)$filtersCount ;	
 				}
 
 		// technics
-
+			
 
 		$sort_data = array(
 			'pd.name',
@@ -250,14 +250,14 @@ class ModelCatalogProduct extends Model {
 			'p.quantity',
 
 			'p.viewed',// technics
-
+			
 			'p.price',
 			'rating',
 			'p.sort_order',
-
+			
 			'p.date_added',
 			'discount'// technics
-
+			
 		);
 
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
@@ -267,17 +267,17 @@ class ModelCatalogProduct extends Model {
 				$sql .= " ORDER BY (CASE WHEN special IS NOT NULL THEN special WHEN discount IS NOT NULL THEN discount ELSE p.price END)";
 
 			} elseif ($data['sort'] == 'discount') {// technics
-				$sql .= " ORDER BY (CASE WHEN special IS NOT NULL THEN (p.price - special)  END)";	// technics
-
+				$sql .= " ORDER BY (CASE WHEN special IS NOT NULL THEN (p.price - special)  END)";	// technics 		
+			
 			} else {
 				$sql .= " ORDER BY " . $data['sort'];
 			}
 
 // technics start
-		}elseif(isset($data['sort']) && $data['sort'] == 'random'){
+		}elseif(isset($data['sort']) && $data['sort'] == 'random'){  
 				$sql .= " ORDER BY rand() ";
-// technics end
-
+// technics end		
+			
 		} else {
 			$sql .= " ORDER BY p.sort_order";
 		}
@@ -379,17 +379,17 @@ class ModelCatalogProduct extends Model {
 
 	public function getPopularProducts($limit) {
 		$product_data = $this->cache->get('product.popular.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . $this->config->get('config_customer_group_id') . '.' . (int)$limit);
-
+	
 		if (!$product_data) {
 			$query = $this->db->query("SELECT p.product_id FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ORDER BY p.viewed DESC, p.date_added DESC LIMIT " . (int)$limit);
-
+	
 			foreach ($query->rows as $result) {
 				$product_data[$result['product_id']] = $this->getProduct($result['product_id']);
 			}
-
+			
 			$this->cache->set('product.popular.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . $this->config->get('config_customer_group_id') . '.' . (int)$limit, $product_data);
 		}
-
+		
 		return $product_data;
 	}
 
@@ -448,7 +448,7 @@ class ModelCatalogProduct extends Model {
 			return $product_option_data;
 		}
 // technics end
-
+			
 		$product_option_data = array();
 
 		$product_option_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_option po LEFT JOIN `" . DB_PREFIX . "option` o ON (po.option_id = o.option_id) LEFT JOIN " . DB_PREFIX . "option_description od ON (o.option_id = od.option_id) WHERE po.product_id = '" . (int)$product_id . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY o.sort_order");
@@ -486,7 +486,7 @@ class ModelCatalogProduct extends Model {
 
 
 		$this->cache->set('product.options.' . (int)$this->config->get('config_language_id') . '.' . (int)$product_id, $product_option_data);// technics add this
-
+			
 		return $product_option_data;
 	}
 
@@ -531,7 +531,7 @@ class ModelCatalogProduct extends Model {
 	}
 
 	public function getTotalProducts($data = array()) {
-
+		
 // technics start
 		$customer_group_id = $this->getCustomerGroup();
 // technics end
@@ -543,8 +543,8 @@ class ModelCatalogProduct extends Model {
 					"(SELECT price FROM " . DB_PREFIX . "product_special ps WHERE ps.product_id = p.product_id AND ps.customer_group_id = '" . (int)$customer_group_id . "' AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW()) AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW())) ORDER BY ps.priority ASC, ps.price ASC LIMIT 1), " .
 					"p.price) as realprice ";
 		}
-		// technics end
-
+		// technics end	
+			
 
 		if (!empty($data['filter_category_id'])) {
 			if (!empty($data['filter_sub_category'])) {
@@ -554,9 +554,9 @@ class ModelCatalogProduct extends Model {
 			}
 
 			if (!empty($data['filter_filter'])) {
-
+				
 				$sql .= " LEFT JOIN " . DB_PREFIX . "product_filter pf ON (p2c.product_id = pf.product_id) LEFT JOIN " . DB_PREFIX . "product p ON (pf.product_id = p.product_id)   LEFT JOIN " . DB_PREFIX . "filter f ON (pf.filter_id = f.filter_id)"; // technics change this
-
+			
 			} else {
 				$sql .= " LEFT JOIN " . DB_PREFIX . "product p ON (p2c.product_id = p.product_id)";
 			}
@@ -589,10 +589,10 @@ class ModelCatalogProduct extends Model {
 					$query1 = $this->db->query("SELECT COUNT(DISTINCT f.filter_group_id) as total FROM " . DB_PREFIX . "filter_group fg LEFT JOIN " . DB_PREFIX . "filter f ON (fg.filter_group_id = f.filter_group_id) where f.filter_id IN(" . implode(',', $implode) . ")");
 					if($query1->num_rows){
 						$filtersCount = $query1->row['total'];
-					}
+					}					
 				}
 // technics
-
+	
 			}
 		}
 
@@ -676,19 +676,19 @@ class ModelCatalogProduct extends Model {
 		}
 
 			if(isset($filtersCount) && !(int)$this->config->get('filter_grouptype')){
-				$sql .= $cond . " COUNT(DISTINCT f.filter_group_id) = " . (int)$filtersCount ;
+				$sql .= $cond . " COUNT(DISTINCT f.filter_group_id) = " . (int)$filtersCount ;	
 			}
 
 
 		// technics
-
+	
 
 		$query = $this->db->query($sql);
 
-
+		
 //		return $query->row['total'];
 		return $query->num_rows;
-
+	
 	}
 
 	public function getProfile($product_id, $recurring_id) {
@@ -704,7 +704,7 @@ class ModelCatalogProduct extends Model {
 	}
 
 
-			// technics
+			// technics	
 	public function getNewestProducts($period) {
 		$product_data = $this->cache->get('product.newest.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . $this->config->get('config_customer_group_id') . '.' . $period);
 		$product_data = false;
@@ -716,15 +716,15 @@ class ModelCatalogProduct extends Model {
 
 			$this->cache->set('product.newest.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . $this->config->get('config_customer_group_id') . '.' . $period, $product_data);
 		}
-
+		
 		if(!$product_data){
-			$product_data = array();//Если нет товаров - возвращаем пустой массив.
-		}
+			$product_data = array();//Если нет товаров - возвращаем пустой массив.					
+		}			
 
 		return $product_data;
 	}
 
-	public function getAlsoOrderedProducts($products_id,$sortorder) {
+	public function getAlsoOrderedProducts($products_id,$sortorder) { 
 		$products_id = implode(',', $products_id);
 		$data = array();
 		$sql = 	"SELECT *,COUNT(`product_id`) as rating FROM " . DB_PREFIX . "order_product WHERE order_id IN(SELECT op.`order_id` FROM (SELECT *,COUNT(`order_product_id`) AS totalpr FROM " . DB_PREFIX . "order_product GROUP by `order_id` ) as src LEFT JOIN `" . DB_PREFIX . "order_product` as op ON (src.`order_id` = op.`order_id`) WHERE src.totalpr > 1 AND op.`product_id` IN  ('" . $products_id . "')) AND `product_id` NOT IN  ('" . $products_id . "') GROUP BY `product_id` ";
@@ -733,7 +733,7 @@ class ModelCatalogProduct extends Model {
 		}else{
 			$sql .= "ORDER BY rating DESC";
 		}
-
+		
 		$query = $this->db->query($sql);
 		if ($query->num_rows) {
 			foreach ($query->rows as  $value) {
@@ -742,13 +742,13 @@ class ModelCatalogProduct extends Model {
 		}
 		return 	$data ;
 	}
-
+	
 	public function getBestSellerProductsLS($data) {
 		$categories = 0;
 		if (isset($data['filter_category_ids']) && $data['filter_category_ids']) {
 			$categories = implode(",",$data['filter_category_ids']);
-		}
-
+		}	
+		
 		$product_data = $this->cache->get('product.bestseller.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . $this->config->get('config_customer_group_id') . '.' . (int)$data['limit'] . '.' . $categories );
 
 		if (!$product_data) {
@@ -759,8 +759,8 @@ class ModelCatalogProduct extends Model {
 
 			if (isset($data['filter_category_ids']) && $data['filter_category_ids']) {
 				$sql .= " AND p2c.category_id IN (" . $categories . ")";
-			}
-
+			}	
+			
 			$sql .= " AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' GROUP BY op.product_id ORDER BY total DESC LIMIT " . (int)$data['limit'];
 
 			$query = $this->db->query($sql);
@@ -783,7 +783,7 @@ class ModelCatalogProduct extends Model {
 
 
 			// technics end
-
+			
 	public function getTotalProductSpecials() {
 		$query = $this->db->query("SELECT COUNT(DISTINCT ps.product_id) AS total FROM " . DB_PREFIX . "product_special ps LEFT JOIN " . DB_PREFIX . "product p ON (ps.product_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND ps.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW()) AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW()))");
 
@@ -793,25 +793,4 @@ class ModelCatalogProduct extends Model {
 			return 0;
 		}
 	}
-
-    public function insertMainProp($product_id, $attr_id, $text)
-    {
-        $this->db->query("INSERT oc_product_attribute(product_id, attribute_id, language_id, text) VALUES ($product_id, $attr_id, 1, '$text')");
-    }
-
-    public function updateProductDescription($product_id, $text)
-    {
-        $this->db->query("UPDATE oc_product_description SET description='".$text."' WHERE product_id=".$product_id);
-    }
-
-    public function insertOcOptionValueDescription($option_value_id, $name)
-    {
-        $this->db->query("INSERT INTO oc_option_value_description (option_value_id, language_id, option_id, name) VALUES ($option_value_id, 1, 14, '$name')");
-    }
-
-    public function insertOcOptionValue($option_value_id, $image)
-    {
-        $this->db->query("INSERT INTO oc_option_value (option_value_id, option_id, image) VALUES ($option_value_id, 14, '$image')");
-    }
-
 }

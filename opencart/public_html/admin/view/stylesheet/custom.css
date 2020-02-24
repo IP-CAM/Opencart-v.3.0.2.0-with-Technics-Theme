@@ -1,0 +1,20 @@
+ul.suboption_list {
+    list-style-type: none;
+    margin-top: 5px;
+}
+
+ul.suboption_list li {
+    margin: 5px 0 5px 0;
+}
+
+.btn.add_suboption {
+    margin-top: 5px;
+}
+
+.input-suboption-group {
+    display: inline-block;
+}
+
+.btn.suboption-remove {
+    vertical-align: initial;
+}

@@ -192,7 +192,7 @@
               {% set option_value_row = 0 %}
               {% for option_value in option_values %}
               <tr id="option-value-row{{ option_value_row }}">
-                <td class="text-center">
+                <td class="text-left">
                   <input type="hidden" name="option_value[{{ option_value_row }}][option_value_id]" value="{{ option_value.option_value_id }}" />
                   {% for language in languages %}
                   <div class="input-group"><span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
@@ -203,17 +203,19 @@
                   {% endif %}
                   {% endfor %}
                   {% if (suboption_values[option_value.option_value_id]) %}
-                    <table id="option-value" class="table table-striped table-bordered table-hover">
+                    <ul class="suboption_list">
                       {{ entry_suboption_headline }}
-                      {% for suboption_prop in suboption_values[option_value.option_value_id] %}
-                              <td class="text-center">
-                                <div class="input-group">
-                                  <input type="text" name="suboption_value[][suboption_value_description][1][name]" value="{{ suboption_prop.suboption_name }}" placeholder="{{ entry_suboption_value }}" class="form-control" />
+                      {% for suboption_prop_key, suboption_prop in suboption_values[option_value.option_value_id] %}
+                              <li id="suboption_input_{{ suboption_prop.option_value_id }}_{{ suboption_prop_key }}_{{ suboption_prop.suboption_id }}">
+                                <div class="input-suboption-group">
+                                  <input type="text" name="suboption_value[{{ suboption_prop.suboption_id }}][suboption_value_description][1][name]" value="{{ suboption_prop.suboption_name }}" placeholder="{{ entry_suboption_value }}" class="form-control" />
                                 </div>
-                              </td>
+                                <button type="button" onclick="removeSuboption(this);" data-toggle="tooltip" title="Удалить саб-опцию" class="btn btn-danger suboption-remove"><i class="fa fa-minus-circle"></i></button>
+                              </li>
                       {% endfor %}
-                    </table>
+                    </ul>
                   {% endif %}
+                  <button type="button" onclick="addSuboption(this);" data-toggle="tooltip" title="Добавить саб-опцию" class="btn btn-primary add_suboption"><i class="fa fa-plus-circle"></i>&nbsp;Добавить саб-опцию</button>
                 </td>
                 <td class="text-left"><a href="" id="thumb-image{{ option_value_row }}" data-toggle="image" class="img-thumbnail"><img src="{{ option_value.thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
                   <input type="hidden" name="option_value[{{ option_value_row }}][image]" value="{{ option_value.image }}" id="input-image{{ option_value_row }}" /></td>
@@ -266,6 +268,28 @@ function addOptionValue() {
 	$('#option-value tbody').append(html);
 
 	option_value_row++;
+}
+
+
+function addSuboption(addButton) {
+    var last_elem_option_value_id = addButton.previousElementSibling.lastElementChild.id.split('_')[2];
+    var last_elem_row_id = parseInt(addButton.previousElementSibling.lastElementChild.id.split('_')[3]);
+    var last_elem_suboption_id = parseInt(addButton.previousElementSibling.lastElementChild.id.split('_')[4]);
+
+    html  = '<li id="suboption_input_' + last_elem_option_value_id + '_' + (last_elem_row_id+1) + '_' + (last_elem_suboption_id+1) + '">';
+    html += '<div class="input-suboption-group">';
+    html += '<input type="text" name="suboption_value[' + (last_elem_suboption_id+1) + '][suboption_value_description][1][name]" value="" placeholder="Значение саб-опции" class="form-control" />';
+    html += '</div>';
+    html += '<button type="button" onclick="removeSuboption(this)" data-toggle="tooltip" title="Удалить саб-опцию" class="btn btn-danger suboption-remove"><i class="fa fa-minus-circle"></i></button>';
+    html += '</li>';
+
+    $("#suboption_input_" + last_elem_option_value_id + '_' + last_elem_row_id + '_' + last_elem_suboption_id).after(html);
+
+
+}
+
+function removeSuboption(removeButton) {
+    removeButton.parentElement.remove();
 }
 //--></script></div>
 {{ footer }}
