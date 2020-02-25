@@ -28,3 +28,4 @@ opencart/storage/*
 !opencart/storage/upload
 !opencart/storage/vendor
 
+logs/*

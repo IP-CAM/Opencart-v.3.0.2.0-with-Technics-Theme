@@ -208,7 +208,7 @@
                       {% for suboption_prop_key, suboption_prop in suboption_values[option_value.option_value_id] %}
                               <li id="suboption_input_{{ suboption_prop_key }}" suboption_id="{{ suboption_prop.suboption_id }}">
                                 <div class="input-suboption-group">
-                                  <input type="text" name="suboption_value[{{ suboption_prop.suboption_id }}][suboption_value_description][1][name]" value="{{ suboption_prop.suboption_name }}" placeholder="{{ entry_suboption_value }}" class="form-control" />
+                                  <input type="text" name="suboptions[{{ suboption_prop.option_value_id }}][{{ suboption_prop.suboption_id }}]" value="{{ suboption_prop.suboption_name }}" placeholder="{{ entry_suboption_value }}" class="form-control" />
                                 </div>
                                 <button type="button" onclick="removeSuboption(this);" data-toggle="tooltip" title="Удалить саб-опцию" class="btn btn-danger suboption-remove"><i class="fa fa-minus-circle"></i></button>
                               </li>
@@ -278,8 +278,13 @@ $('.suboption_list').children().each(function() {
 function addSuboption(addButton) {
     var prevSibling = addButton.previousElementSibling;
 
-    var last_suboption_id = Math.max.apply(null, suboptions);
+    var last_suboption_id = 0;
     var last_elem_row_id = parseInt(prevSibling.lastElementChild.id.split('_')[2]);
+    var last_elem_option_value_id = $(addButton).siblings('.input-group').attr('id');
+
+    if (suboptions.length > 0) {
+        last_suboption_id = Math.max.apply(null, suboptions);
+    }
 
 
     if (prevSibling.getAttribute('class') !== 'suboption_list') {
@@ -287,7 +292,7 @@ function addSuboption(addButton) {
         html  = '<ul class="suboption_list">Саб-опции';
         html += '<li id="suboption_input_' + (last_elem_row_id+1) + '" suboption_id="' + (last_suboption_id+1) + '">';
         html += '<div class="input-suboption-group">';
-        html += '<input type="text" name="suboption_value[' + (last_suboption_id+1) + '][suboption_value_description][1][name]" value="" placeholder="Значение саб-опции" class="form-control" />';
+        html += '<input type="text" name="suboptions[' + last_elem_option_value_id + '][' + (last_suboption_id+1) +']" value="" placeholder="Значение саб-опции" class="form-control" />';
         html += '</div>';
         html += '<button type="button" onclick="removeSuboption(this)" data-toggle="tooltip" title="Удалить саб-опцию" class="btn btn-danger suboption-remove"><i class="fa fa-minus-circle"></i></button>';
         html += '</li>';
@@ -297,7 +302,7 @@ function addSuboption(addButton) {
     } else {
         html  = '<li id="suboption_input_' + (last_elem_row_id+1) + '" suboption_id="' + (last_suboption_id+1) + '">';
         html += '<div class="input-suboption-group">';
-        html += '<input type="text" name="suboption_value[' + (last_suboption_id+1) + '][suboption_value_description][1][name]" value="" placeholder="Значение саб-опции" class="form-control" />';
+        html += '<input type="text" name="suboptions[' + last_elem_option_value_id + '][' + (last_suboption_id+1) +']" value="" placeholder="Значение саб-опции" class="form-control" />';
         html += '</div>';
         html += '<button type="button" onclick="removeSuboption(this)" data-toggle="tooltip" title="Удалить саб-опцию" class="btn btn-danger suboption-remove"><i class="fa fa-minus-circle"></i></button>';
         html += '</li>';

@@ -18,11 +18,9 @@ class ControllerCatalogOption extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('catalog/option');
-		$this->load->model('catalog/suboption');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_catalog_option->addOption($this->request->post);
-//			$this->model_catalog_suboption->addSuboption($this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -52,10 +50,11 @@ class ControllerCatalogOption extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('catalog/option');
+        $this->load->model('catalog/suboption');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_catalog_option->editOption($this->request->get['option_id'], $this->request->post);
-
+            $this->model_catalog_suboption->addSuboption($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 
 			$url = '';
