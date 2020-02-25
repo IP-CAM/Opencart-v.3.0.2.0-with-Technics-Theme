@@ -16,5 +16,6 @@ ul.suboption_list li {
 }
 
 .btn.suboption-remove {
-    vertical-align: initial;
+    position: absolute;
+    margin-left: 5px;
 }

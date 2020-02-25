@@ -195,7 +195,7 @@
                 <td class="text-left">
                   <input type="hidden" name="option_value[{{ option_value_row }}][option_value_id]" value="{{ option_value.option_value_id }}" />
                   {% for language in languages %}
-                  <div class="input-group"><span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                  <div class="input-group" id="{{ option_value.option_value_id }}"><span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
                     <input type="text" name="option_value[{{ option_value_row }}][option_value_description][{{ language.language_id }}][name]" value="{{ option_value.option_value_description[language.language_id] ? option_value.option_value_description[language.language_id].name }}" placeholder="{{ entry_option_value }}" class="form-control" />
                   </div>
                   {% if error_option_value[option_value_row][language.language_id] %}
@@ -206,7 +206,7 @@
                     <ul class="suboption_list">
                       {{ entry_suboption_headline }}
                       {% for suboption_prop_key, suboption_prop in suboption_values[option_value.option_value_id] %}
-                              <li id="suboption_input_{{ suboption_prop.option_value_id }}_{{ suboption_prop_key }}_{{ suboption_prop.suboption_id }}">
+                              <li id="suboption_input_{{ suboption_prop_key }}" suboption_id="{{ suboption_prop.suboption_id }}">
                                 <div class="input-suboption-group">
                                   <input type="text" name="suboption_value[{{ suboption_prop.suboption_id }}][suboption_value_description][1][name]" value="{{ suboption_prop.suboption_name }}" placeholder="{{ entry_suboption_value }}" class="form-control" />
                                 </div>
@@ -270,26 +270,61 @@ function addOptionValue() {
 	option_value_row++;
 }
 
+var suboptions = [];
+$('.suboption_list').children().each(function() {
+    suboptions.push(parseInt($(this).attr('suboption_id')));
+});
 
 function addSuboption(addButton) {
-    var last_elem_option_value_id = addButton.previousElementSibling.lastElementChild.id.split('_')[2];
-    var last_elem_row_id = parseInt(addButton.previousElementSibling.lastElementChild.id.split('_')[3]);
-    var last_elem_suboption_id = parseInt(addButton.previousElementSibling.lastElementChild.id.split('_')[4]);
+    var prevSibling = addButton.previousElementSibling;
 
-    html  = '<li id="suboption_input_' + last_elem_option_value_id + '_' + (last_elem_row_id+1) + '_' + (last_elem_suboption_id+1) + '">';
-    html += '<div class="input-suboption-group">';
-    html += '<input type="text" name="suboption_value[' + (last_elem_suboption_id+1) + '][suboption_value_description][1][name]" value="" placeholder="Значение саб-опции" class="form-control" />';
-    html += '</div>';
-    html += '<button type="button" onclick="removeSuboption(this)" data-toggle="tooltip" title="Удалить саб-опцию" class="btn btn-danger suboption-remove"><i class="fa fa-minus-circle"></i></button>';
-    html += '</li>';
-
-    $("#suboption_input_" + last_elem_option_value_id + '_' + last_elem_row_id + '_' + last_elem_suboption_id).after(html);
+    var last_suboption_id = Math.max.apply(null, suboptions);
+    var last_elem_row_id = parseInt(prevSibling.lastElementChild.id.split('_')[2]);
+    var last_elem_option_value_id = $(addButton).siblings('.input-group').attr('id');
 
 
+    if (prevSibling.getAttribute('class') !== 'suboption_list') {
+        last_elem_row_id = -1;
+        html  = '<ul class="suboption_list">Саб-опции';
+        html += '<li id="suboption_input_' + (last_elem_row_id+1) + '" suboption_id="' + (last_suboption_id+1) + '">';
+        html += '<div class="input-suboption-group">';
+        html += '<input type="text" name="suboption_value[' + (last_suboption_id+1) + '][suboption_value_description][1][name]" value="" placeholder="Значение саб-опции" class="form-control" />';
+        html += '</div>';
+        html += '<button type="button" onclick="removeSuboption(this)" data-toggle="tooltip" title="Удалить саб-опцию" class="btn btn-danger suboption-remove"><i class="fa fa-minus-circle"></i></button>';
+        html += '</li>';
+        html += '</ul>';
+
+        $(prevSibling).after(html);
+    } else {
+        html  = '<li id="suboption_input_' + (last_elem_row_id+1) + '" suboption_id="' + (last_suboption_id+1) + '">';
+        html += '<div class="input-suboption-group">';
+        html += '<input type="text" name="suboption_value[' + (last_suboption_id+1) + '][suboption_value_description][1][name]" value="" placeholder="Значение саб-опции" class="form-control" />';
+        html += '</div>';
+        html += '<button type="button" onclick="removeSuboption(this)" data-toggle="tooltip" title="Удалить саб-опцию" class="btn btn-danger suboption-remove"><i class="fa fa-minus-circle"></i></button>';
+        html += '</li>';
+
+        $(prevSibling.lastElementChild).after(html);
+    }
+
+    suboptions.push((last_suboption_id+1));
 }
 
 function removeSuboption(removeButton) {
-    removeButton.parentElement.remove();
+    for (sub in suboptions) {
+        if (suboptions[sub] == parseInt($(removeButton).parent().attr('suboption_id'))) {
+            suboptions.splice(sub, 1);
+        }
+    }
+
+    if ($(removeButton).parent().siblings().length == 0) {
+        $(removeButton).parent().parent().remove();
+    }
+    $(removeButton).parent().remove();
+
+
+
+
+
 }
 //--></script></div>
 {{ footer }}
