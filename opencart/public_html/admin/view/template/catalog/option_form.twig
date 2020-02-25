@@ -280,7 +280,6 @@ function addSuboption(addButton) {
 
     var last_suboption_id = Math.max.apply(null, suboptions);
     var last_elem_row_id = parseInt(prevSibling.lastElementChild.id.split('_')[2]);
-    var last_elem_option_value_id = $(addButton).siblings('.input-group').attr('id');
 
 
     if (prevSibling.getAttribute('class') !== 'suboption_list') {
@@ -319,12 +318,8 @@ function removeSuboption(removeButton) {
     if ($(removeButton).parent().siblings().length == 0) {
         $(removeButton).parent().parent().remove();
     }
+
     $(removeButton).parent().remove();
-
-
-
-
-
 }
 //--></script></div>
 {{ footer }}

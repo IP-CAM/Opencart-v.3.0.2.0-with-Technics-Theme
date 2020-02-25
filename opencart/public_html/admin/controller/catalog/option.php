@@ -18,9 +18,11 @@ class ControllerCatalogOption extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('catalog/option');
+		$this->load->model('catalog/suboption');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_catalog_option->addOption($this->request->post);
+//			$this->model_catalog_suboption->addSuboption($this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -370,7 +372,6 @@ class ControllerCatalogOption extends Controller {
 
 			$data['suboption_values'][$option_value['option_value_id']] = $this->model_catalog_suboption->getSuboptions($suboption_data);
 
-
 		}
 
 		$data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
@@ -400,7 +401,7 @@ class ControllerCatalogOption extends Controller {
 		if (isset($this->request->post['option_value'])) {
 			foreach ($this->request->post['option_value'] as $option_value_id => $option_value) {
 				foreach ($option_value['option_value_description'] as $language_id => $option_value_description) {
-					if ((utf8_strlen($option_value_description['name']) < 1) || (utf8_strlen($option_value_description['name']) > 128)) {
+					if ((utf8_strlen($option_value_description['name']) < 1) || (utf8_strlen($option_value_description['name']) > 255)) {
 						$this->error['option_value'][$option_value_id][$language_id] = $this->language->get('error_option_value');
 					}
 				}
