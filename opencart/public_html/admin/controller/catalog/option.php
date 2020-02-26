@@ -54,7 +54,7 @@ class ControllerCatalogOption extends Controller {
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_catalog_option->editOption($this->request->get['option_id'], $this->request->post);
-            $this->model_catalog_suboption->setSuboptions($this->request->post);
+            $this->model_catalog_suboption->setSuboptions($this->request->get['option_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 
 			$url = '';
@@ -366,7 +366,7 @@ class ControllerCatalogOption extends Controller {
 			);
 
 			$suboption_data = [
-			  'option_value_id' => $option_value['option_value_id']
+                'option_value_id' => $option_value['option_value_id'],
             ];
 
 			$data['suboption_values'][$option_value['option_value_id']] = $this->model_catalog_suboption->getSuboptions($suboption_data);
