@@ -54,7 +54,7 @@ class ControllerCatalogOption extends Controller {
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_catalog_option->editOption($this->request->get['option_id'], $this->request->post);
-            $this->model_catalog_suboption->addSuboption($this->request->post);
+            $this->model_catalog_suboption->setSuboptions($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 
 			$url = '';
