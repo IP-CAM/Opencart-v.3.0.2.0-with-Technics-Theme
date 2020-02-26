@@ -450,7 +450,6 @@
                     </div>
 					{% if (short_descr and shortdescription) %}
                     <dl class="sku__dl">
-						{% set text_technics_short_descr = 'Описание' %}
                       <dt>{{ text_technics_short_descr }}</dt>
                       <dd>{{ shortdescription }}</dd>
                     </dl>
@@ -470,65 +469,45 @@
             </div>
           </div>
         <!-- SKU :: End-->
-		{% if (custom_tech_props or custom_props_and_specifics or custom_additional_options is defined) %}
+		{% if (attribute_groups is defined) %}
         <!-- Details :: Start-->
         <div class="details">
           <div class="container-fluid">
             <div class="details__tabs" data-tabs>
               <nav class="details__tabs-nav">
-			  {% if (custom_tech_props) %}
-				  <button class="details__tabs-btn is-active" data-tabs-btn="tab_custom_tech_props">Технические характеристики
-					  <svg class="icon-arrow-down">
-						  <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-arrow-down"></use>
-					  </svg>
-				  </button>
-			  {% endif %}
-			  {% if (custom_props_and_specifics) %}
-                <button class="details__tabs-btn" data-tabs-btn="tab_custom_props_and_specifics">Свойства и особенности
-                  <svg class="icon-arrow-down">
-                    <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-arrow-down"></use>
-                  </svg>
-                </button>
-			  {% endif %}
-			  {% if (custom_additional_options) %}
-				  <button class="details__tabs-btn" data-tabs-btn="tab_custom_additional_options">Дополнительные опции
-					  <svg class="icon-arrow-down">
-						  <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-arrow-down"></use>
-					  </svg>
-				  </button>
+			  {% if (attribute_groups) %}
+				  {% for attribute_group in attribute_groups %}
+					{% if attribute_group.attribute_group_id == 8 %}
+						{% for i, attribute in attribute_group.attribute %}
+						<button class="details__tabs-btn {% if i==0 %}is-active{% endif %}" data-tabs-btn="tab_attribute_{{ i }}">{{ attribute.name }}
+						  <svg class="icon-arrow-down">
+							<use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-arrow-down"></use>
+						  </svg>
+						</button>
+						{% endfor %}
+				  	{% endif %}
+				  {% endfor %}
 			  {% endif %}
               </nav>
               <div class="details__tabs-container">
-			  {% if (custom_tech_props) %}
-				  <button class="details__tabs-btn is-active" data-tabs-btn="tab_custom_tech_props">Технические характеристики
-					  <svg class="icon-arrow-down">
-						  <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-arrow-down"></use>
-					  </svg>
-				  </button>
-				  <div class="details__tabs-content is-active" data-tabs-content="tab_custom_tech_props">
-					  	{{ custom_tech_props }}
-				  </div>
-			  {% endif %}
-			  {% if (custom_props_and_specifics) %}
-				  <button class="details__tabs-btn" data-tabs-btn="tab_custom_props_and_specifics">Свойства и особенности
-					  <svg class="icon-arrow-down">
-						<use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-arrow-down"></use>
-					  </svg>
-				  </button>
-				  <div class="details__tabs-content" data-tabs-content="tab_custom_props_and_specifics">
-						{{ custom_props_and_specifics }}
-				  </div>
-			  {% endif %}
-			  {% if (custom_additional_options) %}
-				  <button class="details__tabs-btn" data-tabs-btn="tab_custom_additional_options">Дополнительные опции
-					  <svg class="icon-arrow-down">
-						  <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-arrow-down"></use>
-					  </svg>
-				  </button>
-				  <div class="details__tabs-content" data-tabs-content="tab_custom_additional_options">
-					  	{{ custom_additional_options }}
-				  </div>
-			  {% endif %}
+				{% if (attribute_groups) %}
+                  {% for attribute_group in attribute_groups %}
+                  	{% if attribute_group.attribute_group_id == 8 %}
+                      {% for i, attribute in attribute_group.attribute %}
+						<button class="details__tabs-btn {% if i==0 %}is-active{% endif %}" data-tabs-btn="tab_attribute_{{ i }}">{{ attribute.name }}
+						  <svg class="icon-arrow-down">
+							<use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-arrow-down"></use>
+						  </svg>
+						</button>
+						<div class="details__tabs-content {% if i==0 %}is-active{% endif %}" data-tabs-content="tab_attribute_{{ i }}">
+						  <div class="details__info">
+							  {{ attribute.text | html_entity_decode }}
+						  </div>
+						</div>
+                      {% endfor %}
+                  	{% endif %}
+                  {% endfor %}
+				{% endif %}
               </div>
             </div>
           </div>
