@@ -596,7 +596,8 @@
 
                                 {% for product_option_value in product_option.product_option_value %}
                                   <tr id="option-value-row{{ option_value_row }}">
-                                    <td class="text-left"><select name="product_option[{{ option_row }}][product_option_value][{{ option_value_row }}][option_value_id]" class="form-control">
+                                    <td class="text-left">
+                                        <select name="product_option[{{ option_row }}][product_option_value][{{ option_value_row }}][option_value_id]" class="form-control">
 
 
                                         {% if option_values[product_option.option_id] %}
@@ -608,7 +609,6 @@
 
                                               <option value="{{ option_value.option_value_id }}" selected="selected">{{ option_value.name }}</option>
 
-
                                             {% else %}
 
 
@@ -619,8 +619,15 @@
                                           {% endfor %}
                                         {% endif %}
 
-
-                                      </select> <input type="hidden" name="product_option[{{ option_row }}][product_option_value][{{ option_value_row }}][product_option_value_id]" value="{{ product_option_value.product_option_value_id }}"/></td>
+                                      </select>
+                                      {% if (product_option_value.suboptions) %}
+                                      <ul>Варианты
+                                        {% for suboption in product_option_value.suboptions %}
+                                        <li>{{ suboption.suboption_name }}</li>
+                                        {% endfor %}
+                                      </ul>
+                                      {% endif %}
+                                        <input type="hidden" name="product_option[{{ option_row }}][product_option_value][{{ option_value_row }}][product_option_value_id]" value="{{ product_option_value.product_option_value_id }}"/></td>
                                     <td class="text-right"><input type="text" name="product_option[{{ option_row }}][product_option_value][{{ option_value_row }}][quantity]" value="{{ product_option_value.quantity }}" placeholder="{{ entry_quantity }}" class="form-control"/></td>
                                     <td class="text-left"><select name="product_option[{{ option_row }}][product_option_value][{{ option_value_row }}][subtract]" class="form-control">
 

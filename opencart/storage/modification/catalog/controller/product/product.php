@@ -36,7 +36,7 @@ class ControllerProductProduct extends Controller {
 		$data['lazyload'] = $this->config->get('theme_technics_lazyload');
 		$isDateTime = false;
 		// technics end
-            
+
 		$this->load->model('catalog/category');
 
 		if (isset($this->request->get['path'])) {
@@ -47,7 +47,7 @@ class ControllerProductProduct extends Controller {
 			$category_id = (int)array_pop($parts);
 
 			$id = 0;
-            
+
 
 			foreach ($parts as $path_id) {
 				if (!$path) {
@@ -64,13 +64,13 @@ class ControllerProductProduct extends Controller {
 
 						'breadList' => $this->breadList($id),// technics
 						'cat_id' => $id,// technics
-            
+
 						'href' => $this->url->link('product/category', 'path=' . $path)
 					);
 				}
 
 				$id = $path_id;
-            
+
 			}
 
 			// Set the last category breadcrumb
@@ -100,7 +100,7 @@ class ControllerProductProduct extends Controller {
 
 					'breadList' => $this->breadList($id),// technics
 					'cat_id' => $id,// technics
-            
+
 					'href' => $this->url->link('product/category', 'path=' . $this->request->get['path'] . $url)
 				);
 			}
@@ -257,11 +257,11 @@ class ControllerProductProduct extends Controller {
 			$this->document->setDescription($product_info['meta_description']);
 			$this->document->setKeywords($product_info['meta_keyword']);
 			$this->document->addLink($this->url->link('product/product', 'product_id=' . $this->request->get['product_id']), 'canonical');
-			
+
 			// technics
 			$data['href'] = $this->url->link('product/product', $url . '&product_id=' . $this->request->get['product_id']);
 			// technics end
-            
+
 
 			$data['heading_title'] = $product_info['name'];
 
@@ -281,17 +281,35 @@ class ControllerProductProduct extends Controller {
 			$data['technics_mpn'] = $product_info['mpn'];
 			$data['schema_description'] = str_replace(array("\r\n", "\r", "\n"),' ', strip_tags(html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8')));
 			// technics
-            
+
 			$data['reward'] = $product_info['reward'];
 			$data['points'] = $product_info['points'];
 			$data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
 
+//          Передача в шаблон таба "Полное описание"
+            $allAttr = $this->model_catalog_product->getProductAttributes($data['product_id']);
+            foreach ($allAttr as $attrGroup) {
+                if ($attrGroup['attribute_group_id'] == '8') {
+                    foreach ($attrGroup['attribute'] as $attr) {
+                        if ($attr['attribute_id'] == '27') {
+                            $data['custom_props_and_specifics'] = html_entity_decode($attr['text'], ENT_QUOTES, 'UTF-8');
+                        }
+                        if ($attr['attribute_id'] == '28') {
+                            $data['custom_tech_props'] = html_entity_decode($attr['text'], ENT_QUOTES, 'UTF-8');
+                        }
+                        if ($attr['attribute_id'] == '29') {
+                            $data['custom_additional_options'] = html_entity_decode($attr['text'], ENT_QUOTES, 'UTF-8');
+                        }
+                    }
+                }
+            }
+
 			if ($product_info['quantity'] <= 0) {
 				$data['stock'] = $product_info['stock_status'];
 			} elseif ($this->config->get('config_stock_display')) {
-				
+
 				$data['stock'] = $this->language->get('text_instock') . ': ' . $product_info['quantity'] . ' ' . $this->language->get('text_technics_cart_quantity'); // technics
-            
+
 			} else {
 				$data['stock'] = $this->language->get('text_instock');
 			}
@@ -303,7 +321,7 @@ class ControllerProductProduct extends Controller {
 			if (isset($this->session->data['currency'])) {
 				$data['currency'] = $this->session->data['currency'];
 			}
-			
+
 			$this->load->language('checkout/checkout');
 			$data['entry_firstname'] = $this->language->get('entry_firstname');
 			$data['entry_lastname'] = $this->language->get('entry_lastname');
@@ -322,7 +340,7 @@ class ControllerProductProduct extends Controller {
 			} else {
 				$data['text_click_pdata'] = '';
 			}
-			if ($this->config->get('theme_technics_review_pdata')) {	
+			if ($this->config->get('theme_technics_review_pdata')) {
 				$review_pdata = $this->model_catalog_information->getInformation($this->config->get('theme_technics_review_pdata'));
 				if ($review_pdata) {
 					$data['text_review_pdata'] = sprintf($this->language->get('text_technics_pdata'), $this->language->get('button_continue'), $this->url->link('information/information/agree', 'information_id=' . $this->config->get('theme_technics_review_pdata'), true), $review_pdata['title'], $review_pdata['title']);
@@ -338,22 +356,22 @@ class ControllerProductProduct extends Controller {
 			$data['text_technics_products_text_more'] = $this->language->get('text_technics_products_text_more');
 			$data['text_technics_short_descr'] = $this->language->get('text_technics_short_descr');
 			$data['text_technics_products_review'] = $this->language->get('text_technics_products_review');
-			
+
 			$tempDesc = $this->descriptionExtra($data['description']);
-			$data['description'] = $tempDesc['fulldesc'];	
+			$data['description'] = $tempDesc['fulldesc'];
 			if (!$this->config->get('theme_technics_product_short_descr')) {
 				$data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
 			}
 			$data['short_descr'] = $this->config->get('theme_technics_product_short_descr');
 			$data['zoom'] = $this->config->get('theme_technics_product_zoom');
 			$data['p_related_view'] = $this->config->get('theme_technics_p_related_view');
-			$data['shortdescription'] = $tempDesc['shortdesc'];			
+			$data['shortdescription'] = $tempDesc['shortdesc'];
 			$data['typeOptAtt'] = $this->config->get('theme_technics_product_att_select');
 			$data['typeOptSelect'] = $this->config->get('theme_technics_product_opt_select');
 			$data['typeOptCheckImg'] = $this->config->get('theme_technics_product_opt_checkbox_img');
 			$data['typeOptRadioImg'] = $this->config->get('theme_technics_product_opt_radio_img');
 			$data['store'] = $this->config->get('config_name');
-			
+
 			if ($product_info['quantity'] <= 0 && !$this->config->get('config_stock_checkout')) {
 				$data['buy_btn'] = $product_info['stock_status'];
 			} else {
@@ -367,14 +385,14 @@ class ControllerProductProduct extends Controller {
 					$data['popup'] = $this->model_tool_image->technics_resize('placeholder.png', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height'));
 				}
 			} else {
-            
+
 
 			if ($product_info['image']) {
 				$data['popup'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height'));
 			} else {
-				
+
 					$data['popup'] = $this->model_tool_image->resize('placeholder.png', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height'));
-            
+
 			}
 
 
@@ -389,16 +407,16 @@ class ControllerProductProduct extends Controller {
 					$data['thumb'] = $this->model_tool_image->technics_resize('placeholder.png', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height'));;
 				}
 			} else {
-            
+
 			if ($product_info['image']) {
 				$data['thumb'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height'));
 			} else {
-				
+
 					$data['thumb'] = $this->model_tool_image->resize('placeholder.png', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height'));
 					if ($this->config->get('theme_technics_og')) { //Technics added this
 						$this->document->setOgImage($data['thumb']);
 					} //Technics added this
-            
+
 			}
 
 
@@ -423,7 +441,7 @@ class ControllerProductProduct extends Controller {
 					if ($this->config->get('theme_technics_og')) { //Technics added this
 						$this->document->setOgImage($data['thumb']);
 					} //Technics added this
-				}				
+				}
 			}
 			$tab_video = array();
 			$data['customTabs'] = $this->model_extension_module_technics->getFields4Product($this->request->get['product_id']);
@@ -432,20 +450,20 @@ class ControllerProductProduct extends Controller {
 			}
 
 // technics end
-            
+
 			$data['images'] = array();
 
 			$results = $this->model_catalog_product->getProductImages($this->request->get['product_id']);
 
 			foreach ($results as $result) {
 				$data['images'][] = array(
-					
+
 					'popup' =>  $this->config->get('theme_technics_image_popup_resize') ? $this->model_tool_image->technics_resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height')) : $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height')),
-            
-					
+
+
 					'thumb' => $this->config->get('theme_technics_image_additional_resize') ? $this->model_tool_image->technics_resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height')) : $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height')),
 					'additional' => $this->config->get('theme_technics_image_additional_resize') ? $this->model_tool_image->technics_resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_height')) : $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_height'))
-            
+
 				);
 			}
 
@@ -453,24 +471,24 @@ class ControllerProductProduct extends Controller {
 				$data['price'] = $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
 
 				$data['price_schema'] = number_format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), 0, '', '');// technics
-            
+
 			} else {
 				$data['price'] = false;
 
 				$data['price_schema'] = false;// technics
-            
+
 			}
 
 			if ((float)$product_info['special']) {
 				$data['special'] = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
 
 				$data['special_schema'] = number_format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), 0, '', '');// technics
-            
+
 			} else {
 				$data['special'] = false;
 
 				$data['special_schema'] = false;
-            
+
 			}
 
 			if ($this->config->get('config_tax')) {
@@ -488,7 +506,7 @@ class ControllerProductProduct extends Controller {
 					'quantity' => $discount['quantity'],
 
 					'date_end' => $discount['date_end'],// technics
-            
+
 					'price'    => $this->currency->format($this->tax->calculate($discount['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency'])
 				);
 			}
@@ -499,7 +517,7 @@ class ControllerProductProduct extends Controller {
 				$product_option_value_data = array();
 
 				$isImage = false; //Lightshop
-            
+
 
 				foreach ($option['product_option_value'] as $option_value) {
 					if (!$option_value['subtract'] || ($option_value['quantity'] > 0)) {
@@ -515,7 +533,7 @@ class ControllerProductProduct extends Controller {
 							$isImage = true;
 						}
 //technics
-            
+
 						$product_option_value_data[] = array(
 							'product_option_value_id' => $option_value['product_option_value_id'],
 							'option_value_id'         => $option_value['option_value_id'],
@@ -533,7 +551,7 @@ class ControllerProductProduct extends Controller {
 					$isDateTime = true;
 				}
 //technics
-            
+
 				$data['options'][] = array(
 					'product_option_id'    => $option['product_option_id'],
 					'product_option_value' => $product_option_value_data,
@@ -543,7 +561,7 @@ class ControllerProductProduct extends Controller {
 					'value'                => $option['value'],
 
 					'isimage'              => $isImage,  //technics
-            
+
 					'required'             => $option['required']
 				);
 			}
@@ -574,7 +592,7 @@ class ControllerProductProduct extends Controller {
 			$data['datetime_format'] = $this->language->get('text_technics_datetime_format');// technics
 			$data['time_format'] = $this->language->get('text_technics_time_format');// technics
 			}
-			
+
 			if (isset($data['customTabs']['video'])) {
 				$newImages = array();
 				foreach ($data['images'] as $keyImg => $image) {
@@ -603,11 +621,11 @@ class ControllerProductProduct extends Controller {
 			if ($product_info['discount_date_end'] && $product_info['discount_date_end'] != '0000-00-00' ) {
 				$data['discount_date_end'] = $product_info['discount_date_end'];
 			}
-			if ($data['special']) {	
+			if ($data['special']) {
 				$action = $this->model_catalog_product->getProductActions($this->request->get['product_id']);
 				if ($action['date_end'] != '0000-00-00') {
 					$data['special_date_end'] = $action['date_end'];
-				}		
+				}
 			}
 			$data['reviews_num'] = (int)$product_info['reviews'];
 
@@ -641,7 +659,7 @@ class ControllerProductProduct extends Controller {
 				}
 
 				if ($ratingCount['totall'] < 5) {
-					$text = $sint[(int)$ratingCount['totall']]; 
+					$text = $sint[(int)$ratingCount['totall']];
 				}else{
 					$text = $this->language->get('text_review_num_2');
 				}
@@ -656,7 +674,7 @@ class ControllerProductProduct extends Controller {
 			}
 			krsort($data['reviewsStats']);
 			// technics end
-            
+
 			$data['review_status'] = $this->config->get('config_review_status');
 
 			if ($this->config->get('config_review_guest') || $this->customer->isLogged()) {
@@ -688,7 +706,7 @@ class ControllerProductProduct extends Controller {
 
 			// technics
 
-			
+
 			if ($this->config->get($this->config->get('theme_technics_config_captcha_fo') . '_status')) {
 				$data['captcha_fo'] = $this->load->controller('extension/captcha/' . $this->config->get('theme_technics_config_captcha_fo'));
 			} else {
@@ -704,10 +722,10 @@ class ControllerProductProduct extends Controller {
 			$newest = array();
 			$sales = false;
 			if(isset($labelsInfo['new']['period']) && $labelsInfo['new']['status']){
-				$newest = $this->model_catalog_product->getNewestProducts($labelsInfo['new']['period']);				
+				$newest = $this->model_catalog_product->getNewestProducts($labelsInfo['new']['period']);
 			}
 			if(isset($labelsInfo['sale']['status']) && $labelsInfo['sale']['status']){
-				$sales = true;				
+				$sales = true;
 			}
 
 			$data['sales'] = $sales;
@@ -718,7 +736,7 @@ class ControllerProductProduct extends Controller {
 					$data['isnewest'] = true;
 				} else {
 					$data['isnewest'] = false;
-				}			
+				}
 
 				$data['discount'] = '';
 				if($sales && $data['special']){
@@ -728,8 +746,8 @@ class ControllerProductProduct extends Controller {
 					}
 					if($labelsInfo['sale']['extra'] == 2){
 						$data['discount'] = $this->currency->format($this->tax->calculate(($product_info['price'] - $product_info['special']), $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
-					}					
-				}	
+					}
+				}
 
 		        $data['catch'] = false;
 		        $data['nocatch'] = false;
@@ -764,10 +782,10 @@ class ControllerProductProduct extends Controller {
 				}
 			}
 
-			$data['text_technics_buy_click'] = $this->language->get('text_technics_buy_click');			
-			
+			$data['text_technics_buy_click'] = $this->language->get('text_technics_buy_click');
+
 			// technics end
-            
+
 			$data['products'] = array();
 
 			$results = $this->model_catalog_product->getProductRelated($this->request->get['product_id']);
@@ -776,7 +794,7 @@ class ControllerProductProduct extends Controller {
 
 				// technics
 				if ($this->config->get('theme_technics_image_related_resize')) {
-            
+
 				if ($result['image']) {
 
 						$image = $this->model_tool_image->technics_resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_related_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_related_height'));
@@ -785,7 +803,7 @@ class ControllerProductProduct extends Controller {
 					}
 				} else {
 					if ($result['image']) {
-            
+
 					$image = $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_related_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_related_height'));
 				} else {
 					$image = $this->model_tool_image->resize('placeholder.png', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_related_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_related_height'));
@@ -794,7 +812,7 @@ class ControllerProductProduct extends Controller {
 
 				}
 				// technics end
-            
+
 				if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
 					$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
 				} else {
@@ -822,14 +840,14 @@ class ControllerProductProduct extends Controller {
 
 // technics
 				$extraImages = array();
-				
+
 					if ($this->config->get('theme_technics_related_images_status')) {
 						$images = $this->model_catalog_product->getProductImages($result['product_id']);
 						foreach($images as $imageX){
 							$extraImages[] = $this->config->get('theme_technics_image_product_resize') ? $this->model_tool_image->technics_resize($imageX['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_height')) : $this->model_tool_image->resize($imageX['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_height'));
 						}
 					}
-					
+
 					if (in_array($result['product_id'], $newest)) {
 						$isNewest = true;
 					} else {
@@ -870,14 +888,14 @@ class ControllerProductProduct extends Controller {
 					} else {
 						$manufacturer = false;
 					}
-				
-					$discount = '';	
+
+					$discount = '';
 					if($sales && $special){
 						$special_date_end = false;
 						$action = $this->model_catalog_product->getProductActions($result['product_id']);
 						if ($action['date_end'] != '0000-00-00') {
 							$special_date_end = $action['date_end'];
-						}		
+						}
 
 						if($labelsInfo['sale']['extra'] == 1){
 							$discount = round((($result['price'] - $result['special'])/$result['price'])*100);
@@ -886,13 +904,13 @@ class ControllerProductProduct extends Controller {
 						}
 						if($labelsInfo['sale']['extra'] == 2){
 							$discount = $this->currency->format($this->tax->calculate(($result['price'] - $result['special']), $result['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
-						}					
+						}
 					} else {
 						$special_date_end = false;
 					}
 
 // technics end
-            
+
 				$data['products'][] = array(
 					'product_id'  => $result['product_id'],
 					'thumb'       => $image,
@@ -903,7 +921,7 @@ class ControllerProductProduct extends Controller {
 					'manufacturer'  => $manufacturer,// technics
 					'quantity'        => $result['quantity'],// technics
 				//	'stock'        => $stock,// technics
-					'images'       => $extraImages,// technics	
+					'images'       => $extraImages,// technics
 					'isnewest'       => $isNewest,// technics
 					'sales'       => $sales,// technics
 					'discount'       => $discount,// technics
@@ -914,7 +932,7 @@ class ControllerProductProduct extends Controller {
 					'buy_btn'	  => $buy_btn,// technics
 					'reward'      => $result['reward'],// technics
 					'special_date_end'      => $special_date_end,// technics
-            
+
 					'special'     => $special,
 					'tax'         => $tax,
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
@@ -931,9 +949,9 @@ class ControllerProductProduct extends Controller {
 				foreach ($tags as $tag) {
 					$data['tags'][] = array(
 						'tag'  => trim($tag),
-						
+
 		'href' => str_replace('&amp;', '&', $this->url->link('product/search', 'tag=' . trim($tag)))// technics
-			
+
 					);
 				}
 			}
@@ -945,18 +963,18 @@ class ControllerProductProduct extends Controller {
 				SetCookie("productsVieded[" . $product_id . "]",time(),time()+3600*24*30*12,"/");
 			}
 			$data['buyclick_form'] = $this->load->view('product/buyclick_form', $data);
-			
-			if ($this->config->get('theme_technics_product_review')) {  
+
+			if ($this->config->get('theme_technics_product_review')) {
 				$data['reviewsdata'] = $this->review(1);
 			} else {
 				$data['reviewsdata'] = false;
 			}
 // technics end
-            
+
 			$data['recurrings'] = $this->model_catalog_product->getProfiles($this->request->get['product_id']);
 
 			$this->model_catalog_product->updateViewed($this->request->get['product_id']);
-			
+
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['column_right'] = $this->load->controller('common/column_right');
 			$data['content_top'] = $this->load->controller('common/content_top');
@@ -1034,7 +1052,7 @@ class ControllerProductProduct extends Controller {
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
 
-			
+
 // technics
 		if (is_file(DIR_IMAGE . $this->config->get('theme_technics_logo_404'))) {
 			$data['logo_404'] = (isset($this->request->server['HTTPS']) ? HTTPS_SERVER : HTTP_SERVER) . 'image/' . $this->config->get('theme_technics_logo_404');
@@ -1043,12 +1061,12 @@ class ControllerProductProduct extends Controller {
 		}
 		$data['text_404'] = sprintf($this->language->get('text_404'), $this->url->link('information/contact', '', true), $this->url->link('product/search', '', true), $this->url->link('common/home', '', true));
 		$this->response->setOutput($this->load->view('error/404', $data));
-// technics end		
-            
+// technics end
+
 		}
 	}
 
-	
+
 // technics
 	public function like() {
 
@@ -1063,7 +1081,7 @@ class ControllerProductProduct extends Controller {
 		$likesInfo = $this->model_extension_module_technics->getLikes4review($this->request->get['review_id']);
 
 		$data['count_good'] = $likesInfo['count_good'];
-		$data['count_bad'] = $likesInfo['count_bad'];		
+		$data['count_bad'] = $likesInfo['count_bad'];
 
 
 
@@ -1081,7 +1099,7 @@ class ControllerProductProduct extends Controller {
 			SetCookie("likesls[" . $data['review_id'] . "]",time(),time()+3600*24*30*12,"/");
 			$this->model_extension_module_technics->setLikes4review($data);
 			$json['success']['likes'] = $likes;
-		}			
+		}
 
 
 
@@ -1089,10 +1107,10 @@ class ControllerProductProduct extends Controller {
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
-// technics end	
+// technics end
 
 	public function review($type = false) {	// technics
-            
+
 		$this->load->language('product/product');
 
 		$this->load->model('catalog/review');
@@ -1113,15 +1131,15 @@ class ControllerProductProduct extends Controller {
 			$rating = 0;
 		}
 		// technics end
-            
+
 		$data['reviews'] = array();
 
-		
+
 		// technics
 		$results = $this->model_catalog_review->getReviewsByProductIdLs($this->request->get['product_id'], ($page - 1) * 5, 5, $rating); //technics add this
 		$review_total = $this->model_catalog_review->getTotalReviewsByProductIdLs($this->request->get['product_id'],$rating);
 		// technics end
-            
+
 		foreach ($results as $result) {
 			$data['reviews'][] = array(
 				'author'     => $result['author'],
@@ -1134,7 +1152,7 @@ class ControllerProductProduct extends Controller {
 				'text_plus'     => nl2br($result['text_plus']), // technics
 				'text_minus'     => nl2br($result['text_minus']), // technics
 				'date_added_schema' => date('Y-m-d', strtotime($result['date_added'])), // technics
-            
+
 				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
 			);
 		}
@@ -1149,10 +1167,10 @@ class ControllerProductProduct extends Controller {
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($review_total) ? (($page - 1) * 5) + 1 : 0, ((($page - 1) * 5) > ($review_total - 5)) ? $review_total : ((($page - 1) * 5) + 5), $review_total, ceil($review_total / 5));
 
-		
+
 		//technics
 
-//		if ($this->config->get('theme_technics_product_review') ) {  
+//		if ($this->config->get('theme_technics_product_review') ) {
 			if ($type) {
 				return $this->load->view('product/review', $data);
 			}else{
@@ -1160,11 +1178,11 @@ class ControllerProductProduct extends Controller {
 			    $data['text_review_plus'] = $this->language->get('text_review_plus');
 			    $data['text_review_minus'] = $this->language->get('text_review_minus');
 				$this->response->setOutput($this->load->view('product/review', $data));
-			}			
-//		} 
+			}
+//		}
 		// technics end
 
-            
+
 	}
 
 	public function write() {
@@ -1262,7 +1280,7 @@ class ControllerProductProduct extends Controller {
 				} else {
 					$image = $this->config->get('theme_technics_image_product_resize') ? $this->model_tool_image->technics_resize('placeholder.png', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_height')) : $this->model_tool_image->resize('placeholder.png', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_height'));// technics
 				}
-				
+
 				if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
 					$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
 				} else {
@@ -1368,12 +1386,12 @@ class ControllerProductProduct extends Controller {
 					'quantity' => $product['quantity'],
 					'category'       => strip_tags(html_entity_decode($category_name, ENT_QUOTES, 'UTF-8')),
 					'brand' => strip_tags(html_entity_decode($product_info['manufacturer'], ENT_QUOTES, 'UTF-8'))
-				);		
+				);
 			}
 
 
 		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));		
+		$this->response->setOutput(json_encode($json));
 	}
 
 	public function analystdata() {
@@ -1442,14 +1460,14 @@ class ControllerProductProduct extends Controller {
 			$qtyPerColumn = (int)(count($options)/$column);
             $i = 0;
             $k = 0;
- 
+
 			foreach ($options as $key => $option) {
 				$optionColumns[$k][$i] = $option;
 	            $i++;
-	            if ($i == $column) {  
+	            if ($i == $column) {
 	               $i = 0;
 	               $k++;
-	            }     				
+	            }
 			}
 
 //		}else{
@@ -1461,7 +1479,7 @@ class ControllerProductProduct extends Controller {
 
 
 // technics end
-            
+
 	public function getRecurringDescription() {
 		$this->load->language('product/product');
 		$this->load->model('catalog/product');
@@ -1485,7 +1503,7 @@ class ControllerProductProduct extends Controller {
 		}
 
 		$product_info = $this->model_catalog_product->getProduct($product_id);
-		
+
 		$recurring_info = $this->model_catalog_product->getProfile($product_id, $recurring_id);
 
 		$json = array();
