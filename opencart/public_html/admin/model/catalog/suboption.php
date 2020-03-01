@@ -28,7 +28,6 @@ class ModelCatalogSuboption extends Model {
                 $checkRecord[] = $suboptionRow;
             }
         }
-//        $this->writeLog($checkRecord);
 
         if (!empty($data['prod_suboption']) && empty($checkRecord)) {
             foreach ($data['prod_suboption'] as $suboption_id => $suboption_properties) {
@@ -57,13 +56,11 @@ class ModelCatalogSuboption extends Model {
         return $query->rows;
     }
 
-    public function getProductSuboptions($product_id, $data)
+    public function getProductSuboptions($product_id, $option_group_id, $data)
     {
-        $sql = "SELECT * FROM " . DB_PREFIX . "custom_suboptions WHERE option_value_id = '" . $data['option_value_id'] ."'";
-        $relativeSuboptions = $this->db->query($sql)->rows;
+        $productSuboptions = $this->db->query("SELECT * FROM " . DB_PREFIX . "custom_product_suboptions WHERE product_id = '" . intval($product_id) . "' AND option_value_id = '" . intval($data['option_value_id']) ."' AND option_id = '" . intval($option_group_id) ."'")->rows;
 
-
-        return $relativeSuboptions;
+        return $productSuboptions;
     }
 
     public function writeLog()

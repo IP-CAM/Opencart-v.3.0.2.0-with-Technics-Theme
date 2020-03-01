@@ -994,7 +994,7 @@ class ControllerCatalogProduct extends Controller {
 						'points_prefix'           => $product_option_value['points_prefix'],
 						'weight'                  => $product_option_value['weight'],
 						'weight_prefix'           => $product_option_value['weight_prefix'],
-                        'suboptions'              => $this->model_catalog_suboption->getProductSuboptions($this->request->get['product_id'], $product_option_value)
+                        'suboptions'              => $this->model_catalog_suboption->getProductSuboptions($this->request->get['product_id'], $product_option['option_id'] , $product_option_value)
 					);
 				}
 			}
