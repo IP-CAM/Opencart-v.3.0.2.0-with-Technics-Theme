@@ -15,7 +15,34 @@ class ModelCatalogSuboption extends Model {
 
     }
 
-    public function getSuboption($suboption_id) {
+    public function setProductSuboptions($product_id, $data)
+    {
+        foreach ($data['prod_suboption'] as $suboption_id => $suboption_properties) {
+            $suboptionRow = $this->db->query("SELECT * FROM " . DB_PREFIX . "custom_product_suboptions WHERE product_id = '" . $product_id . "' AND option_id = '" . $suboption_properties['option_id'] . "' AND option_value_id = '" . $suboption_properties['option_value_id'] . "' AND suboption_id = '" . $suboption_id . "'")->row;
+            if ($suboptionRow) {
+                if (array_key_exists('status', $suboption_properties)) {
+                    $this->db->query("UPDATE " . DB_PREFIX . "custom_product_suboptions SET status = '" . $suboption_properties['status'] . "', suboption_price = '" . $suboption_properties['prod_suboption_price'] . "' WHERE product_id = '" . $product_id . "' AND option_id = '" . $suboption_properties['option_id'] . "' AND option_value_id = '" . $suboption_properties['option_value_id'] . "' AND suboption_id = '" . $suboption_id . "'");
+                } else {
+                    $this->db->query("UPDATE " . DB_PREFIX . "custom_product_suboptions SET status = 0, suboption_price = '" . $suboption_properties['prod_suboption_price'] . "' WHERE product_id = '" . $product_id . "' AND option_id = '" . $suboption_properties['option_id'] . "' AND option_value_id = '" . $suboption_properties['option_value_id'] . "' AND suboption_id = '" . $suboption_id . "'");
+                }
+                $checkRecord[] = $suboptionRow;
+            }
+        }
+//        $this->writeLog($checkRecord);
+
+        if (!empty($data['prod_suboption']) && empty($checkRecord)) {
+            foreach ($data['prod_suboption'] as $suboption_id => $suboption_properties) {
+                if (array_key_exists('status', $suboption_properties)) {
+                    $this->db->query("INSERT INTO " . DB_PREFIX . "custom_product_suboptions SET product_id = '" . $product_id . "', option_value_id = '" . $suboption_properties['option_value_id'] . "', option_id = '" . $suboption_properties['option_id'] . "', suboption_name = '" . $suboption_properties['suboption_name'] . "', suboption_id = '" . $suboption_id . "', status = '" . $suboption_properties['status'] . "', suboption_price = '" . $suboption_properties['prod_suboption_price'] . "'");
+                } else {
+                    $this->db->query("INSERT INTO " . DB_PREFIX . "custom_product_suboptions SET product_id = '" . $product_id . "', option_value_id = '" . $suboption_properties['option_value_id'] . "', option_id = '" . $suboption_properties['option_id'] . "', suboption_name = '" . $suboption_properties['suboption_name'] . "', suboption_id = '" . $suboption_id . "', status = 0, suboption_price = '" . $suboption_properties['prod_suboption_price'] . "'");
+                }
+            }
+        }
+    }
+
+    public function getSuboption($suboption_id)
+    {
         $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "custom_suboptions WHERE suboption_id = '" . (int)$suboption_id . "'");
 
         return $query->row;
@@ -28,6 +55,15 @@ class ModelCatalogSuboption extends Model {
         $query = $this->db->query($sql);
 
         return $query->rows;
+    }
+
+    public function getProductSuboptions($product_id, $data)
+    {
+        $sql = "SELECT * FROM " . DB_PREFIX . "custom_suboptions WHERE option_value_id = '" . $data['option_value_id'] ."'";
+        $relativeSuboptions = $this->db->query($sql)->rows;
+
+
+        return $relativeSuboptions;
     }
 
     public function writeLog()

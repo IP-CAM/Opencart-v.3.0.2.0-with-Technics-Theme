@@ -64,15 +64,43 @@ class ControllerCatalogProduct extends Controller {
 		$this->getForm();
 	}
 
+    public function writeLog()
+    {
+        $logFileName = realpath($_SERVER["DOCUMENT_ROOT"] . "/../..") . "/logs/stanok.log";
+        $backtrace = debug_backtrace();
+        $backtracePath = array();
+        foreach($backtrace as $k => $bt)
+        {
+            if($k > 15)
+                break;
+            $backtracePath[] = substr($bt['file'], strlen($_SERVER['DOCUMENT_ROOT'])) . ':' . $bt['line'];
+        }
+
+        $data = func_get_args();
+        if(count($data) == 0)
+            return;
+        elseif(count($data) == 1)
+            $data = current($data);
+
+        if(!is_string($data) && !is_numeric($data))
+            $data = var_export($data, 1);
+        $fp = fopen($logFileName, 'at+');
+        fwrite($fp, "\n--------------------------" . date('Y-m-d H:i:s ') . microtime() . "-----------------------\n Backtrace: " . implode(' > ', $backtracePath) . "\n" . $data);
+        fflush($fp);
+        fclose($fp);
+    }
+
 	public function edit() {
 		$this->load->language('catalog/product');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('catalog/product');
+		$this->load->model('catalog/suboption');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);
+			$this->model_catalog_suboption->setProductSuboptions($this->request->get['product_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -966,7 +994,7 @@ class ControllerCatalogProduct extends Controller {
 						'points_prefix'           => $product_option_value['points_prefix'],
 						'weight'                  => $product_option_value['weight'],
 						'weight_prefix'           => $product_option_value['weight_prefix'],
-                        'suboptions'              => $this->model_catalog_suboption->getSuboptions($product_option_value)
+                        'suboptions'              => $this->model_catalog_suboption->getProductSuboptions($this->request->get['product_id'], $product_option_value)
 					);
 				}
 			}

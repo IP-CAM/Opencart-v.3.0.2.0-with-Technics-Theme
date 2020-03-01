@@ -1,6 +1,8 @@
 ul.suboption_list {
     list-style-type: none;
-    margin-top: 5px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    background-color: #deb88780;
 }
 
 ul.suboption_list li {
@@ -18,4 +20,24 @@ ul.suboption_list li {
 .btn.suboption-remove {
     position: absolute;
     margin-left: 5px;
+}
+
+.suboption__prod-input {
+    vertical-align: middle;
+    width: -webkit-fill-available;
+}
+
+.suboption__prod-row {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.suboption__prod-label {
+    vertical-align: middle;
+    margin-bottom: 0;
+}
+
+.suboption__prod-container {
+    padding: 10px 25px;
+    background-color: #deb88780
 }

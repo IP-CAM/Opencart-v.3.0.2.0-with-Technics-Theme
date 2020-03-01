@@ -204,18 +204,18 @@
                   {% endfor %}
                   {% if (suboption_values[option_value.option_value_id]) %}
                     <ul class="suboption_list">
-                      {{ entry_suboption_headline }}
+                      Варианты
                       {% for suboption_prop_key, suboption_prop in suboption_values[option_value.option_value_id] %}
                               <li id="suboption_input_{{ suboption_prop_key }}" suboption_id="{{ suboption_prop.suboption_id }}">
                                 <div class="input-suboption-group">
                                   <input type="text" name="suboptions[{{ suboption_prop.option_value_id }}][{{ suboption_prop.suboption_id }}]" value="{{ suboption_prop.suboption_name }}" placeholder="{{ entry_suboption_value }}" class="form-control" />
                                 </div>
-                                <button type="button" onclick="removeSuboption(this);" data-toggle="tooltip" title="Удалить саб-опцию" class="btn btn-danger suboption-remove"><i class="fa fa-minus-circle"></i></button>
+                                <button type="button" onclick="removeSuboption(this);" data-toggle="tooltip" title="Удалить вариант" class="btn btn-danger suboption-remove"><i class="fa fa-minus-circle"></i></button>
                               </li>
                       {% endfor %}
                     </ul>
                   {% endif %}
-                  <button type="button" onclick="addSuboption(this);" data-toggle="tooltip" title="Добавить саб-опцию" class="btn btn-primary add_suboption"><i class="fa fa-plus-circle"></i>&nbsp;Добавить саб-опцию</button>
+                  <button type="button" onclick="addSuboption(this);" data-toggle="tooltip" title="Добавить вариант" class="btn btn-primary add_suboption"><i class="fa fa-plus-circle"></i>&nbsp;Добавить вариант</button>
                 </td>
                 <td class="text-left"><a href="" id="thumb-image{{ option_value_row }}" data-toggle="image" class="img-thumbnail"><img src="{{ option_value.thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
                   <input type="hidden" name="option_value[{{ option_value_row }}][image]" value="{{ option_value.image }}" id="input-image{{ option_value_row }}" /></td>
@@ -289,12 +289,12 @@ function addSuboption(addButton) {
 
     if (prevSibling.getAttribute('class') !== 'suboption_list') {
         last_elem_row_id = -1;
-        html  = '<ul class="suboption_list">Саб-опции';
+        html  = '<ul class="suboption_list">Вариант';
         html += '<li id="suboption_input_' + (last_elem_row_id+1) + '" suboption_id="' + (last_suboption_id+1) + '">';
         html += '<div class="input-suboption-group">';
-        html += '<input type="text" name="suboptions[' + last_elem_option_value_id + '][' + (last_suboption_id+1) +']" value="" placeholder="Значение саб-опции" class="form-control" />';
+        html += '<input type="text" name="suboptions[' + last_elem_option_value_id + '][' + (last_suboption_id+1) +']" value="" placeholder="Значение варианта" class="form-control" />';
         html += '</div>';
-        html += '<button type="button" onclick="removeSuboption(this)" data-toggle="tooltip" title="Удалить саб-опцию" class="btn btn-danger suboption-remove"><i class="fa fa-minus-circle"></i></button>';
+        html += '<button type="button" onclick="removeSuboption(this)" data-toggle="tooltip" title="Удалить вариант" class="btn btn-danger suboption-remove"><i class="fa fa-minus-circle"></i></button>';
         html += '</li>';
         html += '</ul>';
 
@@ -302,9 +302,9 @@ function addSuboption(addButton) {
     } else {
         html  = '<li id="suboption_input_' + (last_elem_row_id+1) + '" suboption_id="' + (last_suboption_id+1) + '">';
         html += '<div class="input-suboption-group">';
-        html += '<input type="text" name="suboptions[' + last_elem_option_value_id + '][' + (last_suboption_id+1) +']" value="" placeholder="Значение саб-опции" class="form-control" />';
+        html += '<input type="text" name="suboptions[' + last_elem_option_value_id + '][' + (last_suboption_id+1) +']" value="" placeholder="Значение варианта" class="form-control" />';
         html += '</div>';
-        html += '<button type="button" onclick="removeSuboption(this)" data-toggle="tooltip" title="Удалить саб-опцию" class="btn btn-danger suboption-remove"><i class="fa fa-minus-circle"></i></button>';
+        html += '<button type="button" onclick="removeSuboption(this)" data-toggle="tooltip" title="Удалить вариант" class="btn btn-danger suboption-remove"><i class="fa fa-minus-circle"></i></button>';
         html += '</li>';
 
         $(prevSibling.lastElementChild).after(html);
