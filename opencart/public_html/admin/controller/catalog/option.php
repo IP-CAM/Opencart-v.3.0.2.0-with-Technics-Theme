@@ -367,6 +367,7 @@ class ControllerCatalogOption extends Controller {
 
 			$suboption_data = [
                 'option_value_id' => $option_value['option_value_id'],
+                'option_id' => $this->request->get['option_id']
             ];
 
 			$data['suboption_values'][$option_value['option_value_id']] = $this->model_catalog_suboption->getSuboptions($suboption_data);

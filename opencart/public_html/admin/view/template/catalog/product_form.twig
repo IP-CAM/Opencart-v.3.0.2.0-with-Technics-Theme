@@ -481,7 +481,7 @@
                   <ul class="nav nav-pills nav-stacked" id="option">
                     {% set option_row = 0 %}
                     {% for product_option in product_options %}
-                      <li><a href="#tab-option{{ option_row }}" data-toggle="tab"><i class="fa fa-minus-circle" onclick="$('a[href=\'#tab-option{{ option_row }}\']').parent().remove(); $('#tab-option{{ option_row }}').remove(); $('#option a:first').tab('show');"></i> {{ product_option.name }}</a></li>
+                      <li option_group_id="{{ product_option.option_id }}"><a href="#tab-option{{ option_row }}" data-toggle="tab"><i class="fa fa-minus-circle" onclick="$('a[href=\'#tab-option{{ option_row }}\']').parent().remove(); $('#tab-option{{ option_row }}').remove(); $('#option a:first').tab('show');"></i> {{ product_option.name }}</a></li>
                       {% set option_row = option_row + 1 %}
                     {% endfor %}
                     <li>
@@ -597,7 +597,7 @@
                                 {% for product_option_value in product_option.product_option_value %}
                                   <tr id="option-value-row{{ option_value_row }}">
                                     <td class="text-left">
-                                        <select name="product_option[{{ option_row }}][product_option_value][{{ option_value_row }}][option_value_id]" class="form-control">
+                                        <select name="product_option[{{ option_row }}][product_option_value][{{ option_value_row }}][option_value_id]" class="form-control" onchange="showProductSuboptions(this)">
 
 
                                         {% if option_values[product_option.option_id] %}
@@ -1653,5 +1653,27 @@
   $('#language a:first').tab('show');
   $('#option a:first').tab('show');
   //--></script>
+
+  <script>
+    function showProductSuboptions(select) {
+        var option_value_id = $(select).val();
+        var option_id = $('ul#option').children('.active').attr('option_group_id');
+
+        $.ajax({
+            type: "POST",
+            url: 'index.php?route=ajax/index/ajaxGetProductSuboptions&user_token=' + getURLVar('user_token'),
+            data: {
+                option_value_id: option_value_id,
+                option_id: option_id,
+                product_id: getURLVar('product_id')
+            },
+            success: function success(json) {
+                // $(select).html(htmlBlock);
+                console.log(json);
+            }
+        })
+    }
+  </script>
+
 </div>
 {{ footer }}

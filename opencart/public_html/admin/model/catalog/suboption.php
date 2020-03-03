@@ -49,7 +49,7 @@ class ModelCatalogSuboption extends Model {
 
     public function getSuboptions($data)
     {
-        $sql = "SELECT * FROM " . DB_PREFIX . "custom_suboptions WHERE option_value_id = '" . $data['option_value_id'] ."'";
+        $sql = "SELECT * FROM " . DB_PREFIX . "custom_suboptions WHERE option_value_id = '" . $data['option_value_id'] ."' AND option_id = '" . $data['option_id'] . "'";
 
         $query = $this->db->query($sql);
 
