@@ -259,27 +259,11 @@
 						 {% endif %}
 						{% endif %}
 						{% if (option['type'] == 'checkbox') %}
-						 {% if option.isimage %}
-                          <div class="sku__color">
-                            <label class="ui-label{% if option.required %} required{% endif %}">{{ option['name'] }}</label>
-							<div class="ui-group-color" id="input-option{{ option['product_option_id'] }}">
-							{% for option_value in option['product_option_value'] %}
-                              <label class="ui-color">
-                                <input class="ui-color__input" type="checkbox" name="option[{{ option['product_option_id'] }}][]" value="{{ option_value['product_option_value_id'] }}"><span class="ui-color__btn" style="background-image: url({{ option_value['image'] }});" title="{{ option_value.name }} {% if option_value.price %} {{ option_value.price_prefix }}{{ option_value.price }} {% endif %}">
-                                  <svg class="icon-color-check">
-                                    <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-color-check"></use>
-                                  </svg></span>
-                              </label>
-							{% endfor %}
-							</div>
-                          </div>
-						 {% else %}
-						  {% if (not opt_type) %}
                           <div class="sku__type">
                             <label class="ui-label{% if option.required %} required{% endif %}">{{ option['name'] }}</label>
 							<div class="ui-group" id="input-option{{ option['product_option_id'] }}">
 							{% for option_value in option['product_option_value'] %}
-							<label class="ui-check">
+							<label class="basic-setup__label">
 								<input class="ui-check__input" type="checkbox" name="option[{{ option['product_option_id'] }}][]" value="{{ option_value['product_option_value_id'] }}">
 								<span class="ui-check__checkbox">
 								  <svg class="icon-check">
@@ -294,26 +278,7 @@
 							{% endfor %}
 							</div>
                           </div>
-                          {% else %}
-						  <div class="sku__size">
-                            <label class="ui-label{% if option.required %} required{% endif %}">{{ option['name'] }}</label>
-                            <div class="ui-group-size" id="input-option{{ option['product_option_id'] }}">
-							{% for option_value in option['product_option_value'] %}
-                              <label class="ui-size">
-                                <input class="ui-size__input" type="checkbox" name="option[{{ option['product_option_id'] }}][]" value="{{ option_value['product_option_value_id'] }}">
-								<span class="ui-size__btn">
-								{{ option_value['name'] }}
-								{% if (option_value['price'] and opt_price) %}
-								{{ option_value['price_prefix'] }}{{ option_value['price'] }}
-								{% endif %}
-								</span>
-                              </label>
-							{% endfor %}
-                            </div>
-                          </div>
-						  {% endif %}
-						 {% endif %}
-						{% endif %}
+					 	{% endif %}
 						{% if (option['type'] == 'text') %}
 							<div class="ui-group">
 							<label class="ui-label{% if option.required %} required{% endif %}">{{ option['name'] }}</label>
