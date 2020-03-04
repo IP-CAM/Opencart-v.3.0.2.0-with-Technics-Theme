@@ -17,6 +17,7 @@ class ModelCatalogSuboption extends Model {
 
     public function setProductSuboptions($product_id, $data)
     {
+
         foreach ($data['prod_suboption'] as $suboption_id => $suboption_properties) {
             $suboptionRow = $this->db->query("SELECT * FROM " . DB_PREFIX . "custom_product_suboptions WHERE product_id = '" . $product_id . "' AND option_id = '" . $suboption_properties['option_id'] . "' AND option_value_id = '" . $suboption_properties['option_value_id'] . "' AND suboption_id = '" . $suboption_id . "'")->row;
             if ($suboptionRow) {
@@ -25,12 +26,7 @@ class ModelCatalogSuboption extends Model {
                 } else {
                     $this->db->query("UPDATE " . DB_PREFIX . "custom_product_suboptions SET status = 0, suboption_price = '" . $suboption_properties['prod_suboption_price'] . "' WHERE product_id = '" . $product_id . "' AND option_id = '" . $suboption_properties['option_id'] . "' AND option_value_id = '" . $suboption_properties['option_value_id'] . "' AND suboption_id = '" . $suboption_id . "'");
                 }
-                $checkRecord[] = $suboptionRow;
-            }
-        }
-
-        if (!empty($data['prod_suboption']) && empty($checkRecord)) {
-            foreach ($data['prod_suboption'] as $suboption_id => $suboption_properties) {
+            } else {
                 if (array_key_exists('status', $suboption_properties)) {
                     $this->db->query("INSERT INTO " . DB_PREFIX . "custom_product_suboptions SET product_id = '" . $product_id . "', option_value_id = '" . $suboption_properties['option_value_id'] . "', option_id = '" . $suboption_properties['option_id'] . "', suboption_name = '" . $suboption_properties['suboption_name'] . "', suboption_id = '" . $suboption_id . "', status = '" . $suboption_properties['status'] . "', suboption_price = '" . $suboption_properties['prod_suboption_price'] . "'");
                 } else {
@@ -38,6 +34,8 @@ class ModelCatalogSuboption extends Model {
                 }
             }
         }
+
+
     }
 
     public function getSuboption($suboption_id)
