@@ -13,6 +13,10 @@ class ControllerAjaxIndex extends Controller
         $result = $this->model_catalog_suboption
             ->getProductSuboptions($this->request->post['product_id'], $this->request->post['option_id'], $this->request->post);
 
+        if (empty($result)) {
+            $result = $this->model_catalog_suboption->getSuboptions($this->request->post);
+        }
+
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($result));
 

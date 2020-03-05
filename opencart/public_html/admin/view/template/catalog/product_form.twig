@@ -1670,7 +1670,7 @@
                 product_id: getURLVar('product_id')
             },
             success: function success(json) {
-                if (json) {
+                if (json.length > 0) {
                     var htmlTop = '<div class="suboption__prod-container">';
                     htmlTop += '<div class="row">';
                     htmlTop += '<div class="col-md-7">Вариант</div>';
@@ -1679,7 +1679,6 @@
                     for (suboption in json) {
                         htmlTop += '<div class="row suboption__prod-row">';
                         htmlTop += '<div class="col-md-7">';
-                        console.log(json[suboption].status);
                         if (json[suboption].status == 1)
                             htmlTop += '<input type="checkbox" name="prod_suboption[' + json[suboption].suboption_id + '][status]" class="suboption__prod-input" id="prod_suboption_' + json[suboption].suboption_name + '_' + json[suboption].option_value_id + '_' + json[suboption].suboption_id + '" value="1" checked/>';
                         else
@@ -1687,12 +1686,19 @@
                         htmlTop += '<label for="prod_suboption_' + json[suboption].suboption_name + '_' + json[suboption].option_value_id + '_' + json[suboption].suboption_id + '" class="suboption__prod-label">' + json[suboption].suboption_name + '</label>';
                         htmlTop += '</div>';
                         htmlTop += '<div class="col-md-5">';
-                        htmlTop += '<input type="text" name="prod_suboption[' + json[suboption].suboption_id + '][prod_suboption_price]" class="suboption__prod-input" value="' + json[suboption].suboption_price + '"/>';
+                        if (json[suboption].suboption_price)
+                            htmlTop += '<input type="text" name="prod_suboption[' + json[suboption].suboption_id + '][prod_suboption_price]" class="suboption__prod-input" value="' + json[suboption].suboption_price + '"/>';
+                        else
+                            htmlTop += '<input type="text" name="prod_suboption[' + json[suboption].suboption_id + '][prod_suboption_price]" class="suboption__prod-input" value="0.0000"/>';
                         htmlTop += '</div>';
                         htmlTop += '<input type="hidden" name="prod_suboption[' + json[suboption].suboption_id + '][option_id]" value="' + json[suboption].option_id + '"/>';
                         htmlTop += '<input type="hidden" name="prod_suboption[' + json[suboption].suboption_id + '][suboption_name]" value="' + json[suboption].suboption_name + '"/>';
                         htmlTop += '<input type="hidden" name="prod_suboption[' + json[suboption].suboption_id + '][option_value_id]" value="' + json[suboption].option_value_id + '"/>';
-                        htmlTop += '<input type="hidden" name="prod_suboption[' + json[suboption].suboption_id + '][product_option_id]" value="' + json[suboption].product_option_id + '"/>';
+                        if (json[suboption].product_option_id)
+                            htmlTop += '<input type="hidden" name="prod_suboption[' + json[suboption].suboption_id + '][product_option_id]" value="' + json[suboption].product_option_id + '"/>';
+                        else
+                            htmlTop += '<input type="hidden" name="prod_suboption[' + json[suboption].suboption_id + '][product_option_id]" value="' + product_option_id + '"/>';
+
                         htmlTop += '</div>';
                     }
                     htmlTop += '</div>';
