@@ -3,12 +3,15 @@ class ModelCatalogSuboption extends Model {
 
     public function setSuboptions($option_id, $data) {
 
-        $this->db->query("TRUNCATE " . DB_PREFIX . "custom_suboptions");
-
         if (!empty($data['suboptions'])) {
             foreach ($data['suboptions'] as $option_value_id => $suboptions) {
                 foreach ($suboptions as $suboption_id => $suboption_name) {
-                    $this->db->query("INSERT INTO " . DB_PREFIX . "custom_suboptions SET suboption_id = '" . $suboption_id . "', option_value_id = '" . (int)$option_value_id . "', suboption_name = '" . $suboption_name . "', option_id = '" . $option_id . "'");
+                    $suboptionRow = $this->db->query("SELECT * FROM " . DB_PREFIX . "custom_suboptions WHERE suboption_id = '" . $suboption_id . "' AND option_value_id = '" . $option_value_id . "' AND option_id = '" . $option_id . "'")->row;
+
+                    if ($suboptionRow)
+                        $this->db->query("UPDATE " . DB_PREFIX . "custom_suboptions SET suboption_name = '" . $suboption_name . "' WHERE option_id = '" . $option_id . "' AND suboption_id = '" . $suboption_id . "' AND option_value_id = '" . (int)$option_value_id . "'");
+                    else
+                        $this->db->query("INSERT INTO " . DB_PREFIX . "custom_suboptions SET suboption_id = '" . $suboption_id . "', option_value_id = '" . (int)$option_value_id . "', suboption_name = '" . $suboption_name . "', option_id = '" . $option_id . "'");
                 }
             }
         }
