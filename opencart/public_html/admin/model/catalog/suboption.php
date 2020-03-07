@@ -7,7 +7,7 @@ class ModelCatalogSuboption extends Model {
             foreach ($data['suboptions'] as $option_value_id => $suboptions) {
                 foreach ($suboptions as $suboption_id => $suboption_name) {
                     $suboptionRow = $this->db->query("SELECT * FROM " . DB_PREFIX . "custom_suboptions WHERE suboption_id = '" . $suboption_id . "' AND option_value_id = '" . $option_value_id . "' AND option_id = '" . $option_id . "'")->row;
-
+                    $toDelCheck[$suboption_id] = $suboptionRow;
                     if ($suboptionRow)
                         $this->db->query("UPDATE " . DB_PREFIX . "custom_suboptions SET suboption_name = '" . $suboption_name . "' WHERE option_id = '" . $option_id . "' AND suboption_id = '" . $suboption_id . "' AND option_value_id = '" . (int)$option_value_id . "'");
                     else
@@ -15,6 +15,14 @@ class ModelCatalogSuboption extends Model {
                 }
             }
         }
+        // to delete block
+        $dbAr = $this->db->query("SELECT suboption_id FROM " . DB_PREFIX . "custom_suboptions WHERE option_id = '" . $option_id . "'")->rows;
+        foreach ($dbAr as $row) {
+            if (!array_key_exists($row['suboption_id'], $toDelCheck)) {
+                $this->db->query("DELETE FROM " . DB_PREFIX . "custom_suboptions WHERE option_id=" . $option_id . " AND suboption_id=" . $row['suboption_id']);
+            }
+        }
+        //
 
     }
 
