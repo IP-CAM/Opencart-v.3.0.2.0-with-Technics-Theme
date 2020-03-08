@@ -28,23 +28,36 @@ class ModelCatalogSuboption extends Model {
 
     public function setProductSuboptions($product_id, $data)
     {
-
-        foreach ($data['prod_suboption'] as $suboption_id => $suboption_properties) {
-            $suboptionRow = $this->db->query("SELECT * FROM " . DB_PREFIX . "custom_product_suboptions WHERE product_id = '" . $product_id . "' AND option_id = '" . $suboption_properties['option_id'] . "' AND option_value_id = '" . $suboption_properties['option_value_id'] . "' AND suboption_id = '" . $suboption_id . "'")->row;
-            if ($suboptionRow) {
-                if (array_key_exists('status', $suboption_properties)) {
-                    $this->db->query("UPDATE " . DB_PREFIX . "custom_product_suboptions SET status = '" . $suboption_properties['status'] . "', suboption_price = '" . $suboption_properties['prod_suboption_price'] . "' WHERE product_id = '" . $product_id . "' AND option_id = '" . $suboption_properties['option_id'] . "' AND option_value_id = '" . $suboption_properties['option_value_id'] . "' AND suboption_id = '" . $suboption_id . "' AND product_option_id = '" . $suboption_properties['product_option_id'] . "'");
+        if ($data['prod_suboption']) {
+            foreach ($data['prod_suboption'] as $key => $suboption_properties) {
+                $suboptionRow = $this->db->query("SELECT * FROM " . DB_PREFIX . "custom_product_suboptions WHERE product_id = '" . $product_id . "' AND option_id = '" . $suboption_properties['option_id'] . "' AND option_value_id = '" . $suboption_properties['option_value_id'] . "' AND suboption_id = '" . $suboption_properties['suboption_id'] . "'")->row;
+                $toDelCheck[$suboption_properties['option_id'].'_'.$suboption_properties['suboption_id']] = $suboptionRow;
+                if ($suboptionRow) {
+                    if (array_key_exists('status', $suboption_properties)) {
+                        $this->db->query("UPDATE " . DB_PREFIX . "custom_product_suboptions SET status = '" . $suboption_properties['status'] . "', suboption_price = '" . $suboption_properties['prod_suboption_price'] . "' WHERE product_id = '" . $product_id . "' AND option_id = '" . $suboption_properties['option_id'] . "' AND option_value_id = '" . $suboption_properties['option_value_id'] . "' AND suboption_id = '" . $suboption_properties['suboption_id'] . "'");
+                    } else {
+                        $this->db->query("UPDATE " . DB_PREFIX . "custom_product_suboptions SET status = 0, suboption_price = '" . $suboption_properties['prod_suboption_price'] . "' WHERE product_id = '" . $product_id . "' AND option_id = '" . $suboption_properties['option_id'] . "' AND option_value_id = '" . $suboption_properties['option_value_id'] . "' AND suboption_id = '" . $suboption_properties['suboption_id'] . "'");
+                    }
                 } else {
-                    $this->db->query("UPDATE " . DB_PREFIX . "custom_product_suboptions SET status = 0, suboption_price = '" . $suboption_properties['prod_suboption_price'] . "' WHERE product_id = '" . $product_id . "' AND option_id = '" . $suboption_properties['option_id'] . "' AND option_value_id = '" . $suboption_properties['option_value_id'] . "' AND suboption_id = '" . $suboption_id . "' AND product_option_id = '" . $suboption_properties['product_option_id'] . "'");
-                }
-            } else {
-                if (array_key_exists('status', $suboption_properties)) {
-                    $this->db->query("INSERT INTO " . DB_PREFIX . "custom_product_suboptions SET product_id = '" . $product_id . "', option_value_id = '" . $suboption_properties['option_value_id'] . "', option_id = '" . $suboption_properties['option_id'] . "', suboption_name = '" . $suboption_properties['suboption_name'] . "', suboption_id = '" . $suboption_id . "', status = '" . $suboption_properties['status'] . "', suboption_price = '" . $suboption_properties['prod_suboption_price'] . "', product_option_id = '" . $suboption_properties['product_option_id'] . "'");
-                } else {
-                    $this->db->query("INSERT INTO " . DB_PREFIX . "custom_product_suboptions SET product_id = '" . $product_id . "', option_value_id = '" . $suboption_properties['option_value_id'] . "', option_id = '" . $suboption_properties['option_id'] . "', suboption_name = '" . $suboption_properties['suboption_name'] . "', suboption_id = '" . $suboption_id . "', status = 0, suboption_price = '" . $suboption_properties['prod_suboption_price'] . "', product_option_id = '" . $suboption_properties['product_option_id'] . "'");
+                    if (array_key_exists('status', $suboption_properties)) {
+                        $this->db->query("INSERT INTO " . DB_PREFIX . "custom_product_suboptions SET product_id = '" . $product_id . "', option_value_id = '" . $suboption_properties['option_value_id'] . "', option_id = '" . $suboption_properties['option_id'] . "', suboption_name = '" . $suboption_properties['suboption_name'] . "', suboption_id = '" . $suboption_properties['suboption_id'] . "', status = '" . $suboption_properties['status'] . "', suboption_price = '" . $suboption_properties['prod_suboption_price'] . "'");
+                    } else {
+                        $this->db->query("INSERT INTO " . DB_PREFIX . "custom_product_suboptions SET product_id = '" . $product_id . "', option_value_id = '" . $suboption_properties['option_value_id'] . "', option_id = '" . $suboption_properties['option_id'] . "', suboption_name = '" . $suboption_properties['suboption_name'] . "', suboption_id = '" . $suboption_properties['suboption_id'] . "', status = 0, suboption_price = '" . $suboption_properties['prod_suboption_price'] . "'");
+                    }
                 }
             }
         }
+        // to delete block
+        $suboptions_for_product = $this->db->query("SELECT option_id, suboption_id, option_value_id FROM " . DB_PREFIX . "custom_product_suboptions WHERE product_id = '" . $product_id . "'")->rows;
+        foreach ($suboptions_for_product as $suboption) {
+            $toDelAr[$suboption['option_id'].'_'.$suboption['suboption_id']] = $suboption;
+        }
+        foreach ($toDelAr as $key => $row) {
+            if (!array_key_exists($key, $toDelCheck)) {
+                $this->db->query("DELETE FROM " . DB_PREFIX . "custom_product_suboptions WHERE product_id=" . $product_id . " AND option_value_id=" . $row['option_value_id'] . " AND option_id=" . $row['option_id']);
+            }
+        }
+        //
 
 
     }
@@ -67,6 +80,7 @@ class ModelCatalogSuboption extends Model {
 
     public function getProductSuboptions($product_id, $option_group_id, $data)
     {
+
         $productSuboptions = $this->db->query("SELECT * FROM " . DB_PREFIX . "custom_product_suboptions WHERE product_id = '" . intval($product_id) . "' AND option_value_id = '" . intval($data['option_value_id']) ."' AND option_id = '" . intval($option_group_id) ."'")->rows;
 
         return $productSuboptions;

@@ -481,7 +481,7 @@
                   <ul class="nav nav-pills nav-stacked" id="option">
                     {% set option_row = 0 %}
                     {% for product_option in product_options %}
-                      <li option_group_id="{{ product_option.option_id }}" product_option_id="{{ product_option.product_option_id }}"><a href="#tab-option{{ option_row }}" data-toggle="tab"><i class="fa fa-minus-circle" onclick="$('a[href=\'#tab-option{{ option_row }}\']').parent().remove(); $('#tab-option{{ option_row }}').remove(); $('#option a:first').tab('show');"></i> {{ product_option.name }}</a></li>
+                      <li option_group_id="{{ product_option.option_id }}"><a href="#tab-option{{ option_row }}" data-toggle="tab"><i class="fa fa-minus-circle" onclick="$('a[href=\'#tab-option{{ option_row }}\']').parent().remove(); $('#tab-option{{ option_row }}').remove(); $('#option a:first').tab('show');"></i> {{ product_option.name }}</a></li>
                       {% set option_row = option_row + 1 %}
                     {% endfor %}
                     <li>
@@ -633,16 +633,16 @@
                                         {% for suboption in product_option_value.suboptions %}
                                               <div class="row suboption__prod-row">
                                                 <div class="col-md-7">
-                                                  <input type="checkbox" name="prod_suboption[{{ suboption.suboption_id }}][status]" class="suboption__prod-input" id="prod_suboption_{{ suboption.suboption_name }}_{{ suboption.option_value_id }}_{{ suboption.suboption_id }}" value="1" {% if (suboption.status == 1) %} checked {% endif %}/>
+                                                  <input type="checkbox" name="prod_suboption[{{ product_option.option_id }}_{{ suboption.suboption_id }}][status]" class="suboption__prod-input" id="prod_suboption_{{ suboption.suboption_name }}_{{ suboption.option_value_id }}_{{ suboption.suboption_id }}" value="1" {% if (suboption.status == 1) %} checked {% endif %}/>
                                                   <label for="prod_suboption_{{ suboption.suboption_name }}_{{ suboption.option_value_id }}_{{ suboption.suboption_id }}" class="suboption__prod-label">{{ suboption.suboption_name }}</label>
                                                 </div>
                                                 <div class="col-md-5">
-                                                  <input type="text" name="prod_suboption[{{ suboption.suboption_id }}][prod_suboption_price]" class="suboption__prod-input" value="{{ suboption.suboption_price }}"/>
+                                                  <input type="text" name="prod_suboption[{{ product_option.option_id }}_{{ suboption.suboption_id }}][prod_suboption_price]" class="suboption__prod-input" value="{{ suboption.suboption_price }}"/>
                                                 </div>
-                                                  <input type="hidden" name="prod_suboption[{{ suboption.suboption_id }}][option_id]" value="{{ product_option.option_id }}"/>
-                                                  <input type="hidden" name="prod_suboption[{{ suboption.suboption_id }}][suboption_name]" value="{{ suboption.suboption_name }}"/>
-                                                  <input type="hidden" name="prod_suboption[{{ suboption.suboption_id }}][option_value_id]" value="{{ suboption.option_value_id }}"/>
-                                                  <input type="hidden" name="prod_suboption[{{ suboption.suboption_id }}][product_option_id]" value="{{ product_option.product_option_id }}"/>
+                                                  <input type="hidden" name="prod_suboption[{{ product_option.option_id }}_{{ suboption.suboption_id }}][option_id]" value="{{ product_option.option_id }}"/>
+                                                  <input type="hidden" name="prod_suboption[{{ product_option.option_id }}_{{ suboption.suboption_id }}][suboption_name]" value="{{ suboption.suboption_name }}"/>
+                                                  <input type="hidden" name="prod_suboption[{{ product_option.option_id }}_{{ suboption.suboption_id }}][option_value_id]" value="{{ suboption.option_value_id }}"/>
+                                                  <input type="hidden" name="prod_suboption[{{ product_option.option_id }}_{{ suboption.suboption_id }}][suboption_id]" value="{{ suboption.suboption_id }}"/>
                                               </div>
                                         {% endfor %}
                                           </div>
@@ -1656,17 +1656,42 @@
   //--></script>
 
   <script>
+    $(document).ready(function() {
+
+        var ul_option_group = document.getElementById('option');
+
+        var observer = new MutationObserver(mutations => {
+            var option_group_name = mutations[0].addedNodes[0].textContent;
+            $.ajax({
+                type: "POST",
+                url: 'index.php?route=ajax/index/ajaxGetOptionGroup&user_token=' + getURLVar('user_token'),
+                data: {
+                    option_group_name: option_group_name
+                },
+                success: function success(json) {
+                    $(mutations[0].addedNodes[0]).attr('option_group_id', json['option_id'])
+                }
+            });
+        });
+
+        observer.observe(ul_option_group, {
+            childList: true
+        })
+
+
+    })
+  </script>
+
+  <script>
     function showProductSuboptions(select) {
         var option_value_id = $(select).val();
         var option_id = $('ul#option').children('.active').attr('option_group_id');
-        var product_option_id = $('ul#option').children('.active').attr('product_option_id');
         $.ajax({
             type: "POST",
             url: 'index.php?route=ajax/index/ajaxGetProductSuboptions&user_token=' + getURLVar('user_token'),
             data: {
                 option_value_id: option_value_id,
                 option_id: option_id,
-                product_option_id: product_option_id,
                 product_id: getURLVar('product_id')
             },
             success: function success(json) {
@@ -1680,25 +1705,21 @@
                         htmlTop += '<div class="row suboption__prod-row">';
                         htmlTop += '<div class="col-md-7">';
                         if (json[suboption].status == 1)
-                            htmlTop += '<input type="checkbox" name="prod_suboption[' + json[suboption].suboption_id + '][status]" class="suboption__prod-input" id="prod_suboption_' + json[suboption].suboption_name + '_' + json[suboption].option_value_id + '_' + json[suboption].suboption_id + '" value="1" checked/>';
+                            htmlTop += '<input type="checkbox" name="prod_suboption[' + json[suboption].option_id + '_' + json[suboption].suboption_id + '][status]" class="suboption__prod-input" id="prod_suboption_' + json[suboption].suboption_name + '_' + json[suboption].option_value_id + '_' + json[suboption].suboption_id + '" value="1" checked/>';
                         else
-                            htmlTop += '<input type="checkbox" name="prod_suboption[' + json[suboption].suboption_id + '][status]" class="suboption__prod-input" id="prod_suboption_' + json[suboption].suboption_name + '_' + json[suboption].option_value_id + '_' + json[suboption].suboption_id + '" value="1"/>';
+                            htmlTop += '<input type="checkbox" name="prod_suboption[' + json[suboption].option_id + '_' + json[suboption].suboption_id + '][status]" class="suboption__prod-input" id="prod_suboption_' + json[suboption].suboption_name + '_' + json[suboption].option_value_id + '_' + json[suboption].suboption_id + '" value="1"/>';
                         htmlTop += '<label for="prod_suboption_' + json[suboption].suboption_name + '_' + json[suboption].option_value_id + '_' + json[suboption].suboption_id + '" class="suboption__prod-label">' + json[suboption].suboption_name + '</label>';
                         htmlTop += '</div>';
                         htmlTop += '<div class="col-md-5">';
                         if (json[suboption].suboption_price)
-                            htmlTop += '<input type="text" name="prod_suboption[' + json[suboption].suboption_id + '][prod_suboption_price]" class="suboption__prod-input" value="' + json[suboption].suboption_price + '"/>';
+                            htmlTop += '<input type="text" name="prod_suboption[' + json[suboption].option_id + '_' + json[suboption].suboption_id + '][prod_suboption_price]" class="suboption__prod-input" value="' + json[suboption].suboption_price + '"/>';
                         else
-                            htmlTop += '<input type="text" name="prod_suboption[' + json[suboption].suboption_id + '][prod_suboption_price]" class="suboption__prod-input" value="0.0000"/>';
+                            htmlTop += '<input type="text" name="prod_suboption[' + json[suboption].option_id + '_' + json[suboption].suboption_id + '][prod_suboption_price]" class="suboption__prod-input" value="0.0000"/>';
                         htmlTop += '</div>';
-                        htmlTop += '<input type="hidden" name="prod_suboption[' + json[suboption].suboption_id + '][option_id]" value="' + json[suboption].option_id + '"/>';
-                        htmlTop += '<input type="hidden" name="prod_suboption[' + json[suboption].suboption_id + '][suboption_name]" value="' + json[suboption].suboption_name + '"/>';
-                        htmlTop += '<input type="hidden" name="prod_suboption[' + json[suboption].suboption_id + '][option_value_id]" value="' + json[suboption].option_value_id + '"/>';
-                        if (json[suboption].product_option_id)
-                            htmlTop += '<input type="hidden" name="prod_suboption[' + json[suboption].suboption_id + '][product_option_id]" value="' + json[suboption].product_option_id + '"/>';
-                        else
-                            htmlTop += '<input type="hidden" name="prod_suboption[' + json[suboption].suboption_id + '][product_option_id]" value="' + product_option_id + '"/>';
-
+                        htmlTop += '<input type="hidden" name="prod_suboption[' + json[suboption].option_id + '_' + json[suboption].suboption_id + '][option_id]" value="' + json[suboption].option_id + '"/>';
+                        htmlTop += '<input type="hidden" name="prod_suboption[' + json[suboption].option_id + '_' + json[suboption].suboption_id + '][suboption_name]" value="' + json[suboption].suboption_name + '"/>';
+                        htmlTop += '<input type="hidden" name="prod_suboption[' + json[suboption].option_id + '_' + json[suboption].suboption_id + '][option_value_id]" value="' + json[suboption].option_value_id + '"/>';
+                        htmlTop += '<input type="hidden" name="prod_suboption[' + json[suboption].option_id + '_' + json[suboption].suboption_id + '][suboption_id]" value="' + json[suboption].suboption_id + '"/>';
                         htmlTop += '</div>';
                     }
                     htmlTop += '</div>';
