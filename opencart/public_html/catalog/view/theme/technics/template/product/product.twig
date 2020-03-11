@@ -185,9 +185,9 @@
 					{% if (options or recurrings) %}
                     <div class="sku__settings">
 					{% for option_row in prep_options %}
-                      <div class="row">
                       	{% for i,option in option_row %}
-					    <div class="{% if (option_row|length  == 2) %}col-auto{% else %}col-xl-12{% endif %}">
+					<div class="row">
+					    <div class="col-xl-12">
 						{% if (option['type'] == 'select') %}
                           <div class="sku__type">
                             <label class="ui-label{% if option.required %} required{% endif %}">{{ option['name'] }}</label>
@@ -260,21 +260,25 @@
 						{% endif %}
 						{% if (option['type'] == 'checkbox') %}
                           <div class="sku__type">
-                            <label class="ui-label{% if option.required %} required{% endif %}">{{ option['name'] }}</label>
+							  <div class="basic-setup__option-group">
+								<label class="ui-label{% if option.required %} required{% endif %}">{{ option['name'] }}</label>
+							  </div>
 							<div class="ui-group" id="input-option{{ option['product_option_id'] }}">
 							{% for option_value in option['product_option_value'] %}
-							<label class="basic-setup__label">
-								<input class="ui-check__input" type="checkbox" name="option[{{ option['product_option_id'] }}][]" value="{{ option_value['product_option_value_id'] }}">
-								<span class="ui-check__checkbox">
-								  <svg class="icon-check">
-									<use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-check"></use>
-								  </svg>
-								</span>
+							<div class="basic-setup__option-block">
+								<label class="ui-size">
+									<input class="ui-check__input" type="checkbox" name="option[{{ option['product_option_id'] }}][]" value="{{ option_value['product_option_value_id'] }}">
+									<span class="ui-check__checkbox">
+									  <svg class="icon-check">
+										<use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-check"></use>
+									  </svg>
+									</span>
 								{{ option_value['name'] }}
 								{% if (option_value['price'] and opt_price) %}
 								{{ option_value['price_prefix'] }}{{ option_value['price'] }}
 								{% endif %}
-							</label>
+								</label>
+							</div>
 							{% endfor %}
 							</div>
                           </div>
@@ -329,8 +333,8 @@
 							</div>
 						{% endif %}
                         </div>
+					</div>
                         {% endfor %}
-                      </div>
 					{% endfor %}
 					  {% if (recurrings) %}
                       <div class="row">
