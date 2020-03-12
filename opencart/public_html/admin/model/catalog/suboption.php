@@ -84,8 +84,31 @@ class ModelCatalogSuboption extends Model {
 
     public function getProductSuboptions($product_id, $option_group_id, $data)
     {
+        $optionSuboptions = $this->getSuboptions(['option_value_id' => $data['option_value_id'], 'option_id' => $option_group_id ]);
+        foreach ($optionSuboptions as $suboption) {
+            $OScheck[$product_id.'_'.$data['option_value_id'].'_'.$option_group_id][$suboption['suboption_id']] = $suboption;
+        }
 
         $productSuboptions = $this->db->query("SELECT * FROM " . DB_PREFIX . "custom_product_suboptions WHERE product_id = '" . intval($product_id) . "' AND option_value_id = '" . intval($data['option_value_id']) ."' AND option_id = '" . intval($option_group_id) ."'")->rows;
+        foreach ($productSuboptions as $suboption) {
+            $PScheck[$product_id.'_'.$data['option_value_id'].'_'.$option_group_id][$suboption['suboption_id']] = $suboption;
+        }
+        if (!empty($productSuboptions)) {
+            foreach ($OScheck[$product_id . '_' . $data['option_value_id'] . '_' . $option_group_id] as $OSsuboption_id => $OSsuboption) {
+                if (!array_key_exists($OSsuboption_id, $PScheck[$product_id . '_' . $data['option_value_id'] . '_' . $option_group_id])) {
+                    $PScheck[$product_id . '_' . $data['option_value_id'] . '_' . $option_group_id][$OSsuboption_id] = [
+                        'product_id' => $product_id,
+                        'option_value_id' => $OSsuboption['option_value_id'],
+                        'option_id' => $OSsuboption['option_id'],
+                        'suboption_name' => $OSsuboption['suboption_name'],
+                        'suboption_id' => $OSsuboption['suboption_id'],
+                        'suboption_price' => 0.0000,
+                        'status' => 0
+                    ];
+                }
+            }
+            $productSuboptions = $PScheck[$product_id . '_' . $data['option_value_id'] . '_' . $option_group_id];
+        }
 
         return $productSuboptions;
     }
