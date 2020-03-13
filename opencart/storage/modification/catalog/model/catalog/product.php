@@ -469,6 +469,7 @@ class ModelCatalogProduct extends Model {
 					'price'                   => $product_option_value['price'],
 					'price_prefix'            => $product_option_value['price_prefix'],
 					'weight'                  => $product_option_value['weight'],
+                    'suboptions'           => $this->getProductSuboptions($product_id, $product_option_value['option_value_id'], $product_option['option_id']),
 					'weight_prefix'           => $product_option_value['weight_prefix']
 				);
 			}
@@ -490,6 +491,12 @@ class ModelCatalogProduct extends Model {
 		return $product_option_data;
 	}
 
+
+    public function getProductSuboptions($product_id, $option_value_id, $option_id) {
+        $productSuboptions = $this->db->query("SELECT * FROM " . DB_PREFIX . "custom_product_suboptions WHERE product_id = '" . intval($product_id) . "' AND option_value_id = '" . intval($option_value_id) ."' AND option_id = '" . intval($option_id) ."' AND status = 1")->rows;
+        return $productSuboptions;
+    }
+		    
 	public function getProductDiscounts($product_id) {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_discount WHERE product_id = '" . (int)$product_id . "' AND customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND quantity > 1 AND ((date_start = '0000-00-00' OR date_start < NOW()) AND (date_end = '0000-00-00' OR date_end > NOW())) ORDER BY quantity ASC, priority ASC, price ASC");
 

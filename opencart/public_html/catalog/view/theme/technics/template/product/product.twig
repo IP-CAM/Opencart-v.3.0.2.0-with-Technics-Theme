@@ -278,6 +278,11 @@
 								{{ option_value['price_prefix'] }}{{ option_value['price'] }}
 								{% endif %}
 								</label>
+								<ul>
+									{% for suboption in option_value['suboptions'] %}
+										<li>{{ suboption.suboption_name }}</li>
+									{% endfor %}
+								</ul>
 							</div>
 							{% endfor %}
 							</div>
