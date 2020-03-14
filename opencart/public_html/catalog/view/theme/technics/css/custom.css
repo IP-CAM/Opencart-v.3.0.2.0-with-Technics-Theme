@@ -1,3 +1,18 @@
+.basic-setup__option-group .ui-label {
+    font-size: 21px;
+    text-align: center;
+    letter-spacing: 0.5px;
+    line-height: 50px;
+    background-color: #e63e1c;
+    color: #fff;
+    cursor: pointer;
+}
+
+.basic-setup__option-group .ui-label:hover {
+    background-color: #aa3019;
+    transition: 0.2s
+}
+
 .basic-setup__option-block {
     position: relative;
     padding: 0 0 0 2.5rem;
@@ -7,14 +22,14 @@
     display: block;
     min-height: 1.5rem;
     font-weight: 400;
-    cursor: pointer;
 }
 
-.basic-setup__option-group .ui-label {
-    font-size: 21px;
-    text-align: center;
-    letter-spacing: 0.5px;
-    line-height: 50px;
-    background-color: #e63e1c;
-    color: #fff;
+.basic-setup__option-block .ui-size input.ui-check__input {
+    display: none;
+}
+
+.basic-setup__option-block ul li  {
+    padding: 0 !important;
+    list-style-type: none;
+    margin: 10px 0;
 }

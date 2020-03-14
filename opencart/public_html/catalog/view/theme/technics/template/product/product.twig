@@ -258,36 +258,64 @@
 						  {% endif %}
 						 {% endif %}
 						{% endif %}
+						{# start custom calculator #}
 						{% if (option['type'] == 'checkbox') %}
+                            {% if option['option_id'] == '14' %}
                           <div class="sku__type">
-							  <div class="basic-setup__option-group">
-								<label class="ui-label{% if option.required %} required{% endif %}">{{ option['name'] }}</label>
+							  <div class="basic-setup__option-group" id="basic_setup_container">
+								<label class="ui-label">{{ option['name'] }}</label>
 							  </div>
-							<div class="ui-group" id="input-option{{ option['product_option_id'] }}">
+							<div class="ui-group" id="input-option{{ option['product_option_id'] }}" style="display:none">
 							{% for option_value in option['product_option_value'] %}
 							<div class="basic-setup__option-block">
 								<label class="ui-size">
-									<input class="ui-check__input" type="checkbox" name="option[{{ option['product_option_id'] }}][]" value="{{ option_value['product_option_value_id'] }}">
-									<span class="ui-check__checkbox">
-									  <svg class="icon-check">
-										<use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-check"></use>
-									  </svg>
-									</span>
-								{{ option_value['name'] }}
-								{% if (option_value['price'] and opt_price) %}
-								{{ option_value['price_prefix'] }}{{ option_value['price'] }}
-								{% endif %}
+									<input class="ui-check__input" type="checkbox" name="option[{{ option['product_option_id'] }}][]" value="{{ option_value['product_option_value_id'] }}" checked>
+									{{ option_value['name'] }}
+									{% if (option_value['price'] and opt_price) %}
+									{{ option_value['price_prefix'] }}{{ option_value['price'] }}
+									{% endif %}
 								</label>
-								<ul>
+								<ul class="container">
 									{% for suboption in option_value['suboptions'] %}
-										<li>{{ suboption.suboption_name }}</li>
+										<li class="cell col-md-6 col-sm-12">{{ suboption.suboption_name }}</li>
 									{% endfor %}
 								</ul>
 							</div>
 							{% endfor %}
 							</div>
                           </div>
+							{% elseif option['option_id'] == '15' %}
+							<div class="sku__type">
+								<div class="basic-setup__option-group" id="additional_setup_container">
+									<label class="ui-label">{{ option['name'] }}</label>
+								</div>
+								<div class="ui-group" id="input-option{{ option['product_option_id'] }}" style="display:none">
+                                    {% for option_value in option['product_option_value'] %}
+									<div class="basic-setup__option-block">
+										<label class="ui-size">
+											<input class="ui-check__input" type="checkbox" name="option[{{ option['product_option_id'] }}][]" value="{{ option_value['product_option_value_id'] }}">
+											<span class="ui-check__checkbox">
+											  <svg class="icon-check">
+												<use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-check"></use>
+											  </svg>
+											</span>
+                                            {{ option_value['name'] }}
+                                            {% if (option_value['price'] and opt_price) %}
+                                                {{ option_value['price_prefix'] }}{{ option_value['price'] }}
+                                            {% endif %}
+										</label>
+										<ul class="container">
+                                            {% for suboption in option_value['suboptions'] %}
+												<li class="cell col-md-6 col-sm-12">{{ suboption.suboption_name }}</li>
+                                            {% endfor %}
+										</ul>
+									</div>
+                                    {% endfor %}
+								</div>
+							</div>
+							{% endif %}
 					 	{% endif %}
+						{# end custom calculator #}
 						{% if (option['type'] == 'text') %}
 							<div class="ui-group">
 							<label class="ui-label{% if option.required %} required{% endif %}">{{ option['name'] }}</label>
@@ -1173,6 +1201,16 @@ $(document).on('ready', function() {
 	{% if (reviewsdata is same as(false)) %}
 		$('#review').load('index.php?route=product/product/review&product_id=' + {{ product_id }}, function(e) {});
 	{% endif %}
+});
+
+$(document).on('ready', function() {
+    $('#basic_setup_container').on('click', function() {
+        $(this).siblings('.ui-group').fadeToggle();
+	});
+
+    $('#additional_setup_container').on('click', function() {
+        $(this).siblings('.ui-group').fadeToggle();
+    })
 });
 
 </script>
