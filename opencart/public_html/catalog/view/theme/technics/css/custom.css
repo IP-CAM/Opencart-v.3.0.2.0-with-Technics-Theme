@@ -1,4 +1,5 @@
-.basic-setup__option-group .ui-label {
+.basic-setup__option-group .ui-label,
+.additional-setup__option-group .ui-label {
     font-size: 21px;
     text-align: center;
     letter-spacing: 0.5px;
@@ -8,21 +9,24 @@
     cursor: pointer;
 }
 
-.basic-setup__option-group + .ui-group {
+.basic-setup__option-group + .ui-group,
+.additional-setup__option-group + .ui-group {
     padding: 15px 0;
     background-color: #d6d6d66b;
     border: 1px solid #d6d6d6;
     margin-bottom: 10px !important;
 }
 
-.basic-setup__option-group .ui-label:hover {
+.basic-setup__option-group .ui-label:hover,
+.additional-setup__option-group .ui-label:hover {
     background-color: #aa3019;
     transition: 0.2s
 }
 
-.basic-setup__option-block {
+.basic-setup__option-block,
+.additional-setup__option-block {
     position: relative;
-    padding: 0 0 0 25px;
+    padding: 0 25px 0 25px;
     font-size: 16px;
     line-height: 2rem;
     display: block;
@@ -30,16 +34,38 @@
     font-weight: 400;
 }
 
-.basic-setup__option-block .container .row {
-    margin-top: 10px;
+.basic-setup__option-block + hr,
+.additional-setup__option-block + hr {
+    margin: 20px 0 20px 0;
 }
 
-.basic-setup__option-block .ui-size input.ui-check__input {
+.basic-setup__option-block .container .row,
+.additional-setup__option-block .container .row {
+    margin-top: 15px;
+}
+
+.basic-setup__option-block .ui-size input.ui-check__input,
+.additional-setup__option-block .ui-size input.ui-check__input{
     display: none;
 }
 
-.basic-setup__option-block ul li  {
+.basic-setup__option-block ul li,
+.additional-setup__option-block ul li {
     padding: 0 !important;
     list-style-type: none;
     margin: 10px 0;
+}
+
+.additional-setup__option-block ul.container {
+    display: none;
+}
+
+.additional-setup__option-block .ui-size {
+    cursor: pointer;
+}
+
+.additional-setup__option-block .ui-size span.ui-check__checkbox {
+    cursor: pointer;
+    width: 8.5rem;
+    left: 3%;
 }
