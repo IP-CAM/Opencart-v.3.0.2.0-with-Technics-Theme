@@ -268,7 +268,7 @@
 								<div class="ui-group" id="input-option{{ option['product_option_id'] }}" style="display:none">
 									{% for option_value in option['product_option_value'] %}
 									<div class="basic-setup__option-block">
-										<label class="ui-size text-center">
+										<label class="ui-size">
 										<input class="ui-check__input" type="checkbox" name="option[{{ option['product_option_id'] }}][]" value="{{ option_value['product_option_value_id'] }}" checked>
 										{{ option_value['name'] }}
 										</label>
@@ -277,7 +277,7 @@
 											<li class="row">
 												<div class="cell col-md-7">
 													<label>
-														<input type="radio" name="suboption[option_id][option_value_id][suboption_id][]">{{ suboption.suboption_name }}
+														<input type="radio" name="option[{{ option['product_option_id'] }}][suboptions][{{ option_value['product_option_value_id'] }}][]" value="{{ suboption.suboption_name }}|{{ suboption.suboption_price }}">{{ suboption.suboption_name }}
 													</label>
 												</div>
 											</li>
@@ -296,7 +296,7 @@
 								<div class="ui-group" id="input-option{{ option['product_option_id'] }}" style="display:none">
                                     {% for option_value in option['product_option_value'] %}
 									<div class="additional-setup__option-block">
-										<label class="ui-size text-center">
+										<label class="ui-size">
 											<input class="ui-check__input x-option-additional" type="checkbox" name="option[{{ option['product_option_id'] }}][]" value="{{ option_value['product_option_value_id'] }}">
                                             {{ option_value['name'] }}
 											<span class="ui-check__checkbox">
@@ -310,7 +310,7 @@
 												<li class="row">
 													<div class="cell col-md-7">
 														<label>
-															<input type="radio" name="suboption[option_id][option_value_id][suboption_id][]" value="{{ suboption.suboption_price }}">{{ suboption.suboption_name }}
+															<input type="radio" name="option[{{ option['product_option_id'] }}][suboptions][{{ option_value['product_option_value_id'] }}][]" value="{{ suboption.suboption_name }}|{{ suboption.suboption_price }}">{{ suboption.suboption_name }}
 														</label>
 													</div>
 													<div class="cell col-md-5 text-center">

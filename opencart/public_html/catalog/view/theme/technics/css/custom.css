@@ -1,3 +1,4 @@
+/* CUSTOM CALCULATOR START */
 .basic-setup__option-group .ui-label,
 .additional-setup__option-group .ui-label {
     font-size: 21px;
@@ -67,5 +68,7 @@
 .additional-setup__option-block .ui-size span.ui-check__checkbox {
     cursor: pointer;
     width: 8.5rem;
-    left: 3%;
+    left: 72%;
+    border-color: #949393;
 }
+/* CUSTOM CALCULATOR END */
