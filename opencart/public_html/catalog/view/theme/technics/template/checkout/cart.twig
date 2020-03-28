@@ -40,9 +40,9 @@
           <div class="container-fluid">
             <ul class="breadcrumbs__menu">
 			{% for i,breadcrumb in breadcrumbs %}
-				{% if (i + 1 < (breadcrumbs)|length) %} 
+				{% if (i + 1 < (breadcrumbs)|length) %}
 				<li {{ schema ? 'itemscope itemtype="http://data-vocabulary.org/Breadcrumb"' : ''}}><a class="breadcrumbs__link" href="{{ breadcrumb['href'] }}" {{ schema ? 'itemprop="url"' : ''}}><span {{ schema ? 'itemprop="title"' : ''}}>{{ breadcrumb['text'] }}</span></a></li>
-				{% else %} 
+				{% else %}
 				<li>{{ breadcrumb['text'] }}</li>
 				{% endif %}
 			{% endfor %}
@@ -54,7 +54,7 @@
         <!-- Basket :: Start-->
         <div class="basket">
           <div class="container-fluid">
-            <h1 class="page__heading">{{ heading_title }} {% if (weight) %} {{ ' (' ~ weight ~ ')' }} {% endif %}</h1>
+            <h1 class="page__heading">{{ heading_title }}</h1>
             <div class="row">
 			{{ column_left ? '<div class="col-xl-3">' ~ column_left ~ '</div>' : ''}}
 			<div class="col-xl-{{ col }}">
@@ -94,17 +94,17 @@
 					  <tr>
 						<td class="basket__table-details" colspan="6">
 						  <ul class="basket__table-details-list">
-							{% if (product['option']) %} 
-								{% for option in product['option'] %}					 
+							{% if (product['option']) %}
+								{% for option in product['option'] %}
 									<li>{{ option['name'] }}<small>{{ option['value'] }}</small></li>
-								{% endfor %} 
+								{% endfor %}
 							{% endif %}
-							{% if (product['reward']) %} 
+							{% if (product['reward']) %}
 								<li>{{ text_technics_reward }}<small>{{ product['reward_num'] }}</small></li>
-							{% endif %} 
-							{% if (product['recurring']) %} 
+							{% endif %}
+							{% if (product['recurring']) %}
 								<li>{{ text_recurring_item }}<small>{{ product['recurring'] }}</small></li>
-							{% endif %}	
+							{% endif %}
 						  </ul>
 						</td>
 					  </tr>
@@ -144,15 +144,15 @@
 						<div class="tabs" data-tabs>
 						  <ul class="tabs__menu"></ul>
 						  <div class="js-cart-tabs-modules">
-							{% for module in modules %} 
+							{% for module in modules %}
 							{{ module }}
-							{% endfor %} 
-						  </div>	
+							{% endfor %}
+						  </div>
 						</div>
 						{% endif %}
 					  </div>
 					  <div class="col-md-6">
-					    {% for i,total in totals %} 
+					    {% for i,total in totals %}
 						{% if (i + 1 < (totals)|length) %}
 						<p class="basket__total">{{ total['title'] }} {{ total['text'] }}</p>
 						{% else %}
@@ -204,7 +204,7 @@
 					$('.ui-field').removeClass('is-error');
 
 					if (json['error']) {
-						if (json['error']['warning']) {		
+						if (json['error']['warning']) {
 							$('.alerts').append($('<div class="alert alert-danger alert-dismissible fade show" role="alert"> ' + json['error'] + ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg class="icon-delete"><use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-delete"></use></svg></button></div>'));
 						}
 
@@ -224,7 +224,7 @@
 					if (json['shipping_method']) {
 						$('#modal-shipping').remove();
 
-						html  = '<div class="popup popup--570" style="display: none;" id="modal-shipping">'; 
+						html  = '<div class="popup popup--570" style="display: none;" id="modal-shipping">';
 						html += '  <div class="writeus">';
 						html += '        <span class="writeus__heading">'+ $('input[name=\'fix_text_technics_shipping\']').val() + '</span>';
 						html += '        <div class="writeus__form">';
@@ -242,7 +242,7 @@
 							if (!json['shipping_method'][i]['error']) {
 								for (j in json['shipping_method'][i]['quote']) {
 									html += '<label class="ui-check">';
-									
+
 									if (json['shipping_method'][i]['quote'][j]['code'] == $('input[name=\'fix_shipping_method\']').val()) {
 										html += '<input type="radio" class="ui-check__input" name="shipping_method" value="' + json['shipping_method'][i]['quote'][j]['code'] + '" id="' + json['shipping_method'][i]['quote'][j]['code'] + '" checked="checked">';
 									} else {
@@ -276,7 +276,7 @@
 						$.fancybox.open([{
 							src  : '#modal-shipping',
 							opts : {
-								slideClass : 'popup--fancybox', 
+								slideClass : 'popup--fancybox',
 								btnTpl : {
 									smallBtn   : '<button class="popup__close" data-fancybox-close><svg class="icon-close"><use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-close"></use></svg></button>'
 								},
@@ -311,12 +311,12 @@
 					$('.alert').remove();
 
 					if (json['error']) {
-						$('.alerts').append($('<div class="alert alert-danger alert-dismissible fade show" role="alert"> ' + json['error'] + ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg class="icon-delete"><use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-delete"></use></svg></button></div>'));	
+						$('.alerts').append($('<div class="alert alert-danger alert-dismissible fade show" role="alert"> ' + json['error'] + ' <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg class="icon-delete"><use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-delete"></use></svg></button></div>'));
 					}
 					setTimeout(function(){
 						$.fancybox.close();
 					}, 100)
-					
+
 					if (json['redirect']) {
 						location = json['redirect'];
 					}
@@ -339,7 +339,7 @@
 					$('select[name=\'country_id\']').prop('disabled', false).trigger('refresh');
 				},
 				success: function(json) {
-				
+
 					if (json['postcode_required'] == '1') {
 						$('input[name=\'postcode\']').parent().parent().parent().find('.ui-label').addClass('required');
 					} else {
@@ -358,7 +358,7 @@
 
 							html += '>' + json['zone'][i]['name'] + '</option>';
 						}
-						
+
 					} else {
 						html += '<option value="0" selected="selected">'+ $('input[name=\'fix_text_none\']').val() +'</option>';
 					}
@@ -368,7 +368,7 @@
 				error: function(xhr, ajaxOptions, thrownError) {
 					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 				}
-				
+
 			});
 
 		});
@@ -379,7 +379,7 @@
 	// --------------------------------------------------------------------------
 	// Loading ocAddReward
 	// --------------------------------------------------------------------------
-	
+
 	function ocAddReward() {
 		$('input[name=\'reward\']').keypress(function(e){
 			if(e.which == 13){
@@ -410,13 +410,13 @@
 				}
 			});
 			}
-		});	
+		});
 	}
 
 	// --------------------------------------------------------------------------
 	// Loading ocAddCoupon
 	// --------------------------------------------------------------------------
-	
+
 	function ocAddCoupon() {
 		$('input[name=\'coupon\']').keypress(function(e){
 			if(e.which == 13){
@@ -449,11 +449,11 @@
 			}
 		});
 	}
-	
+
 	// --------------------------------------------------------------------------
 	// Loading ocAddVoucher
 	// --------------------------------------------------------------------------
-	
+
 	function ocAddVoucher() {
 		$('input[name=\'voucher\']').keypress(function(e){
 			if(e.which == 13){
@@ -490,14 +490,14 @@
 	// --------------------------------------------------------------------------
 	// Loading fixCartModules
 	// --------------------------------------------------------------------------
-	
+
 	function fixCartModules() {
 		if($('.js-cart-tabs-modules').length) {
 			$('.js-cart-tabs-modules > li').appendTo('.basket__panel .tabs__menu');
 			$('.basket__panel .tabs__menu li:eq(0) button').trigger('click');
 		}
 	}
-	
+
 $(document).on('ready', function() {
 	ocAddCoupon();
 	ocAddVoucher();
