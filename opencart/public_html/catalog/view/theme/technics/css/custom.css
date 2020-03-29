@@ -82,7 +82,7 @@
     cursor: pointer;
     width: 8.5rem;
     left: 72%;
-    border-color: #949393;
+    border: none;
     top: 2.1rem;
 }
 /* CUSTOM CALCULATOR END */

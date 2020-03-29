@@ -1224,10 +1224,16 @@ $(document).on('ready', function() {
     })
 
 	$('.x-option-additional').on('change', function() {
-
 	    var suboption_list = $(this).parent().siblings('ul.container');
 
-	    this.checked ? suboption_list.show(200) : suboption_list.hide(200);
+	    if (this.checked) {
+			suboption_list.show(200)
+	    } else {
+			suboption_list.hide(200);
+			suboption_list.children().each(function() {
+			    $(this).find('input[type="radio"]').prop('checked', false)
+			})
+		}
 	})
 
 });
