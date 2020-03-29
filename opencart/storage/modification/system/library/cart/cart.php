@@ -123,10 +123,8 @@ class Cart {
 									if ($option_value_query->row['price_prefix'] == '+') {
 										$option_price += $option_value_query->row['price'];
 										if (is_object($product_option_value_id) && $option_value_query->row['suboptions']) {
-                                            foreach ($option_value_query->row['suboptions'] as $prod_opt_id => $prod) {
-                                                foreach ($prod as $suboption_props) {
-                                                    $option_price += $suboption_props['suboption_price'];
-                                                }
+                                            foreach ($product_option_value_id as $prod_opt_id => $suboption_props) {
+                                                    $option_price += explode('|', $suboption_props)[1];
                                             };
                                         }
 									} elseif ($option_value_query->row['price_prefix'] == '-') {
