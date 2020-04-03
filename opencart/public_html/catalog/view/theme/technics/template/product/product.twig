@@ -277,7 +277,7 @@
 											<li class="row">
 												<div class="cell col-md-7">
 													<label>
-														<input type="radio" name="suboptions[{{ option['product_option_id'] }}][{{ option_value['product_option_value_id'] }}]" value="{{ suboption.suboption_name }}|{{ suboption.suboption_price }}">{{ suboption.suboption_name }}
+														<input type="radio" name="suboptions[{{ option['product_option_id'] }}][{{ option_value['product_option_value_id'] }}]" value="{{ suboption.suboption_name }}|{{ suboption.suboption_price * dollar_rate | round() }}">{{ suboption.suboption_name }}
 													</label>
 												</div>
 											</li>
@@ -310,11 +310,11 @@
 												<li class="row">
 													<div class="cell col-md-7">
 														<label>
-															<input type="radio" name="suboptions[{{ option['product_option_id'] }}][{{ option_value['product_option_value_id'] }}]" value="{{ suboption.suboption_name }}|{{ suboption.suboption_price }}">{{ suboption.suboption_name }}
+															<input type="radio" name="suboptions[{{ option['product_option_id'] }}][{{ option_value['product_option_value_id'] }}]" value="{{ suboption.suboption_name }}|{{ suboption.suboption_price * dollar_rate | round() }}">{{ suboption.suboption_name }}
 														</label>
 													</div>
 													<div class="cell col-md-5 text-center">
-                                                    	<span>{{ suboption.suboption_price }}</span>
+                                                    	<span>{{ suboption.suboption_price * dollar_rate | round() }}р.</span>
 													</div>
 												</li>
                                             {% endfor %}
