@@ -53,7 +53,7 @@ class Cart {
 			
 					$option_query = $this->db->query("SELECT po.product_option_id, po.option_id, od.name, o.type FROM " . DB_PREFIX . "product_option po LEFT JOIN `" . DB_PREFIX . "option` o ON (po.option_id = o.option_id) LEFT JOIN " . DB_PREFIX . "option_description od ON (o.option_id = od.option_id) WHERE po.product_option_id = '" . (int)$product_option_id . "' AND po.product_id = '" . (int)$cart['product_id'] . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
-            }else {
+            }elseif ($product_option_id == 'suboptions' && !empty($value)) {
 				        foreach ($value as $prod_opt_id => $prod) {
 				            foreach ($prod as $option_value_id => $suboption) {
 				                $tmp = explode('|', $suboption);
