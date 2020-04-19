@@ -277,7 +277,7 @@
 											<li class="row">
 												<div class="cell col-md-7">
 													<label>
-														<input type="radio" name="option[{{ option['product_option_id'] }}][suboptions][{{ option_value['product_option_value_id'] }}][]" value="{{ suboption.suboption_name }}|{{ suboption.suboption_price }}">{{ suboption.suboption_name }}
+														<input type="radio" name="suboptions[{{ option['product_option_id'] }}][{{ option_value['product_option_value_id'] }}]" value="{{ suboption.suboption_name }}|{{ suboption.suboption_price * dollar_rate | round() }}">{{ suboption.suboption_name }}
 													</label>
 												</div>
 											</li>
@@ -297,7 +297,7 @@
                                     {% for option_value in option['product_option_value'] %}
 									<div class="additional-setup__option-block">
 										<label class="ui-size">
-											<input class="ui-check__input x-option-additional" type="checkbox" name="option[{{ option['product_option_id'] }}][]" value="{{ option_value['product_option_value_id'] }}">
+											<input class="ui-check__input x-option-additional" type="checkbox" name="option[{{ option['product_option_id'] }}]" value="{{ option_value['product_option_value_id'] }}">
                                             {{ option_value['name'] }}
 											<span class="ui-check__checkbox">
 											  <svg class="icon-check">
@@ -310,11 +310,11 @@
 												<li class="row">
 													<div class="cell col-md-7">
 														<label>
-															<input type="radio" name="option[{{ option['product_option_id'] }}][suboptions][{{ option_value['product_option_value_id'] }}][]" value="{{ suboption.suboption_name }}|{{ suboption.suboption_price }}">{{ suboption.suboption_name }}
+															<input type="radio" name="suboptions[{{ option['product_option_id'] }}][{{ option_value['product_option_value_id'] }}]" value="{{ suboption.suboption_name }}|{{ suboption.suboption_price * dollar_rate | round() }}">{{ suboption.suboption_name }}
 														</label>
 													</div>
 													<div class="cell col-md-5 text-center">
-                                                    	<span>{{ suboption.suboption_price }}</span>
+                                                    	<span>{{ suboption.suboption_price * dollar_rate | round() }}р.</span>
 													</div>
 												</li>
                                             {% endfor %}
@@ -412,7 +412,7 @@
 
                     <div class="sku__group">
 					{% if (price) %}
-                      <p class="sku__price">
+                      <p class="sku__price">Цена без учёта дополнительной комплектации
 					  {% if (special) %}
 					  {{ special }}
                       <u>{{ price }}</u>
@@ -1224,10 +1224,16 @@ $(document).on('ready', function() {
     })
 
 	$('.x-option-additional').on('change', function() {
-
 	    var suboption_list = $(this).parent().siblings('ul.container');
 
-	    this.checked ? suboption_list.show(200) : suboption_list.hide(200);
+	    if (this.checked) {
+			suboption_list.show(200)
+	    } else {
+			suboption_list.hide(200);
+			suboption_list.children().each(function() {
+			    $(this).find('input[type="radio"]').prop('checked', false)
+			})
+		}
 	})
 
 });

@@ -493,6 +493,7 @@ class ControllerProductProduct extends Controller {
 				);
 			}
 
+$data['dollar_rate'] = $this->model_catalog_product->getDollarRate();
 			$data['options'] = array();
 
 			foreach ($this->model_catalog_product->getProductOptions($this->request->get['product_id']) as $option) {

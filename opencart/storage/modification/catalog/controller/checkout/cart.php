@@ -346,6 +346,11 @@ class ControllerCheckoutCart extends Controller {
 				$option = array();
 			}
 
+
+            if (array_key_exists('suboptions', $this->request->post)) {
+                $option['suboptions'] = $this->request->post['suboptions'];
+            }
+            
 			$product_options = $this->model_catalog_product->getProductOptions($this->request->post['product_id']);
 
 			foreach ($product_options as $product_option) {
