@@ -1742,6 +1742,10 @@
                     if ($(select).siblings('.suboption__prod-container').length > 1) {
                         $(select).siblings('.suboption__prod-container').last().remove();
                     }
+                } else {
+                  if ($(select).siblings('.suboption__prod-container').length > 0) {
+                    $(select).siblings('.suboption__prod-container').remove();
+                  }
                 }
         }
       })
