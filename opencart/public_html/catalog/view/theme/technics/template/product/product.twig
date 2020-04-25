@@ -314,7 +314,7 @@
 														</label>
 													</div>
 													<div class="cell col-md-5 text-center">
-                                                    	<span class="x-suboption-price">{{ suboption.suboption_price | round() | number_format }}</span>р.
+                                                    	<span class="x-suboption-price">{{ suboption.suboption_price | round() | number_format(0, '.', ' ') }}</span>р.
 													</div>
 												</li>
                                             {% endfor %}
@@ -414,10 +414,10 @@
 					{% if (price) %}
                       <p class="sku__price">Цена
 					  {% if (special) %}
-					  <span id="price-animated">{{ special | number_format }}</span>р.
-					  <u>{{ price | number_format }}<span>р.</span></u>
+					  <span id="price-animated">{{ special | number_format(0, '.', ' ') }}</span>р.
+					  <u>{{ price | number_format(0, '.', ' ') }}<span>р.</span></u>
 					  {% else %}
-					  <span id="price-animated">{{ price | number_format }}</span>р.
+					  <span id="price-animated">{{ price | number_format(0, '.', ' ') }}</span>р.
 					  {% endif %}
                       </p>
 						{% if tax or points or discounts %}
@@ -1240,19 +1240,19 @@ $(document).on('ready', function() {
 				}
 				ar[inputName].push(0)
 				var $el = $("#price-animated"),
-						value = parseFloat($el.html().replace(/,/g, ''))
+						value = parseFloat($el.html().replace(/ /g, '').replace(/&nbsp;/g, ''))
 				var total_value = value + (ar[inputName][1] - ar[inputName][0])
 				$({percentage: value}).stop(true).animate({percentage: total_value}, {
 					duration : 500,
 					step: function () {
 						// percentage with 1 decimal;
 						var percentageVal = Math.round(this.percentage * 10) / 10;
-						$el.text(percentageVal);
+						$el.text(percentageVal.toLocaleString('ru-RU'));
 					}
 				}).promise().done(function () {
 					// hard set the value after animation is done to be
 					// sure the value is correct
-					$el.text(Math.round(total_value));
+					$el.text(Math.round(total_value).toLocaleString('ru-RU'))
 				});
 			}
 		}
@@ -1264,9 +1264,9 @@ function animatePrice(el) {
 	if (ar[$(el).attr('name')] && ar[$(el).attr('name')].length > 1) {
 		ar[$(el).attr('name')].shift()
 	}
-	var suboption_price = parseFloat($(el).parent().parent().siblings().children('.x-suboption-price').html().replace(/,/g, ''))
+	var suboption_price = parseFloat($(el).parent().parent().siblings().children('.x-suboption-price').html().replace(/ /g, ''))
 	var $el = $("#price-animated"),
-			value = parseFloat($el.html().replace(/,/g, ''))
+			value = parseFloat($el.html().replace(/ /g, '').replace(/&nbsp;/g, ''))
 	var total_value = value + suboption_price
 	if (!ar[$(el).attr('name')]) {
 		ar[$(el).attr('name')] = []
@@ -1280,12 +1280,12 @@ function animatePrice(el) {
 		step: function () {
 			// percentage with 1 decimal;
 			var percentageVal = Math.round(this.percentage * 10) / 10;
-			$el.text(percentageVal);
+			$el.text(percentageVal.toLocaleString('ru-RU'));
 		}
 	}).promise().done(function () {
 		// hard set the value after animation is done to be
 		// sure the value is correct
-		$el.text(Math.round(total_value));
+		$el.text(Math.round(total_value).toLocaleString('ru-RU'))
 	});
 }
 
