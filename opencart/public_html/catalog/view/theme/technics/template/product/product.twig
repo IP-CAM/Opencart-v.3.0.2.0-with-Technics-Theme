@@ -277,7 +277,7 @@
 											<li class="row">
 												<div class="cell col-md-7">
 													<label>
-														<input type="radio" name="suboptions[{{ option['product_option_id'] }}][{{ option_value['product_option_value_id'] }}]" value="{{ suboption.suboption_name }}|{{ suboption.suboption_price * dollar_rate | round() }}">{{ suboption.suboption_name }}
+														<input type="radio" name="suboptions[{{ option['product_option_id'] }}][{{ option_value['product_option_value_id'] }}]" value="{{ suboption.suboption_name }}|{{ suboption.suboption_price | round() }}">{{ suboption.suboption_name }}
 													</label>
 												</div>
 											</li>
@@ -310,11 +310,11 @@
 												<li class="row">
 													<div class="cell col-md-7">
 														<label>
-															<input type="radio" name="suboptions[{{ option['product_option_id'] }}][{{ option_value['product_option_value_id'] }}]" value="{{ suboption.suboption_name }}|{{ suboption.suboption_price * dollar_rate | round() }}">{{ suboption.suboption_name }}
+															<input onchange="animatePrice(this)" type="radio" name="suboptions[{{ option['product_option_id'] }}][{{ option_value['product_option_value_id'] }}]" value="{{ suboption.suboption_name }}|{{ suboption.suboption_price | round() }}">{{ suboption.suboption_name }}
 														</label>
 													</div>
 													<div class="cell col-md-5 text-center">
-                                                    	<span>{{ suboption.suboption_price * dollar_rate | round() }}р.</span>
+                                                    	<span class="x-suboption-price">{{ suboption.suboption_price | round() | number_format }}</span>р.
 													</div>
 												</li>
                                             {% endfor %}
@@ -412,12 +412,12 @@
 
                     <div class="sku__group">
 					{% if (price) %}
-                      <p class="sku__price">Цена без учёта дополнительной комплектации
+                      <p class="sku__price">Цена
 					  {% if (special) %}
-					  {{ special }}
-                      <u>{{ price }}</u>
+					  <span id="price-animated">{{ special | number_format }}</span>р.
+					  <u>{{ price | number_format }}<span>р.</span></u>
 					  {% else %}
-					  {{ price }}
+					  <span id="price-animated">{{ price | number_format }}</span>р.
 					  {% endif %}
                       </p>
 						{% if tax or points or discounts %}
@@ -1225,6 +1225,7 @@ $(document).on('ready', function() {
 
 	$('.x-option-additional').on('change', function() {
 	    var suboption_list = $(this).parent().siblings('ul.container');
+		var inputName = suboption_list.find('input[type="radio"]').attr('name')
 
 	    if (this.checked) {
 			suboption_list.show(200)
@@ -1233,10 +1234,60 @@ $(document).on('ready', function() {
 			suboption_list.children().each(function() {
 			    $(this).find('input[type="radio"]').prop('checked', false)
 			})
+			if (ar[inputName]) {
+				if (ar[inputName].length > 1) {
+					ar[inputName].shift()
+				}
+				ar[inputName].push(0)
+				var $el = $("#price-animated"),
+						value = parseFloat($el.html().replace(/,/g, ''))
+				var total_value = value + (ar[inputName][1] - ar[inputName][0])
+				$({percentage: value}).stop(true).animate({percentage: total_value}, {
+					duration : 500,
+					step: function () {
+						// percentage with 1 decimal;
+						var percentageVal = Math.round(this.percentage * 10) / 10;
+						$el.text(percentageVal);
+					}
+				}).promise().done(function () {
+					// hard set the value after animation is done to be
+					// sure the value is correct
+					$el.text(Math.round(total_value));
+				});
+			}
 		}
 	})
-
 });
+var ar = {};
+
+function animatePrice(el) {
+	if (ar[$(el).attr('name')] && ar[$(el).attr('name')].length > 1) {
+		ar[$(el).attr('name')].shift()
+	}
+	var suboption_price = parseFloat($(el).parent().parent().siblings().children('.x-suboption-price').html().replace(/,/g, ''))
+	var $el = $("#price-animated"),
+			value = parseFloat($el.html().replace(/,/g, ''))
+	var total_value = value + suboption_price
+	if (!ar[$(el).attr('name')]) {
+		ar[$(el).attr('name')] = []
+	}
+	ar[$(el).attr('name')].push(suboption_price)
+	if (ar[$(el).attr('name')] && ar[$(el).attr('name')].length > 1) {
+		total_value = value + (ar[$(el).attr('name')][1] - ar[$(el).attr('name')][0])
+	}
+	$({percentage: value}).stop(true).animate({percentage: total_value}, {
+		duration : 500,
+		step: function () {
+			// percentage with 1 decimal;
+			var percentageVal = Math.round(this.percentage * 10) / 10;
+			$el.text(percentageVal);
+		}
+	}).promise().done(function () {
+		// hard set the value after animation is done to be
+		// sure the value is correct
+		$el.text(Math.round(total_value));
+	});
+}
 
 </script>
 </body></html>
