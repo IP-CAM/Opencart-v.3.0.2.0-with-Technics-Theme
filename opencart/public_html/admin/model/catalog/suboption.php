@@ -32,10 +32,10 @@ class ModelCatalogSuboption extends Model {
 
     public function setProductSuboptions($product_id, $data)
     {
-        if ($data['prod_suboption']) {
+        if (array_key_exists('prod_suboption', $data)) {
             foreach ($data['prod_suboption'] as $key => $suboption_properties) {
                 $suboptionRow = $this->db->query("SELECT * FROM " . DB_PREFIX . "custom_product_suboptions WHERE product_id = '" . $product_id . "' AND option_id = '" . $suboption_properties['option_id'] . "' AND option_value_id = '" . $suboption_properties['option_value_id'] . "' AND suboption_id = '" . $suboption_properties['suboption_id'] . "'")->row;
-                $toDelCheck[$suboption_properties['option_id'].'_'.$suboption_properties['suboption_id']] = $suboptionRow;
+                $toDelCheck[$suboption_properties['option_id'] . '_' . $suboption_properties['suboption_id']] = $suboptionRow;
                 if ($suboptionRow) {
                     if (array_key_exists('status', $suboption_properties)) {
                         $this->db->query("UPDATE " . DB_PREFIX . "custom_product_suboptions SET status = '" . $suboption_properties['status'] . "', suboption_price = '" . $suboption_properties['prod_suboption_price'] . "' WHERE product_id = '" . $product_id . "' AND option_id = '" . $suboption_properties['option_id'] . "' AND option_value_id = '" . $suboption_properties['option_value_id'] . "' AND suboption_id = '" . $suboption_properties['suboption_id'] . "'");
@@ -50,18 +50,22 @@ class ModelCatalogSuboption extends Model {
                     }
                 }
             }
-        }
-        // to delete block
-        $suboptions_for_product = $this->db->query("SELECT option_id, suboption_id, option_value_id FROM " . DB_PREFIX . "custom_product_suboptions WHERE product_id = '" . $product_id . "'")->rows;
-        foreach ($suboptions_for_product as $suboption) {
-            $toDelAr[$suboption['option_id'].'_'.$suboption['suboption_id']] = $suboption;
-        }
-        foreach ($toDelAr as $key => $row) {
-            if (!array_key_exists($key, $toDelCheck)) {
-                $this->db->query("DELETE FROM " . DB_PREFIX . "custom_product_suboptions WHERE product_id=" . $product_id . " AND option_value_id=" . $row['option_value_id'] . " AND option_id=" . $row['option_id']);
+
+            // to delete block
+            $suboptions_for_product = $this->db->query("SELECT option_id, suboption_id, option_value_id FROM " . DB_PREFIX . "custom_product_suboptions WHERE product_id = '" . $product_id . "'")->rows;
+            foreach ($suboptions_for_product as $suboption) {
+                $toDelAr[$suboption['option_id'] . '_' . $suboption['suboption_id']] = $suboption;
             }
+            foreach ($toDelAr as $key => $row) {
+                if (!array_key_exists($key, $toDelCheck)) {
+                    $this->db->query("DELETE FROM " . DB_PREFIX . "custom_product_suboptions WHERE product_id=" . $product_id . " AND option_value_id=" . $row['option_value_id'] . " AND option_id=" . $row['option_id']);
+                }
+            }
+            //
+        } else {
+            //если в POST-е не пришло ни одной сабопции для данного товара - то удалить у этого товара все сабопции
+            $this->db->query("DELETE FROM " . DB_PREFIX . "custom_product_suboptions WHERE product_id=" . $product_id);
         }
-        //
 
 
     }
