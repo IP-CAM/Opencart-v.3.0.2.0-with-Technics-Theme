@@ -4,7 +4,7 @@
           </svg>
         </button>
         <!-- SKU :: Start-->
-        <div class="sku"><span class="sku__fast">Быстрый просмотр</span>
+        <div class="sku"><span class="sku__fast">Просмотр</span>
 			{% for product in products %} 
 			{% if (product['product_id'] == product_id) %}
           <div class="row" id="popupprodid_{{ product['product_id'] }}">
