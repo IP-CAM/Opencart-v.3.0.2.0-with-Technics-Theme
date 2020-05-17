@@ -1,9 +1,21 @@
-{{ header }}
-<div class="preload">
-<link rel="stylesheet" href="catalog/view/stylesheet/about-company-css/vendor/animate.css" />
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
-<link rel="stylesheet" href="catalog/view/stylesheet/about-company-css/base.css" />
+<!DOCTYPE html>
+<html lang="ru" xmlns="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="format-detection" content="telephone=no">
+
+    <title>Some title</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="catalog/view/stylesheet/about-company-css/vendor/animate.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="catalog/view/stylesheet/about-company-css/base.css" />
+</head>
 <div class="page-wrap main-page">
     <div class="navbar bavbar-dark bg-dark header-topbar">
         <div class="nav-item dropdown">
@@ -590,45 +602,6 @@
                             </div>
 
                             <div class="main-contacts__map" id="yamap"></div>
-
-
-                            <script src="https://api-maps.yandex.ru/2.1.74/?lang=ru_RU&amp;apikey=2dcff47b-ec9d-4d92-8b55-cd57fe2e0929" type="text/javascript"></script>
-                            <script>
-                                ymaps.ready(function() {
-                                    var settings = {
-                                            marker: {
-                                                path: "assets/images/marker.png",
-                                                size: [30, 37],
-                                                offset: [-15, -37]
-                                            },
-                                            center: [59.93846, 30.361709],
-                                            zoom: 13
-                                        },
-                                        myMap = new ymaps.Map('yamap', {
-                                            center: settings.center,
-                                            zoom: settings.zoom,
-                                            controls: ['zoomControl', 'fullscreenControl']
-                                        }, {
-                                            searchControlProvider: 'yandex#search'
-                                        });
-
-                                    myMap.behaviors.disable('scrollZoom');
-
-                                    myMap.geoObjects
-                                        .add(new ymaps.Placemark(myMap.getCenter(), {}, {
-                                            // Опции.
-                                            // Необходимо указать данный тип макета.
-                                            //iconLayout: 'default#imageWithContent',
-                                            // Своё изображение иконки метки.
-                                            //iconImageHref: settings.marker.path,
-                                            // Размеры метки.
-                                            //iconImageSize: settings.marker.size,
-                                            // Смещение левого верхнего угла иконки относительно
-                                            // её "ножки" (точки привязки).
-                                            //iconImageOffset: settings.marker.offset
-                                        }));
-                                });
-                            </script>
                         </section>
 
                         <!-- end content -->
@@ -652,13 +625,82 @@
 
     </main>
 
-{{ footer }}
+    <footer class="page-footer bg-dark text-light">
+        <div class="container">
+            <div class="row page-footer__nav">
+                <div class="col-md-12 col-lg mb-4 mb-md-3 mb-lg-0">
+                    <a href="#" class="logo"><img src="image/catalog/about-company-img/logo-light.svg" width="110" alt="alt"></a>
+                </div>
+                <div class="col-md-3 col-lg d-none d-md-block">
+                    <span class="d-block">О КОМПАНИИ</span>
+
+                    <ul>
+                        <li><a href="#">О компании</a></li>
+                        <li><a href="#">Lorem, ipsum.</a></li>
+                        <li><a href="#">Lorem, ipsum.</a></li>
+                        <li><a href="#">Lorem, ipsum.</a></li>
+                        <li><a href="#">Lorem, ipsum.</a></li>
+                        <li><a href="#">Lorem, ipsum.</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-lg d-none d-md-block">
+                    <span class="d-block">НЕДВИЖИМОСТЬ</span>
+
+                    <ul>
+                        <li><a href="#">О компании</a></li>
+                        <li><a href="#">Lorem, ipsum.</a></li>
+                        <li><a href="#">Lorem, ipsum.</a></li>
+                        <li><a href="#">Lorem, ipsum.</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-lg d-none d-md-block">
+                    <span class="d-block">УСЛУГИ ФСК</span>
+
+                    <ul>
+                        <li><a href="#">О компании</a></li>
+                        <li><a href="#">Lorem, ipsum.</a></li>
+                        <li><a href="#">Lorem, ipsum.</a></li>
+                        <li><a href="#">Lorem, ipsum.</a></li>
+                        <li><a href="#">Lorem, ipsum.</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-lg">
+                    <span class="d-block">КОНТАКТЫ</span>
+
+                    <p><span class="text-muted">Москва и МО</span><br />
+                        <a href="tel:84951048919">+7 495 104-89-19</a><br />
+                        <span class="text-muted">Электронная почта</span><br />
+                        <a href="mailto:info@anlider.info">info@anlider.info</a></p>
+                </div>
+            </div>
+
+            <div class="row page-footer__copy">
+                <div class="col-md-3 col-lg-6 order-md-2 mb-4 mb-md-0">
+                    <div class="page-footer__social">
+                        <a href="#"><i class="fab fa-vk"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-9 col-lg-6 order-md-1">
+                    <p>© 2020 ФСК   <a href="#" class="text-muted text-light">Условия пользования</a>  
+                        <a href="#" class="text-muted text-light">Политика конфиденциальности</a></p>
+                    <p class="text-muted small d-none d-md-block">Ипотека от Сбербанк (Лицензия № 1481 от 11.08.2015) и еще 38 ипотечных программ</p>
+                    <p class="text-muted small d-none d-md-block">Все права на публикуемые на сайте материалы принадлежат ГК ФСК. Любая информация, представленная на
+                        данном сайте, носит исключительно информационный характер и ни при каких условиях не является
+                        публичной офертой, определяемой положениями статьи 437 ГК РФ.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>
 
 <!--[if lt IE 9]>
 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
 <![endif]-->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script src="catalog/view/javascript/about-company-js/vendor/slick.min.js"></script>
@@ -670,4 +712,41 @@
 <script>
     svg4everybody();
 </script>
-</div>
+<script>$(document).ready(function() {
+            ymaps.ready(function() {
+                var settings = {
+                        marker: {
+                            path: "assets/images/marker.png",
+                            size: [30, 37],
+                            offset: [-15, -37]
+                        },
+                        center: [59.93846, 30.361709],
+                        zoom: 13
+                    },
+                    myMap = new ymaps.Map('yamap', {
+                        center: settings.center,
+                        zoom: settings.zoom,
+                        controls: ['zoomControl', 'fullscreenControl']
+                    }, {
+                        searchControlProvider: 'yandex#search'
+                    });
+
+                myMap.behaviors.disable('scrollZoom');
+
+                myMap.geoObjects
+                    .add(new ymaps.Placemark(myMap.getCenter(), {}, {
+                        // Опции.
+                        // Необходимо указать данный тип макета.
+                        //iconLayout: 'default#imageWithContent',
+                        // Своё изображение иконки метки.
+                        //iconImageHref: settings.marker.path,
+                        // Размеры метки.
+                        //iconImageSize: settings.marker.size,
+                        // Смещение левого верхнего угла иконки относительно
+                        // её "ножки" (точки привязки).
+                        //iconImageOffset: settings.marker.offset
+                    }));
+            });
+        })</script>
+</body>
+</html>
