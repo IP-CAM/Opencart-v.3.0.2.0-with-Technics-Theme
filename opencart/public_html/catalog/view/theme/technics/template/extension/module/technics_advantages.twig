@@ -7,7 +7,7 @@
 				{{ title }}
 		    {% for advantage1 in advantages %} 
 				{% for advantage in advantage1 %} 
-                  <div class="col-sm-4">
+                  <div class="col-xl-{{12/(advantages | length)}} col-sm-6">
 					{% if (advantage['link']) %} 
 						<a class="info__item" href="{{ advantage['link'] }}">
 							{% if (icon_type == 'html') %} 
