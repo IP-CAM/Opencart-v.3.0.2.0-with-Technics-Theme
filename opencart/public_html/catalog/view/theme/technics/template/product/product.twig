@@ -414,10 +414,10 @@
 					{% if (price) %}
                       <p class="sku__price">Цена
 					  {% if (special) %}
-					  <span id="price-animated">{{ special | number_format(0, '.', ' ') }}</span>р.
-					  <u>{{ price | number_format(0, '.', ' ') }}<span>р.</span></u>
+					  <span id="price-animated">{{ special}}</span>
+					  <u>{{ price}}</u>
 					  {% else %}
-					  <span id="price-animated">{{ price | number_format(0, '.', ' ') }}</span>р.
+					  <span id="price-animated">{{ price}}</span>
 					  {% endif %}
                       </p>
 						{% if tax or points or discounts %}
@@ -439,7 +439,6 @@
                       <div class="sku__action">
                         <div class="row">
                           <div class="col-auto">
-                            <input class="ui-number" name="quantity" type="number" min="{{ minimum }}" max="9999" value="{{ minimum }}">
 							<input type="hidden" name="product_id" value="{{ product_id }}">
                           </div>
                           <div class="col">

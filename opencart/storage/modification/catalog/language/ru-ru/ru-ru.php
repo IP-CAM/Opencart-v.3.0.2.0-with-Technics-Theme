@@ -6,7 +6,7 @@ $_['date_format_long'] = 'l, d F Y';
 $_['time_format'] = 'H:i:s';
 $_['datetime_format'] = 'd/m/Y H:i:s';
 $_['decimal_point'] = '.';
-$_['thousand_point'] = '';
+$_['thousand_point'] = ' ';
 
 // technics
 $_['text_home']             = 'Главная';
