@@ -314,7 +314,7 @@
 														</label>
 													</div>
 													<div class="cell col-md-5 text-center">
-                                                    	<span class="x-suboption-price">{{ suboption.suboption_price | round() | number_format(0, '.', ' ') }}</span>р.
+                                                    	<span class="x-suboption-price">{{ suboption.suboption_price | round() }}</span>р.
 													</div>
 												</li>
                                             {% endfor %}
@@ -1242,12 +1242,12 @@ $(document).on('ready', function() {
 					step: function () {
 						// percentage with 1 decimal;
 						var percentageVal = Math.round(this.percentage * 10) / 10;
-						$el.text(percentageVal.toLocaleString('ru-RU'));
+						$el.text(percentageVal.toLocaleString('ru-RU') + 'р.');
 					}
 				}).promise().done(function () {
 					// hard set the value after animation is done to be
 					// sure the value is correct
-					$el.text(Math.round(total_value).toLocaleString('ru-RU'))
+					$el.text(Math.round(total_value).toLocaleString('ru-RU') + 'р.')
 				});
 			}
 		}
@@ -1275,12 +1275,12 @@ function animatePrice(el) {
 		step: function () {
 			// percentage with 1 decimal;
 			var percentageVal = Math.round(this.percentage * 10) / 10;
-			$el.text(percentageVal.toLocaleString('ru-RU'));
+			$el.text(percentageVal.toLocaleString('ru-RU') + 'р.');
 		}
 	}).promise().done(function () {
 		// hard set the value after animation is done to be
 		// sure the value is correct
-		$el.text(Math.round(total_value).toLocaleString('ru-RU'))
+		$el.text(Math.round(total_value).toLocaleString('ru-RU') + 'р.')
 	});
 }
 
