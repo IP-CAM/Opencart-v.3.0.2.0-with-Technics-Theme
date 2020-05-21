@@ -51,6 +51,8 @@ class ControllerInformationInformation extends Controller {
             if ($information_id !== 4) {
 			$this->response->setOutput($this->load->view('information/information', $data));
              } else {
+                $data['footer'] = $this->load->controller('common/header_footer');
+                $data['header'] = $this->load->controller('common/header_company');
                 $this->response->setOutput($this->load->view('information/company', $data));
             }
             

@@ -1,0 +1,98 @@
+<footer class="footer footer--v1">
+    {% if (footer_navs is not empty) %}
+        <div class="footer__nav">
+            <div class="container-fluid">
+                <nav class="nav-categories nav-categories--flex{{ footer_categories ? ' js-slick-categories' : ''}}">
+                    {% for key,footer_nav in footer_navs %}
+                        <div class="nav-categories__group">
+                            <h4 class="nav-categories__heading">{{ footer_nav['language'][language_id]['name'] }}</h4>
+                            {% if (footer_nav['settype']) %}
+                                {{ footer_nav['type'][footer_nav['settype']]['links']['html'] }}
+                            {% else %}
+                                <ul class="nav-categories__menu">
+                                    {% for id,link in footer_nav['type'][footer_nav['settype']]['links'] %}
+                                        <li><a class="nav-categories__link" href="{{ link }}" {% if (top_links[id]['target'] is defined) %}target="{{ top_links[id]['target'] }}" {% endif %}>{{ footer_nav['type'][footer_nav['settype']]['names'][id] is defined ? footer_nav['type'][footer_nav['settype']]['names'][id] : '' }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </nav>
+            </div>
+        </div>
+    {% endif %}
+    {% if (subscribe_status) %}
+        <div class="footer__subsc">
+            <div class="container-fluid">
+                <div class="subsc">
+                    <div class="subsc__caption">{{ subscribe_title }} <small>{{ subscribe_subtitle }} {% if (text_technics_pdata) %} {{ text_technics_pdata }} {% endif %} </small></div>
+                    <div class="subsc__field">
+                        <input class="subsc__input" name="emailsubscr" type="email" value="" placeholder="{{ text_footer_subscribe_email }}">
+                        <button type="button" class="subsc__btn js-subscribe-btn">{{ text_technics_subscribe_btn }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="footer__container">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    {% if (footer_t_logo or footer_logo) %}
+                        {% if (footer_logo) %}
+                            <div class="footer__logo"><a {{ home == og_url ? '' : 'href="' ~ home ~'"' }}><img src="{{ footer_logo }}" title="{{ name }}" alt="{{ name }}"></a></div>
+                        {% else %}
+                            <div class="footer__logo"><a class="footer__logo-text" {{ home == og_url ? '' : 'href="' ~ home ~'"' }}>{{ text_logo }}</a></div>
+                        {% endif %}
+                    {% endif %}
+                    <p class="footer__copyright">{{ footer_text }} {% if (footer_copyright) %} <br> {{ footer_copyright }} {% endif %}</p>
+                </div>
+                {% if (technics_phones) %}
+                    <div class="col-6 push-6 col-md-4 push-md-0 col-lg-3 push-lg-3 col-xl-2 push-xl-5">
+                        <div class="footer__phone">
+                            {% for key, technics_phone in technics_phones %}
+                                <a class="footer__phone-number" rel="nofollow" href="tel:{{ technics_phone[language_id]|replace({' ': '', '-': '', '(': '', ')': ''}) }}">{{ technics_phone[language_id] }}</a>
+                            {% endfor %}
+                            {% if (callback_status) %}
+                                <a class="footer__phone-link js-fancy-popup" href="#callback-footer"><span>{{ text_header_callback }}</span></a>
+                                <div id="callback-footer" class="popup popup--570" style="display:none;">{{ callback }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+                {% if (soc_stat) %}
+                    {% if (social_navs is not empty) %}
+                        <div class="col-6 pull-6 col-md-4 pull-md-0 col-lg-3 pull-lg-3 col-xl-2 push-xl-1">
+                            <div class="footer__social"><span class="footer__social-heading">{{ text_social_navs }}</span>
+                                <nav class="footer__social-nav">
+                                    {% for key,social_nav in social_navs %}
+                                        {% if (key + 1 < (social_navs)|length) %}
+                                            <a href="{{ social_nav['link'] }}" target="{{ social_nav['attr'] }}" rel="nofollow" class="footer__social-link">{{ social_nav['language'][language_id]['name'] }}</a> \
+                                        {% else %}
+                                            <a href="{{ social_nav['link'] }}" target="{{ social_nav['attr'] }}" rel="nofollow" class="footer__social-link">{{ social_nav['language'][language_id]['name'] }}</a>
+                                        {% endif %}
+                                    {% endfor %}
+                                </nav>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+                {% if (payment_icons is not empty) %}
+                    <div class="col-12 col-md-8 col-lg-12 col-xl-3 pull-xl-4">
+                        <div class="footer__pay"><span class="footer__pay-heading">{{ text_footer_pay }}</span>
+                            <div class="footer__pay-group">
+                                {% for key,payment_icon in payment_icons %}
+                                    {% if (payment_icon.link[language_id]) %}
+                                        <a class="footer__pay-item" href="{{ payment_icon.link[language_id] }}" target="{{ payment_icon.attr }}"><img {{ lazyload ? 'src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-src' : 'src' }}="{{ payment_icon.thumb }}" alt=""></a>
+                                    {% else %}
+                                        <span class="footer__pay-item"><img {{ lazyload ? 'src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-src' : 'src' }}="{{ payment_icon.thumb }}" alt=""></span>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</footer>
