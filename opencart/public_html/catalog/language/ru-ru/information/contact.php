@@ -4,7 +4,7 @@ $_['heading_title']  = 'Контакты';
 
 // Text
 $_['text_location']  = 'Наше местонахождение';
-$_['text_store']     = 'Наши магазины';
+$_['text_store']     = 'Наши офисы';
 $_['text_contact']   = 'Форма обратной связи';
 $_['text_address']   = 'Адрес';
 $_['text_telephone'] = 'Телефон';

@@ -30,7 +30,7 @@
 					<a class="btn btn--white" href="https://maps.google.com/maps?q={{ geocode|url_encode }}&hl={{ geocode_hl }}&t=m&z={{ zoom }}" target="_blank">{{ button_map }}</a>
 					{% elseif (contact_map == 'yandex_map') %} 
 					<div class="contacts__map" id="contacts__map"></div>
-					<a class="btn btn--white" href="https://yandex.ru/maps/?pt={{ geocode|url_encode }}&z={{ zoom }}&l=map" target="_blank">{{ button_map }}</a>
+					<a class="btn btn--white" href="https://yandex.ru/maps/-/CCQpaHvdtA" {#href="https://yandex.ru/maps/?pt={{ geocode|url_encode }}&z={{ zoom }}&l=map"#} target="_blank">{{ button_map }}</a>
 					{% else %}
 					<div class="contacts__map" id="contacts__map" style="height: 7.0rem;background: transparent;"></div>
 					{% endif %}
@@ -64,7 +64,7 @@
 							<use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-contacts-email"></use>
 						  </svg>
 						</figure><b class="contacts__item-title">{{ text_technics_support }}</b>
-						<p class="contacts__item-text"><span {{ schema ? 'itemprop="email"' : ''}}>{{ shop_email }}</span></p><a class="link link--dashed" href="#" data-fancybox data-src="#contact-form" id="contact_popup"><span>{{ text_contact }}</span></a>
+						<p class="contacts__item-text"><span {{ schema ? 'itemprop="email"' : ''}}>info@stanok-chpu.ru</span></p><a class="link link--dashed" href="#" data-fancybox data-src="#contact-form" id="contact_popup"><span>{{ text_contact }}</span></a>
 					  </div>
 					</div>
 					{% endif %}
@@ -188,7 +188,71 @@
           </div>
         </div>
         <!-- Offices :: End-->
-{% endif %} 
+{% endif %}
+		<!-- Request :: Start-->
+		  <div class="offices">
+			  <div class="container-fluid">
+				  <div class="offices__panel">
+					  <div class="row">
+						  <div class="col-xs-12 col-md-6">
+							  <h2 class="offices__heading">Реквизиты для работы без НДС</h2>
+						  </div>
+					  </div>
+				  </div>
+				  <div class="row">
+						  <div class="col-xs-12 col-md-6">
+							  <div class="row">
+							  <div class="col-md-6"><a href="image/catalog/data/documents/svidetelstvo_o_goudarstvennoy_registracii.jpg"><img src="image/catalog/data/documents/svidetelstvo_o_goudarstvennoy_registracii.jpg"></a></div>
+							  <div class="col-md-6"><a href="image/catalog/data/documents/sv-vo_o_postanovke_na_gos.jpg"><img src="image/catalog/data/documents/sv-vo_o_postanovke_na_gos.jpg"></a></div>
+							  </div>
+							  <div class="offices__item-desc">
+								  Общество с ограниченной ответственностью  «Станком»<br>
+								  Юр. адрес: 150047,  г. Ярославль, ул. Белинского, д.30, кв.23<br>
+								  ИНН 7606091506, КПП 760601001, ОГРН 1137606002390<br>
+								  <br>
+								  Банковские реквизиты:<br>
+								  Р/сч 40702810102000005472  в  дополнительном офисе «Центральный»  Промсвязьбанк (ОАО) в г.Ярославль<br>
+								  К/сч 30101810300000000760, БИК 047888760<br>
+								  E-mail: yar@stanok-chpu.ru<br>
+								  Директор: Михайлов Сергей Рафаилович
+							  </div>
+						  </div>
+				  </div>
+			  </div>
+		  </div>
+		<!-- Request :: End-->
+		  <!-- Request :: Start-->
+		  <div class="offices">
+			  <div class="container-fluid">
+				  <div class="offices__panel">
+					  <div class="row">
+						  <div class="col-xs-12 col-md-6">
+							  <h2 class="offices__heading">Реквизиты для работы с НДС</h2>
+						  </div>
+					  </div>
+				  </div>
+				  <div class="row">
+					  <div class="col-xs-12 col-md-6">
+						  <div class="row">
+							  <div class="col-md-6"><a href="image/catalog/data/documents/svidetelstvo_o_goudarstvennoy_registracii_ridex.jpg"><img src="image/catalog/data/documents/svidetelstvo_o_goudarstvennoy_registracii_ridex.jpg"></a></div>
+							  <div class="col-md-6"><a href="image/catalog/data/documents/sv-vo_o_postanovke_na_gos_ridex.jpg"><img src="image/catalog/data/documents/sv-vo_o_postanovke_na_gos_ridex.jpg"></a></div>						  </div>
+						  <div class="offices__item-desc">
+							  Общество с ограниченной ответственностью  «Райдекс»<br>
+							  Юр. адрес: г. Ярославль, ул. Углическая, д.24а, кв.25<br>
+							  ИНН 7606095645, КПП 760601001, ОГРН 1147606005612<br>
+							  <br>
+							  Банковские реквизиты:<br>
+							  Р/сч 40702810602910000603 в  АО "Альфа Банк"<br>
+							  К/сч 30101810200000000593, БИК 044525593<br>
+							  E-mail: yar@stanok-chpu.ru<br>
+							  Директор: Евсеева Наталья Геннадьевна
+						  </div>
+					  </div>
+				  </div>
+			  </div>
+		  </div>
+		  <!-- Request :: End-->
+
 		{{ content_bottom }}
       </main>
       <!-- Main :: End-->
@@ -247,8 +311,8 @@
             hintContent: '{{ store }}'
         }, {
             iconLayout: 'default#image',
-            iconImageHref: 'catalog/view/theme/technics/images/pin.svg',
-            iconImageSize: [32, 50]
+            iconImageHref: 'catalog/view/theme/technics/images/pin.png',
+            iconImageSize: [50, 50]
         });
 
     myMap.geoObjects.add(myPlacemark);
