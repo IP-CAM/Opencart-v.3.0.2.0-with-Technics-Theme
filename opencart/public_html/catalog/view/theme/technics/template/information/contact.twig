@@ -150,9 +150,10 @@
                 </div>
               </div>
             </div>
-            <div class="offices__slides js-slick-offices">
+{#            <div class="offices__slides js-slick-offices">#}
+			  <div class="row">
 			{% for location in locations %} 
-              <div class="offices__item">
+              <div class=" col-xs-12 col-md-6 offices__item">
 				{% if location.image %}
                 <figure class="offices__item-image"><img src="{{ location.image }}" alt="{{ location.name }}" title="{{ location.name }}" class="img-thumbnail"></figure>
 				{% endif %}
