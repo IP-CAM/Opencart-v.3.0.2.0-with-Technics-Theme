@@ -44,7 +44,7 @@
         <!-- SKU :: Start-->
 		  <div class="container-fluid">
             <div class="row">
-              <div class="col-md-5 col-lg-6">
+              <div class="col-md-12 order-sm-2 order-lg-1 col-lg-6">
                 <div class="sku__gallery js-gallery" {{ images ? '' : 'style="margin-left: 0;"'}}>
 					{% if (category_time and special and special_date_end) %}
 							{% if (special and sales) %}
@@ -141,47 +141,149 @@
 					{% endif %}
                 </div>
               </div>
-              <div class="col-md-7 col-lg-6">
-                <div class="sku__content" id="product">
-                    <div class="sku__panel">
-                      <div class="row">
-                        <div class="col">
-						{% if (model) %}
-                          <p class="sku__id">{{ model }}</p>
-						{% endif %}
-						{% if (manufacturer) %}
-                          <p class="sku__brand"><a href="{{ manufacturers }}"><span>{{ manufacturer }}</span></a></p>
-						{% endif %}
-                          <div class="sku__heading">
-						  <h1>{{ heading_title }}</h1>
-						  {% if (review_status and rating) %}
-						  <a class="sku__rating" href="#">
-                              <svg class="icon-star">
-                                <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-star"></use>
-                              </svg>{{ rating }}/5
-						  </a>
-						  {% endif %}
+			  <div class="col-md-12 order-sm-1 d-lg-none">
+				  <div class="sku__panel">
+					  <div class="row">
+						  <div class="col">
+							  {% if (model) %}
+								  <p class="sku__id">{{ model }}</p>
+							  {% endif %}
+							  {% if (manufacturer) %}
+								  <p class="sku__brand"><a href="{{ manufacturers }}"><span>{{ manufacturer }}</span></a></p>
+							  {% endif %}
 						  </div>
-                        </div>
-                        <div class="col-auto">
-                          <div class="sku__status">
-						  {% if (quantity > 0) %}
-                            <p class="sku__status-success">
-                              <svg class="icon-success">
-                                <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-success"></use>
-                              </svg>{{ stock }}
-                            </p>
-						  {% else %}
-                            <p class="sku__status-error">
-                              <svg class="icon-error">
-                                <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-error"></use>
-                              </svg>{{ stock }}
-                            </p>
-						  {% endif %}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+						  <div class="col-auto">
+							  <div class="sku__status">
+								  {% if (quantity > 0) %}
+									  <p class="sku__status-success">
+										  <svg class="icon-success">
+											  <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-success"></use>
+										  </svg>{{ stock }}
+									  </p>
+								  {% else %}
+									  <p class="sku__status-error">
+										  <svg class="icon-error">
+											  <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-error"></use>
+										  </svg>{{ stock }}
+									  </p>
+								  {% endif %}
+							  </div>
+						  </div>
+					  </div>
+					  <div class="row">
+						  <div class="col-12">
+							  <div class="sku__heading">
+								  <h1>{{ heading_title }}</h1>
+								  {% if (review_status and rating) %}
+									  <a class="sku__rating" href="#">
+										  <svg class="icon-star">
+											  <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-star"></use>
+										  </svg>{{ rating }}/5
+									  </a>
+								  {% endif %}
+							  </div>
+						  </div>
+
+					  </div>
+				  </div>
+				</div>
+              <div class="col-md-12 order-last col-lg-6">
+                <div class="sku__content" id="product">
+					<div class="sku__panel d-none d-lg-block">
+						<div class="row">
+							<div class="col">
+								{% if (model) %}
+									<p class="sku__id">{{ model }}</p>
+								{% endif %}
+								{% if (manufacturer) %}
+									<p class="sku__brand"><a href="{{ manufacturers }}"><span>{{ manufacturer }}</span></a></p>
+								{% endif %}
+							</div>
+							<div class="col-auto">
+								<div class="sku__status">
+									{% if (quantity > 0) %}
+										<p class="sku__status-success">
+											<svg class="icon-success">
+												<use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-success"></use>
+											</svg>{{ stock }}
+										</p>
+									{% else %}
+										<p class="sku__status-error">
+											<svg class="icon-error">
+												<use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-error"></use>
+											</svg>{{ stock }}
+										</p>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-12">
+								<div class="sku__heading">
+									<h1>{{ heading_title }}</h1>
+									{% if (review_status and rating) %}
+										<a class="sku__rating" href="#">
+											<svg class="icon-star">
+												<use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-star"></use>
+											</svg>{{ rating }}/5
+										</a>
+									{% endif %}
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="sku__group">
+						{% if (price) %}
+							<p class="sku__price">Цена
+								{% if (special) %}
+									<span id="price-animated">{{ special}}</span>
+									<u>{{ price}}</u>
+								{% else %}
+									<span id="price-animated">{{ price}}</span>
+								{% endif %}
+							</p>
+							{% if tax or points or discounts %}
+								<p>
+									{% if tax %}
+										{{ text_tax }} {{ tax }}<br>
+									{% endif %}
+									{% if points %}
+										{{ text_points }} {{ points }}<br>
+									{% endif %}
+									{% if discounts %}
+										{% for discount in discounts %}
+											{{ discount.quantity }}{{ text_discount }}{{ discount.price }}<br>
+										{% endfor %}
+									{% endif %}
+								</p>
+							{% endif %}
+						{% endif %}
+						<div class="sku__action">
+							<div class="row">
+								<div class="col-auto">
+									<input type="hidden" name="product_id" value="{{ product_id }}">
+								</div>
+								<div class="col">
+									<div class="sku__action-buttons">
+										<div class="row">
+											<div class="col-auto">
+												<button type="button" id="button-cart" data-loading-text="{{ text_loading }}" class="btn btn--cart" {{ buy_btn ? 'disabled' : ''}}>{{ button_cart }}
+													<svg class="icon-cart">
+														<use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-cart"></use>
+													</svg>
+												</button>
+											</div>
+											{% if (buy_click['status'] and not buy_btn) %}
+												<div class="col-auto"><a class="btn btn--dashed js-fancy-popup-cart" href="#popup-buy-click" data-for="{{ product_id }}" data-typefrom="product"><span>{{ text_technics_buy_click }}</span></a></div>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
 					{% if (options or recurrings) %}
                     <div class="sku__settings">
 					{% for option_row in prep_options %}
@@ -410,56 +512,7 @@
 					{% endif %}
 
 
-                    <div class="sku__group">
-					{% if (price) %}
-                      <p class="sku__price">Цена
-					  {% if (special) %}
-					  <span id="price-animated">{{ special}}</span>
-					  <u>{{ price}}</u>
-					  {% else %}
-					  <span id="price-animated">{{ price}}</span>
-					  {% endif %}
-                      </p>
-						{% if tax or points or discounts %}
-							<p>
-							{% if tax %}
-							{{ text_tax }} {{ tax }}<br>
-							{% endif %}
-							{% if points %}
-							{{ text_points }} {{ points }}<br>
-							{% endif %}
-							{% if discounts %}
-							{% for discount in discounts %}
-							{{ discount.quantity }}{{ text_discount }}{{ discount.price }}<br>
-							{% endfor %}
-							{% endif %}
-							</p>
-						{% endif %}
-					{% endif %}
-                      <div class="sku__action">
-                        <div class="row">
-                          <div class="col-auto">
-							<input type="hidden" name="product_id" value="{{ product_id }}">
-                          </div>
-                          <div class="col">
-                            <div class="sku__action-buttons">
-                              <div class="row">
-                                <div class="col-auto">
-                                  <button type="button" id="button-cart" data-loading-text="{{ text_loading }}" class="btn btn--cart" {{ buy_btn ? 'disabled' : ''}}>{{ button_cart }}
-								    <svg class="icon-cart">
-                                      <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-cart"></use>
-                                    </svg>
-								  </button>
-                                </div>
-								{% if (buy_click['status'] and not buy_btn) %}
-                                <div class="col-auto"><a class="btn btn--dashed js-fancy-popup-cart" href="#popup-buy-click" data-for="{{ product_id }}" data-typefrom="product"><span>{{ text_technics_buy_click }}</span></a></div>
-								{% endif %}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+
 					{% if (short_descr and shortdescription) %}
                     <dl class="sku__dl">
                       <dt>{{ text_technics_short_descr }}</dt>
@@ -617,14 +670,6 @@
 								</div>
 							  </div>
 							  {% endif %}
-							<div class="products__item-action">
-								<button type="button" class="btn btn--cart" title="{{ button_cart }}" onclick="cart.add('{{ product['product_id'] }}', '{{ product['minimum'] }}');" {{ product['buy_btn'] ? 'disabled' : ''}}>{{ button_cart }}
-								<svg class="icon-cart">
-								  <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-cart"></use>
-								</svg></button>
-								<a data-for="{{ product['product_id'] }}" title="{{ text_product_view_btn }}" class="btn btn--preview" href="#popupprod">
-									Просмотр</a>
-							</div>
 						  </div>
                           </div>
                         </div>
@@ -634,7 +679,7 @@
                 <div class="products__grid">
                   <div class="row">
 					  {% for product in products %}
-                    <div class="col-12 col-sm-6 col-xl-{{ p_related_view }}">
+                    <div class="col-12 col-md-6">
 					  <div class="products__item">
 						<div class="products__item-in">
 						{% if (category_time and product['special'] and product['special_date_end']) %}
@@ -712,14 +757,6 @@
 								</div>
 							  </div>
 							  {% endif %}
-							<div class="products__item-action">
-								<button type="button" class="btn btn--cart" title="{{ button_cart }}" onclick="cart.add('{{ product['product_id'] }}', '{{ product['minimum'] }}');" {{ product['buy_btn'] ? 'disabled' : ''}}>{{ button_cart }}
-								<svg class="icon-cart">
-								  <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-cart"></use>
-								</svg></button>
-								<a data-for="{{ product['product_id'] }}" title="{{ text_product_view_btn }}" class="btn btn--preview" href="#popupprod">
-									Просмотр</a>
-							</div>
 						  </div>
 						</div>
 					  </div>
@@ -1238,10 +1275,10 @@ $(document).on('ready', function() {
 						value = parseFloat($el.html().replace(/ /g, '').replace(/&nbsp;/g, ''))
 				var total_value = value + (ar[inputName][1] - ar[inputName][0])
 				$({percentage: value}).stop(true).animate({percentage: total_value}, {
-					duration : 500,
+					duration : 300,
 					step: function () {
 						// percentage with 1 decimal;
-						var percentageVal = Math.round(this.percentage * 10) / 10;
+						var percentageVal = Math.round(Math.round(this.percentage * 10) / 10);
 						$el.text(percentageVal.toLocaleString('ru-RU') + 'р.');
 					}
 				}).promise().done(function () {
@@ -1271,10 +1308,10 @@ function animatePrice(el) {
 		total_value = value + (ar[$(el).attr('name')][1] - ar[$(el).attr('name')][0])
 	}
 	$({percentage: value}).stop(true).animate({percentage: total_value}, {
-		duration : 500,
+		duration : 300,
 		step: function () {
 			// percentage with 1 decimal;
-			var percentageVal = Math.round(this.percentage * 10) / 10;
+			var percentageVal = Math.round(Math.round(this.percentage * 10) / 10);
 			$el.text(percentageVal.toLocaleString('ru-RU') + 'р.');
 		}
 	}).promise().done(function () {

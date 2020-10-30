@@ -4530,21 +4530,6 @@ yx-axis
   z-index: 10;
   min-height: 100%;
   padding: .8rem 2.0rem 1.0rem; }
-  .products__item-in:after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: -7.5rem;
-    right: 0;
-    z-index: -1;
-    transition: 0.25s;
-    background: #fff;
-    box-shadow: 0 0 5.0rem rgba(0, 0, 0, 0.1);
-    transition: 0.25s;
-    opacity: 0;
-    visibility: hidden; }
 
 .products__promo-heading {
   display: block;
@@ -6262,8 +6247,8 @@ top: 11.0rem;}
   margin: 0 4.0rem 1.0rem 0; }
   .sku__heading h1 {
 	  display: inline-block;
-	  font-size: 3.0rem;
-	  line-height: 4.0rem;
+	  font-size: 2.0rem;
+	  line-height: 2.3rem;
 	  font-weight: 700;
 	  margin: 0; }
   .sku__heading small {

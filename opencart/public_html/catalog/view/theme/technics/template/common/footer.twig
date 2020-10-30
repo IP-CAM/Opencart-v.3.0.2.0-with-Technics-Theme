@@ -42,7 +42,7 @@
                 </button>
                 <div class="app-chats__dropdown" style="{{ messenger_pos }}: 0;">
                   <ul class="app-chats__list">
-			 {% for key,messenger_nav in messenger_navs %} 
+			 {% for key,messenger_nav in messenger_navs %}
 				{% if (messenger_links[messenger_nav['settype']] == 'whatsapp') %} 
                     <li><a class="app-chats__item" target="_blank" rel="nofollow" href="https://wa.me/{{ messenger_nav['link'] }}">
                         <figure class="app-chats__item-image"><img src="catalog/view/theme/technics/images/icons/icon-chats-whatsapp.svg" alt=""></figure>

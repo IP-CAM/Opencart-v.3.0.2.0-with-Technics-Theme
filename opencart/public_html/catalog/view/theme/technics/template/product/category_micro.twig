@@ -50,9 +50,7 @@
 						</span>
 					</div>
                     <div class="products__micro-action">
-						  <a data-for="{{ product['product_id'] }}" title="{{ text_product_view_btn }}" class="btn btn--preview" href="#popupprod">
-							  Просмотр
-						  </a>
+
                       <input class="ui-number" type="number" name="quantity" min="{{ product['minimum'] }}" max="9999" value="{{ product['minimum'] }}">
 					  <button type="button" class="btn btn--cart" title="{{ button_cart }}" data-for="{{ product['product_id'] }}" {{ product['buy_btn'] ? 'disabled' : ''}}>{{ button_cart }}
 								<svg class="icon-cart">

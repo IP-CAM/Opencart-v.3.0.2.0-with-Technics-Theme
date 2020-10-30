@@ -83,11 +83,6 @@
 										  </div>
                                             <div class="products__item-images"><a href="{{ product.href }}"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy="{{ product.thumb }}" alt="{{  product.name }}"></a></div>
                                             <div class="products__item-desc"><span class="products__item-category">{{  product.category.name }}</span><a href="{{ product.href }}" class="products__item-title">{{  product.name }}</a><span class="products__item-price">{{  product.price }}</span></div>
-                                            <div class="products__item-action"><a class="btn btn--cart" href="#">{{ button_cart }}
-                                                <svg class="icon-cart">
-                                                  <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-cart"></use>
-                                                </svg></a><a class="btn btn--preview" href="#">
-                                                    Просмотр</a></div>
                                           </div>
                                         </div>
                                         {% endfor %}

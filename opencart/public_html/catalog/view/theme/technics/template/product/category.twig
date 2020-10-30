@@ -51,7 +51,7 @@
 					<div class="category__grid">
 					  <div class="row">
 						{% for category in categories %}
-						<div class="col-6 col-sm-6 col-lg-{{ 12/category_categories }}"><a class="category__item" href="{{ category['href'] }}">
+						<div class="col-6 col-sm-6 col-lg-4"><a class="category__item" href="{{ category['href'] }}">
 							<figure class="category__item-image"><img {{ lazyload ? 'src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-src' : 'src' }}="{{ category['thumb'] }}" alt="{{ category['name'] }}"></figure>
 							<h3 class="category__item-title">{{ category['name'] }}</h3></a>
 						</div>

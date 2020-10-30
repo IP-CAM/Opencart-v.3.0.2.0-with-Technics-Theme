@@ -3722,7 +3722,7 @@
 								</tr>
 							</thead>
 							<tbody>
-							{% set messenger_nav_row = 0 %} 
+							{% set messenger_nav_row = 0 %}
 							{% for messenger_nav_row,messenger_nav in messenger_navs %} 
 								<tr id="messenger-nav-row{{ messenger_nav_row }}">
 								<td class="text-left">
@@ -3758,7 +3758,7 @@
 								</td>
 								<td class="text-right"><button type="button" data-toggle="tooltip" onclick="$('#messenger-nav-row{{ messenger_nav_row }}').remove();" title="" class="btn btn-danger" data-original-title="Удалить"><i class="fa fa-minus-circle"></i></button></td>
 								</tr>
-							{% set messenger_nav_row = messenger_nav_row + 1 %} 
+							{% set messenger_nav_row = messenger_nav_row + 1 %}
 							{% endfor %} 
 							</tbody>
 							  <tfoot>

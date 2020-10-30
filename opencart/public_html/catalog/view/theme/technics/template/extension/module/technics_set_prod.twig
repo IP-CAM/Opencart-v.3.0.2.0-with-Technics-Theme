@@ -74,14 +74,6 @@
 								</div>
 							  </div>
 							  {% endif %}
-							<div class="products__item-action">
-								<button type="button" class="btn btn--cart" title="{{ button_cart }}" onclick="cart.add('{{ product.product_id }}');" {{ product['buy_btn'] ? 'disabled' : ''}}>{{ button_cart }}
-								<svg class="icon-cart">
-								  <use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-cart"></use>
-								</svg></button>
-								<a data-for="{{ product['product_id'] }}" title="{{ text_product_view_btn }}" class="btn btn--preview" href="#popupprod">
-									Просмотр</a>
-							</div>
 						  </div>
                           </div>
 {% endfor %} 
