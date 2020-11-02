@@ -1,32 +1,45 @@
 /* CUSTOM CALCULATOR START */
 .basic-setup__option-group .ui-label,
 .additional-setup__option-group .ui-label {
-    font-size: 21px;
+    font-size: 14px;
     text-align: center;
     letter-spacing: 0.5px;
     line-height: 50px;
-    background-color: #e63e1c;
-    color: #fff;
+    background-color: #fff;
+    color: #e63e1c;
     cursor: pointer;
 }
 
 .basic-setup__option-group + .ui-group,
 .additional-setup__option-group + .ui-group {
     padding: 0;
-    background-color: #d6d6d66b;
     border: 1px solid #d6d6d6;
     margin-bottom: 10px !important;
 }
 
 .basic-setup__option-group .ui-label:hover,
 .additional-setup__option-group .ui-label:hover {
-    background-color: #aa3019;
+    background-color: #f1f1f1;
     transition: 0.2s
+}
+.sku__settings ul{
+    padding-left: 15px;
+}
+.sku__settings .container{
+    padding-left: 36px;
+}
+
+#return_option, .ch-opt{
+    cursor: pointer;
+}
+
+.ch-opt-ul input, ul input{
+    margin-right: 5px;
 }
 
 .basic-setup__option-block {
     position: relative;
-    padding: 20px 25px;
+    padding: 20px 10px;
     font-size: 16px;
     line-height: 2rem;
     display: block;
@@ -47,10 +60,6 @@
     margin: 0
 }
 
-.basic-setup__option-block .container .row,
-.additional-setup__option-block .container .row {
-    margin-top: 15px;
-}
 
 .basic-setup__option-block .ui-size input.ui-check__input,
 .additional-setup__option-block .ui-size input.ui-check__input{
@@ -70,12 +79,15 @@
 
 .additional-setup__option-block .ui-size {
     cursor: pointer;
-    padding: 20px 25px;
+    padding: 20px 15px;
     transition: 0.2s
  }
 
 .additional-setup__option-block .ui-size:hover {
-    background-color: rgba(148, 148, 148, 0.42);
+    background-color: #f1f1f1;
+}
+.attent-ui-group{
+    margin: 30px 0px;
 }
 
 .additional-setup__option-block .ui-size span.ui-check__checkbox {

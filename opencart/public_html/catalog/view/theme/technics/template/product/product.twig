@@ -140,6 +140,12 @@
 					</div>
 					{% endif %}
                 </div>
+				  <div class="attent-ui-group">
+					  <div class="row justify-content-center align-items-center m-auto">
+						  <div class="col-auto sku__title">Покажем этот станок онлайн для вас</div>
+						  <div class="col-auto"><a class="btn btn--cart btn--cart--inverse js-fancy-popup-cart" href="#popup-buy-click" data-for="{{ product_id }}" data-typefrom="product"><span>Оставить заявку</span></a></div>
+					  </div>
+				  </div>
               </div>
 			  <div class="col-md-12 order-sm-1 d-lg-none">
 				  <div class="sku__panel">
@@ -233,7 +239,7 @@
 
 						</div>
 					</div>
-					<div class="sku__group">
+					<div style="margin-bottom: 20px; margin-top: 20px;">
 						{% if (price) %}
 							<p class="sku__price">Цена
 								{% if (special) %}
@@ -261,21 +267,22 @@
 						{% endif %}
 						<div class="sku__action">
 							<div class="row">
-								<div class="col-auto">
+								<div class="col-auto p-0">
 									<input type="hidden" name="product_id" value="{{ product_id }}">
 								</div>
 								<div class="col">
 									<div class="sku__action-buttons">
 										<div class="row">
 											<div class="col-auto">
-												<button type="button" id="button-cart" data-loading-text="{{ text_loading }}" class="btn btn--cart" {{ buy_btn ? 'disabled' : ''}}>{{ button_cart }}
+												<a class="btn btn--cart js-fancy-popup-cart" href="#popup-buy-click" data-for="{{ product_id }}" data-typefrom="product">
+													<span>{{ button_cart }}</span>
 													<svg class="icon-cart">
 														<use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-cart"></use>
 													</svg>
-												</button>
+												</a>
 											</div>
 											{% if (buy_click['status'] and not buy_btn) %}
-												<div class="col-auto"><a class="btn btn--dashed js-fancy-popup-cart" href="#popup-buy-click" data-for="{{ product_id }}" data-typefrom="product"><span>{{ text_technics_buy_click }}</span></a></div>
+												<div class="col-auto"><a class="btn btn--cart btn--cart--inverse js-fancy-popup-cart" href="#popup-buy-click" data-for="{{ product_id }}" data-typefrom="product"><span>{{ text_technics_buy_click }}</span></a></div>
 											{% endif %}
 										</div>
 									</div>
@@ -285,7 +292,8 @@
 					</div>
 
 					{% if (options or recurrings) %}
-                    <div class="sku__settings">
+						<span class="suboption_bar_name sku__title">Комплектация:<span id="return_option" class="float-right suboption_bar_name_return">Сбросить все опции</span></span>
+						<div class="sku__settings">
 					{% for option_row in prep_options %}
                       	{% for i,option in option_row %}
 					<div class="row">
@@ -363,27 +371,32 @@
 						{# start custom calculator #}
 						{% if (option['type'] == 'checkbox') %}
                             {% if option['option_id'] == '14' %}
-							<div class="sku__type">
-								<div class="basic-setup__option-group" id="basic_setup_container">
-									<label class="ui-label">{{ option['name'] }}</label>
-								</div>
-								<div class="ui-group" id="input-option{{ option['product_option_id'] }}" style="display:none">
+							<div class="sku__type" style="margin-bottom: 20px;">
+								<div class="ui-group" id="input-option{{ option['product_option_id'] }}">
 									{% for option_value in option['product_option_value'] %}
 									<div class="basic-setup__option-block">
-										<label class="ui-size">
+										<div class="row">
+										<label class="ui-size col-10">
 										<input class="ui-check__input" type="checkbox" name="option[{{ option['product_option_id'] }}][]" value="{{ option_value['product_option_value_id'] }}" checked>
-										{{ option_value['name'] }}
+											<span class="complect__item-icon active">
+												<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 490.05 490.05" xml:space="preserve">
+													<path d="M418.275,418.275c95.7-95.7,95.7-250.8,0-346.5s-250.8-95.7-346.5,0s-95.7,250.8,0,346.5S322.675,513.975,418.275,418.275	z M157.175,207.575l55.1,55.1l120.7-120.6l42.7,42.7l-120.6,120.6l-42.8,42.7l-42.7-42.7l-55.1-55.1L157.175,207.575z"></path>
+												</svg>
+											</span>
+											{{ option_value['name'] }}
 										</label>
-										<ul class="container">
-											{% for suboption in option_value['suboptions'] %}
-											<li class="row">
-												<div class="cell col-md-7">
+										<div class="ch-opt">Изменить</div><div class="ch-opt hid-ch-opt" style="display: none;">Скрыть</div>
+										</div>
+										<ul class="ch-opt-ul" style="margin: 15px 0px 0px 0px; display: none;">
+											<li>
+												{% for suboption in option_value['suboptions'] %}
+												<div class="col-md-7">
 													<label>
 														<input type="radio" name="suboptions[{{ option['product_option_id'] }}][{{ option_value['product_option_value_id'] }}]" value="{{ suboption.suboption_name }}|{{ suboption.suboption_price | round() }}">{{ suboption.suboption_name }}
 													</label>
 												</div>
+												{% endfor %}
 											</li>
-											{% endfor %}
 										</ul>
 									</div>
 									<hr>
@@ -392,20 +405,20 @@
                           	</div>
 							{% elseif option['option_id'] == '15' %}
 							<div class="sku__type">
-								<div class="additional-setup__option-group" id="additional_setup_container">
-									<label class="ui-label">{{ option['name'] }}</label>
+								<div class="additional-setup__option-group show_additional">
+									<label class="ui-label">Показать дополнительную комплектацию</label>
 								</div>
 								<div class="ui-group" id="input-option{{ option['product_option_id'] }}" style="display:none">
                                     {% for option_value in option['product_option_value'] %}
 									<div class="additional-setup__option-block">
 										<label class="ui-size">
+											<span class="complect__item-icon">
+												<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 490.05 490.05" xml:space="preserve">
+													<path d="M418.275,418.275c95.7-95.7,95.7-250.8,0-346.5s-250.8-95.7-346.5,0s-95.7,250.8,0,346.5S322.675,513.975,418.275,418.275	z M157.175,207.575l55.1,55.1l120.7-120.6l42.7,42.7l-120.6,120.6l-42.8,42.7l-42.7-42.7l-55.1-55.1L157.175,207.575z"></path>
+												</svg>
+											</span>
 											<input class="ui-check__input x-option-additional" type="checkbox" name="option[{{ option['product_option_id'] }}]" value="{{ option_value['product_option_value_id'] }}">
                                             {{ option_value['name'] }}
-											<span class="ui-check__checkbox">
-											  <svg class="icon-check">
-												<use xlink:href="catalog/view/theme/technics/sprites/sprite.svg#icon-check"></use>
-											  </svg>
-											</span>
 										</label>
 										<ul class="container">
                                             {% for suboption in option_value['suboptions'] %}
@@ -424,6 +437,9 @@
 									</div>
 									<hr>
                                     {% endfor %}
+								</div>
+								<div class="additional-setup__option-group hide_additional" style="display: none">
+									<label class="ui-label">Скрыть дополнительную комплектацию</label>
 								</div>
 							</div>
 							{% endif %}
@@ -515,7 +531,7 @@
 
 					{% if (short_descr and shortdescription) %}
                     <dl class="sku__dl">
-                      <dt>{{ text_technics_short_descr }}</dt>
+                      <dt class="text_technics_short_descr">{{ text_technics_short_descr }}</dt>
                       <dd>{{ shortdescription }}</dd>
                     </dl>
 					{% endif %}
@@ -1247,22 +1263,35 @@ $(document).on('ready', function() {
 });
 // custom
 $(document).on('ready', function() {
-    $('#basic_setup_container').on('click', function() {
-        $(this).siblings('.ui-group').fadeToggle();
+
+	$('.basic-setup__option-block .ch-opt').on('click', function() {
+		$(this).parent().siblings('.ch-opt-ul').fadeToggle();
+		$(this).toggle();
+		$(this).siblings('.ch-opt').toggle();
 	});
 
-    $('#additional_setup_container').on('click', function() {
-        $(this).siblings('.ui-group').fadeToggle();
+    $('.additional-setup__option-group').on('click', function() {
+		$('.hide_additional').toggle();
+		$('.show_additional').toggle();
+		$('.sku__settings input[type="radio"]').prop('checked', false);
+        $(this).siblings('.ui-group').toggle();
     })
 
+	$('#return_option').on('click', function() {
+		$('.sku__settings input[type="radio"]').prop('checked', false);
+	})
+
 	$('.x-option-additional').on('change', function() {
-	    var suboption_list = $(this).parent().siblings('ul.container');
+	    var suboption_list = $(this).parent().siblings('ul');
 		var inputName = suboption_list.find('input[type="radio"]').attr('name')
+
 
 	    if (this.checked) {
 			suboption_list.show(200)
+			$(this).parent().find('.complect__item-icon').addClass('active');
 	    } else {
 			suboption_list.hide(200);
+			$(this).parent().find('.complect__item-icon').removeClass('active');
 			suboption_list.children().each(function() {
 			    $(this).find('input[type="radio"]').prop('checked', false)
 			})
