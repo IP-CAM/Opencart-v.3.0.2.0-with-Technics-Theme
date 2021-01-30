@@ -1,66 +1,57 @@
-# Разработка stankom
+Stankom development
 
-Включи докер, подними контейнеры (docker-compose up)
+Turn on docker, bring up containers (docker-compose up)
 
-**Экспорт БД:**
+Database export:
 
-_В терминале поочереди вводи две команды_
+In the terminal, enter two commands one by one
 
-**ЗАКОНЧИЛ РАБОТУ**
-1) make mysql
-2) make dump
+FINISHED WORK
 
-После этого в папке /dump появится свежий дамп БД.
+    make mysql
+    make dump
 
-Не забудь сложить его в гит
-(гит-коммит + гит-пуш)
+After that, a fresh dump of the database will appear in the / dump folder.
 
-**Импорт БД:**
+Don't forget to put it in a git (git-commit + git-push)
 
-Обновись из гита - выполни "git pull"
+Database import:
 
-_В терминале поочереди вводи две команды_
+Update from the git - run "git pull"
 
-**НАЧАЛ РАБОТУ**
-1) make mysql
-2) make import **АНДРЕЙ ТЫ УВЕРЕН?!**
+In the terminal, enter two commands in turn
 
-После этого БД заменится на свежий дамп
+GETTING STARTED
 
-**Работа с файлами:**
+    make mysql
+    make import ANDREW ARE YOU SURE ?!
 
-После изменений в файловой системе проекта не забудь сложить в гит
-(гит-коммит + гит-пуш)
+After that, the database will be replaced with a fresh dump
 
-**ПОСЛЕ РАЗРАБОТКИ ИЗМЕНИТЬ СТАТУС ТОВАРОВ**
+Working with files:
 
-В таблице oc_product сделать status=0 следующим товарам:
+After changes in the project file system, do not forget to add to git (git-commit + git-push)
 
-айдишники товаров: 89, 100, 102, 104, 106, 281, 327, 291, 292, 294, 295, 329, 326, 320, 324, 335, 334, 340, 354, 376, 357, 377, 372, 384, 449, 459
+AFTER DEVELOPMENT, CHANGE THE STATUS OF GOODS
 
+In the oc_product table, set status = 0 for the following products:
 
+ID people there are 89, 100, 102, 104, 106, 281, 327, 291, 292, 294, 295, 329, 326, 320, 324, 335, 334, 340, 354, 376, 357, 377, 372, 384 , 449, 459
 
+OTHER
 
+Add "Not a public scam in the basement"
 
+Add redirects and check links
 
-**ПРОЧЕЕ**
+Remove all products from the category Plasma machines, lathes, machining centers
 
-Добавить "Не является публичной афертой в подвал"
+XML technics edits: - line 5456
 
-Добавить редиректы и проверить ссылки
+In the instructions to the user to tell how to add filters to a product and a category, attributes no longer work through the filter tabs
 
-Выключить все товары из категории плазменные станки, токарные станки, обрабатывающие центры
+Correct sitemap generation
 
-Правки XML техникса:
-<file path="catalog/controller/product/product.php"> - строка 5456
+search by word // clean up
 
-В инструкции пользователю рассказать как добавлять фильтры на товар и категорию, через вкладки фильтр
-атрибуты больше не работают
-
-Поправить генерацию sitemap
-
-поиск по слову //прибраться
-
-Якоря поправить в странице о компании
-И также ссылки на новости и контакты, ну и в карте внизу
-information.php 51 строка
+Correct anchors in the page about the company And also links to news and contacts, well, in the map below information.php 51 lines 
